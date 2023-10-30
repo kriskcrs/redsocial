@@ -25,24 +25,24 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 }
 
 
-interface LoginResponse {
-  token: string;
-}
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router,private http: HttpClient) { }
+  constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
+  //procesos al iniciar el componente
+  ngOnInit() {
+    this.clearSession()
+  }
 
   //vars
   email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [Validators.required]);
   hide = true;
   path = this.url.url
-
+  dataUser: any = {}
 
   //userValidation
   getErrorMessage() {
@@ -63,15 +63,13 @@ export class LoginComponent {
         idUser: this.email.value,
         password: this.password.value
       }
-      this.loginRequest(credenciales).subscribe(
-        (response: any) => this.loginResponse(response)
-      )
+      this.loginRequest(credenciales).subscribe((response: any) => this.loginResponse(response))
     }
   }
   loginRequest(data: any) {
-    return this.http.post<any>(this.path+"/login", data).pipe(
+    return this.http.post<any>(this.path + "/login", data).pipe(
       catchError((error: any) => {
-       if (error.status === 400) {
+        if (error.status === 400) {
           // error para parametros invalidos 
           this.openSnackBar("Valores no válidos", "Aceptar");
         } else {
@@ -87,15 +85,43 @@ export class LoginComponent {
       this.openSnackBar("Credenciales no validas", "Aceptar");
     } else {
       //login exitoso
-      console.log("token " + response.token);
-      localStorage.setItem("session", JSON.stringify(response))
+
+      localStorage.setItem("data", JSON.stringify(response))
       this.router.navigateByUrl("/home")
     }
-
   }
 
 
+  //revoke
+  revokeService() {
+    this.RequestRevoke().subscribe(
+      (response: any) => this.ResponseRevoke(response)
+    )
+  }
+  RequestRevoke() {
+    return this.http.get<any>(this.path + "/revoke/" + this.dataUser.session).pipe(
+      catchError(e => e)
+    )
+  }
+  ResponseRevoke(response: any) {
+    console.log(response);
+    
+    if (response == null) {
+      localStorage.clear()
+      this.router.navigateByUrl("/")
+    } else {
+      localStorage.clear()
+      this.router.navigateByUrl("/")
+    }
+  }
 
-
+  //limpia localStorage
+  clearSession() {
+    this.dataUser = localStorage.getItem("data");
+    if (this.dataUser != null) {
+      this.dataUser = JSON.parse(this.dataUser)
+      this.revokeService()
+    }
+  }
 
 }

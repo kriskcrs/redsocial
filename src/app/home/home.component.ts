@@ -22,49 +22,88 @@ import { LoginComponent } from '../login/login.component';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  
-constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router,private http: HttpClient) { }
 
-ngOnit(){
-  this.validateSession()
-  this.prueba()
-}
+  constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
+
+  ngOnInit() {
+    this.validateSession();
+  }
 
   //vars
-  dataUser:any ={}
+  dataUser: any = {}
   path = this.url.url
 
-prueba(){
-  console.log("test");
-  
-}
 
-validateSession(){
-  console.log("entro en validar sesion");
-  console.log(this.dataUser);
-  
-  this.dataUser =  localStorage.getItem("session")
-  if(this.dataUser != null){
-    this.dataUser = JSON.parse(this.dataUser)
-    console.log(this.dataUser);
-    
-  }else{
-    console.log("no entro");
-    
+  //valida si la sesion esta vigente
+  validateSession() {
+    this.dataUser = localStorage.getItem("data")
+    if (this.dataUser != null) {
+      this.dataUser = JSON.parse(this.dataUser)
+      this.dataUserService();
+    } else {
+      this.router.navigateByUrl("/")
+
+    }
   }
-}  
 
-dataUserService(){
+  //message
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+  }
 
-} 
+  //obtiene data del usuario
+  dataUserService() {
 
-dataUserRequest(){
+    this.dataUserRequest().subscribe((response: any) => this.dataUserResponse(response))
+  }
+  dataUserRequest() {
+    let session = this.dataUser.token
+    return this.http.get<any>(this.path + "/dataUser/"+session).pipe(
+      catchError((error: any) => {
+        if (error.status === 400) {
+          // error para parametros invalidos 
+          this.openSnackBar("valores invalidos", "Aceptar")
+        } else {
+          // error de conexion o un 500
+          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+        }
+        return throwError(error);
+      })
+    )
+  }
+  dataUserResponse(response: any) {
+    if (response == null) {
+      this.revokeService()
+    } else {
+      this.dataUser = response
+    }
 
-}
+  }
 
-dataUserResponse(){
 
-}
+
+  //revoke
+  revokeService() {
+    this.RequestRevoke().subscribe(
+      (response: any) => this.ResponseRevoke(response)
+    )
+  }
+  RequestRevoke() {
+    return this.http.get<any>(this.path + "/revoke/" + this.dataUser.session).pipe(
+      catchError(e => e)
+    )
+  }
+  ResponseRevoke(response: any) {
+    console.log(response);
+
+    if (response == null) {
+      localStorage.clear()
+      this.router.navigateByUrl("/")
+    } else {
+      localStorage.clear()
+      this.router.navigateByUrl("/")
+    }
+  }
 
 
 }
