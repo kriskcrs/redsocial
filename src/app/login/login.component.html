@@ -1,6 +1,10 @@
 <div class="login-container">
   <mat-card class="login-card">
     <h1>Ingreso</h1>
+    <br>
+
+
+    <br>
     <mat-form-field>
       <mat-label>Ingresa tu correo electronico</mat-label>
       <input matInput placeholder="tu_correo@ejemplo.com" [formControl]="email" required>
@@ -8,20 +12,20 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Ingresa tu  Contraseña</mat-label>
-      <input matInput [type]="hide ? 'password' : 'text'">
+      <mat-label>Ingresa tu Contraseña</mat-label>
+      <input matInput [type]="hide ? 'password' : 'text'" [formControl]="password" required>
       <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
         [attr.aria-pressed]="hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-error *ngIf="password.invalid">Debes ingresar una contraseña</mat-error>
       </button>
     </mat-form-field>
-    <button mat-raised-button color="primary">Ingreso</button>
+
+    <button mat-raised-button color="primary" (click)="login()"> Ingreso </button>
     <br>
-    <button mat-raised-button color="basic">Recupera tu contraseña</button>
+    <button mat-raised-button color="warn">Registrarte</button>
+    <br>
+    <a style="display: flex; justify-content: end;" href="#">Recuperar contraseña</a>
   </mat-card>
-  
+
 </div>
-
-
-
-
