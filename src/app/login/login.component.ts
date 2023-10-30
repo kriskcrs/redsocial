@@ -12,7 +12,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AppComponent } from '../app.component';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
-import { of } from 'rxjs';
+import { Router } from "@angular/router";
+import { throwError } from 'rxjs';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -22,19 +23,26 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
 }
+
+
+interface LoginResponse {
+  token: string;
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  constructor(private _snackBar: MatSnackBar, private url: AppComponent, private http: HttpClient) { }
+  constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router,private http: HttpClient) { }
 
   //vars
   email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [Validators.required]);
   hide = true;
-
+  path = this.url.url
+  dataUser:any ={}
 
   //userValidation
   getErrorMessage() {
@@ -43,8 +51,6 @@ export class LoginComponent {
     }
     return this.email.hasError('email') ? 'Tu correo electronico no es valido' : '';
   }
-
-
   //message
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
@@ -60,38 +66,34 @@ export class LoginComponent {
       this.loginRequest(credenciales).subscribe(
         (response: any) => this.loginResponse(response)
       )
-    } else {
-      this.openSnackBar("Credenciales invalidas", "Aceptar")
     }
   }
-
   loginRequest(data: any) {
-    console.log(data);
-    return this.http.post<any>(this.url + "/login", data).pipe(
-      catchError((e) => {
-        this.handleError(e);
-        return of(null)
+    return this.http.post<any>(this.path+"/login", data).pipe(
+      catchError((error: any) => {
+       if (error.status === 400) {
+          // error para parametros invalidos 
+          this.openSnackBar("Valores no válidos", "Aceptar");
+        } else {
+          // error de conexion o un 500
+          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+        }
+        return throwError(error);
       })
     )
   }
   loginResponse(response: any) {
-    console.log("error del login " + response);
-  }
-
-
-  //control de respuestas http
-  handleError(error: any) {
-    if (error.status === 400) {
-      this.openSnackBar("Valores no validos", "Aceptar");
-    } else if (error.status === 404) {
-      // Manejar el código 204 (u otros códigos de error según sea necesario)
-      this.openSnackBar("Credenciales invalidas", "Aceptar");
+    if (response == null) {
+      this.openSnackBar("Credenciales no validas", "Aceptar");
     } else {
-      // Otro manejo de errores
-      console.error("Error inesperado:", error);
-      this.openSnackBar("Error inesperado", "Aceptar");
+      //login exitoso
+      console.log("token " + response.token);
+      localStorage.setItem("session", JSON.stringify(response))
+      this.router.navigateByUrl("/home")
     }
+
   }
+
 
 
 
