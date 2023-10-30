@@ -42,7 +42,7 @@ export class LoginComponent {
   password = new FormControl('', [Validators.required]);
   hide = true;
   path = this.url.url
-  dataUser:any ={}
+
 
   //userValidation
   getErrorMessage() {
