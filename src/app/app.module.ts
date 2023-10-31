@@ -28,6 +28,7 @@ import { ProfileComponent } from './profile/profile.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTabsModule} from '@angular/material/tabs';
 import { UserCComponent } from './user-c/user-c.component';
+import { PublicationComponent } from './publication/publication.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { UserCComponent } from './user-c/user-c.component';
     LoginComponent,
     HomeComponent,
     ProfileComponent,
-    UserCComponent
+    UserCComponent,
+    PublicationComponent
   ],
   imports: [
     BrowserModule,
