@@ -53,12 +53,11 @@ export class HomeComponent {
 
   //obtiene data del usuario
   dataUserService() {
-
     this.dataUserRequest().subscribe((response: any) => this.dataUserResponse(response))
   }
   dataUserRequest() {
-    let session = this.dataUser.token
-    return this.http.get<any>(this.path + "/dataUser/"+session).pipe(
+    let session = this.dataUser.session
+    return this.http.get<any>(this.path + "/dataUser/" + session).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
           // error para parametros invalidos 
@@ -94,8 +93,6 @@ export class HomeComponent {
     )
   }
   ResponseRevoke(response: any) {
-    console.log(response);
-
     if (response == null) {
       localStorage.clear()
       this.router.navigateByUrl("/")

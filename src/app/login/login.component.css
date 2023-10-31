@@ -1,26 +1,36 @@
-
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50vh;
-  }
-  
-  .login-card {
-    width: 600px;
-    padding: 10px;
-    margin: 0 auto;
-  }
- 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
+.login-card {
+  width: 600px;
+  padding: 10px;
+  margin: 0 auto;
+}
 
-  .btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 5vh;
-  }
+.input-field {
+  width: 100%;
+}
 
-  mat-form-field {
-    margin-right: 5px;
-  }
+.login-button {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-right: 5px;
+}
+
+button.mat-raised-button {
+  width: 100%;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5vh;
+}

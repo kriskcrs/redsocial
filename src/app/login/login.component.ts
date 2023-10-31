@@ -43,6 +43,7 @@ export class LoginComponent {
   hide = true;
   path = this.url.url
   dataUser: any = {}
+  credenciales: any = {}
 
   //userValidation
   getErrorMessage() {
@@ -51,6 +52,18 @@ export class LoginComponent {
     }
     return this.email.hasError('email') ? 'Tu correo electronico no es valido' : '';
   }
+
+
+  // Evitar el envío del formulario al presionar "Enter" en el campo de contraseña
+  onPasswordKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.login();
+    }
+  }
+  
+
+
   //message
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
@@ -59,11 +72,11 @@ export class LoginComponent {
   //service login
   login() {
     if (this.email.valid) {
-      const credenciales = {
+      this.credenciales = {
         idUser: this.email.value,
         password: this.password.value
       }
-      this.loginRequest(credenciales).subscribe((response: any) => this.loginResponse(response))
+      this.loginRequest(this.credenciales).subscribe((response: any) => this.loginResponse(response))
     }
   }
   loginRequest(data: any) {
@@ -71,21 +84,22 @@ export class LoginComponent {
       catchError((error: any) => {
         if (error.status === 400) {
           // error para parametros invalidos 
-          this.openSnackBar("Valores no válidos", "Aceptar");
+          this.openSnackBar(error.error.message, "Aceptar");
         } else {
           // error de conexion o un 500
           this.openSnackBar("No existe conexión con el servidor", "Aceptar");
         }
-        return throwError(error);
+        return  throwError(error);
       })
     )
   }
   loginResponse(response: any) {
     if (response == null) {
       this.openSnackBar("Credenciales no validas", "Aceptar");
+
+
     } else {
       //login exitoso
-
       localStorage.setItem("data", JSON.stringify(response))
       this.router.navigateByUrl("/home")
     }
@@ -104,8 +118,6 @@ export class LoginComponent {
     )
   }
   ResponseRevoke(response: any) {
-    console.log(response);
-    
     if (response == null) {
       localStorage.clear()
       this.router.navigateByUrl("/")
@@ -124,4 +136,9 @@ export class LoginComponent {
     }
   }
 
+
+  //para registrar al usuario
+  registryService(){
+
+  }
 }
