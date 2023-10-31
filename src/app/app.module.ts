@@ -27,6 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './profile/profile.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTabsModule} from '@angular/material/tabs';
+import { UserCComponent } from './user-c/user-c.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    ProfileComponent
+    ProfileComponent,
+    UserCComponent
   ],
   imports: [
     BrowserModule,
