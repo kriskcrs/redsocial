@@ -5,7 +5,7 @@
     <form (ngSubmit)="login()" class="mat-card">
       <mat-form-field appearance="fill" class="input-field">
         <mat-label>Ingresa tu correo electronico</mat-label>
-        <input matInput placeholder="tu_correo@ejemplo.com" [formControl]="email" required>
+        <input matInput  [formControl]="email" required>
         <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
       <br>
