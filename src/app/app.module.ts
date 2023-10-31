@@ -24,13 +24,17 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientModule } from '@angular/common/http';
+import { ProfileComponent } from './profile/profile.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,7 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule, MatGridListModule, MatButtonModule, MatDividerModule, MatSlideToggleModule, MatInputModule, MatFormFieldModule, MatIconModule, MatCardModule,
-    NgIf,HttpClientModule
+    NgIf,HttpClientModule, MatToolbarModule, MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

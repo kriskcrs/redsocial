@@ -1,1 +1,48 @@
-<p>home works!</p>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Web</title>
+    <link rel="stylesheet" type="text/css" href="home.component.css">
+</head>
+
+<body>
+    <div class="header">
+        <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
+    </div>
+
+
+    <nav class="menu">
+        <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open" />
+        <label class="menu-open-button" for="menu-open">
+            <span class="hamburger hamburger-1"></span>
+            <span class="hamburger hamburger-2"></span>
+            <span class="hamburger hamburger-3"></span>
+        </label>
+
+        <a href="#" class="menu-item"> <i class="fa fa-plus"></i> </a>
+        <a href="#" class="menu-item"> <i class="fa fa-address-card"></i> </a>
+    </nav>
+
+
+
+    <div class="container">
+        <mat-card class="post-card">
+            <img post-image
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
+                alt="Post 1">
+            <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+                <mat-icon>favorite</mat-icon>
+            </button>
+            <mat-card-content>
+                <mat-form-field class="comment-field">
+                    <input matInput placeholder="Agregar un comentario">
+                </mat-form-field>
+                <button mat-raised-button color="primary">Comentar</button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</body>
+
+</html>
