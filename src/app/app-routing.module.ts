@@ -10,7 +10,6 @@ const routes: Routes = [
 { path:'home', component: HomeComponent},
 { path:'profile', component: ProfileComponent},
 { path:'publication', component: PublicationComponent},
-{ path: '', redirectTo: "/home", pathMatch: "full"},
 { path: '', redirectTo: "/login", pathMatch: "full"},
 { path: '**', redirectTo: 'not-found'},
 
