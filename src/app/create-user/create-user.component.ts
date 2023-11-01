@@ -24,6 +24,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./create-user.component.css'],
 })
 export class CreateUserComponent {
+  hide = true;
+
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
 
   matcher = new MyErrorStateMatcher();

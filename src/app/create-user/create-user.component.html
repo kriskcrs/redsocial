@@ -1,15 +1,26 @@
+<div class="user-container">
+  <form class="example-form">
+    <h1>Ingresa tus datos</h1>
+    <mat-form-field class="input-field">
+      <mat-label>Correo electronico</mat-label>
+      <input matInput placeholder="ejemplo@gmail.com">
+    </mat-form-field>
+    <mat-form-field class="input-field">
+      <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Cristian">
+    </mat-form-field>
+    <mat-form-field class="input-field">
+      <mat-label>Apellido</mat-label>
+      <input matInput placeholder="Caceres">
+    </mat-form-field>
+    <mat-form-field class="input-field">
+      <mat-label>Ingresa tu contraseña</mat-label>
+      <input matInput [type]="hide ? 'password' : 'text'">
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
 
-<form class="example-form">
-  <mat-form-field class="example-full-width">
-    <mat-label>Email</mat-label>
-    <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
-           placeholder="Ex. pat@example.com">
-    <mat-hint>Errors appear instantly!</mat-hint>
-    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-      Please enter a valid email address
-    </mat-error>
-    <mat-error *ngIf="emailFormControl.hasError('required')">
-      Email is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-</form>
+  </form>
+</div>
+
