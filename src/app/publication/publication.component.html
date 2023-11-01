@@ -5,45 +5,51 @@
   <div class="header">
     <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
   </div>
-
-
   <nav class="menu">
     <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open" />
     <label class="menu-open-button" for="menu-open">
       <span class="hamburger hamburger-1"></span>
       <span class="hamburger hamburger-2"></span>
-      <span class="hamburger hamburger-3"></span>  
+      <span class="hamburger hamburger-3"></span>
     </label>
-
-    <a href="#" class="menu-item"> <i class="fa fa-plus"></i> </a>
-    <a href="#" class="menu-item"> <i class="fa fa-address-card"></i> </a>
+    <a href="#" class="menu-item"> <i class="fa-solid fa-plus "></i> </a>
+    <a href="#" class="menu-item"> <i class="fa-solid fa-address-card "></i> </a>
   </nav>
-
-
-
   <div class="container">
     <mat-card class="post-card">
       <img post-image
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
         alt="Post 1">
-      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-        <mat-icon>favorite</mat-icon>
+        <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavorite }" (click)="toggleFavorite()">
+          <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
       </button>
       <mat-card-content>
         <mat-form-field class="comment-field">
           <input matInput placeholder="Agregar un comentario">
         </mat-form-field>
-        <button type="button" class="btn btn-warning">Comentar</button>
+        <button mat-raised-button color="primary">Comentar</button>
       </mat-card-content>
     </mat-card>
     <mat-list *ngFor="let comment of comments">
-      <mat-list-item> {{ comment.text }}</mat-list-item>
+      <mat-list-item ><b> {{ getNameUser(comment.idPublication)}}</b> </mat-list-item>
+      <mat-list-item> {{ comment.text }}
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <i class="fa-solid fa-pen"></i>&nbsp;
+            <span>Editar</span>
+          </button>
+          <button mat-menu-item>
+            <i class="fa-solid fa-trash"></i> &nbsp;
+            <span>Eliminar</span>
+          </button>
+        </mat-menu>
+      </mat-list-item>
       <mat-divider></mat-divider>
-
     </mat-list>
   </div>
-
-
 </body>
 
 </html>

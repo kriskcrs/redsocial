@@ -32,6 +32,9 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import {MatListModule} from '@angular/material/list';
 
 
+
+import {MatMenuModule} from '@angular/material/menu';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +51,7 @@ import {MatListModule} from '@angular/material/list';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule, MatGridListModule, MatButtonModule, MatDividerModule, MatSlideToggleModule, MatInputModule, MatFormFieldModule, MatIconModule, MatCardModule,
-    NgIf,HttpClientModule, MatToolbarModule, MatTabsModule, MatListModule
+    NgIf,HttpClientModule, MatToolbarModule, MatTabsModule, MatListModule,MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]
