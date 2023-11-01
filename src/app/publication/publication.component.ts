@@ -8,13 +8,13 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../app.component';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { throwError } from 'rxjs';
-import { LoginComponent } from '../login/login.component';
+
 
 
 
@@ -29,12 +29,15 @@ export class PublicationComponent {
   constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
-    this.validateSession();
+  //  this.validateSession(); habilitar a futuro
+  this.dataUserService()
+  this.commentService()
   }
 
   //vars
   dataUser: any = {}
   path = this.url.url
+  comments : any = []
 
 
   //valida si la sesion esta vigente
@@ -75,7 +78,7 @@ export class PublicationComponent {
   }
   dataUserResponse(response: any) {
     if (response == null) {
-      this.revokeService()
+     // this.revokeService()
     } else {
       this.dataUser = response
     }
@@ -104,5 +107,34 @@ export class PublicationComponent {
       this.router.navigateByUrl("/")
     }
   }
+
+
+  //comentarios 
+
+  commentService(){
+    this.commentRequest().subscribe((response:any) => this.commentResult(response))
+  }
+  commentRequest(){
+    return this.http.get<any>(this.path + "/consult/comment" ).pipe(
+      catchError((error:any) => {
+        if (error.status === 400) {
+          // error para parametros invalidos 
+          this.openSnackBar("valores invalidos", "Aceptar")
+        } else {
+          // error de conexion o un 500
+          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+        }
+        return throwError(error);
+      }
+      ))
+  }
+  commentResult(response:any){
+
+    console.log(response);
+    this.comments = response
+
+  }
+
+
 
 }
