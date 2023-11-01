@@ -82,6 +82,8 @@ export class HomeComponent {
       this.revokeService()
     } else {
       this.dataUser = response
+      console.log(this.dataUser);
+      
     }
 
   }
