@@ -34,3 +34,7 @@ button.mat-raised-button {
   align-items: center;
   height: 5vh;
 }
+
+#recover{
+  cursor: pointer;
+}

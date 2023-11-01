@@ -30,6 +30,9 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { PublicationComponent } from './publication/publication.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import {MatListModule} from '@angular/material/list';
+import { RecoverComponent } from './recover/recover.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { SetPasswordComponent } from './set-password/set-password.component';
 
 
 
@@ -42,7 +45,9 @@ import {MatMenuModule} from '@angular/material/menu';
     HomeComponent,
     ProfileComponent,
     PublicationComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    RecoverComponent,
+    SetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +56,7 @@ import {MatMenuModule} from '@angular/material/menu';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule, MatGridListModule, MatButtonModule, MatDividerModule, MatSlideToggleModule, MatInputModule, MatFormFieldModule, MatIconModule, MatCardModule,
-    NgIf,HttpClientModule, MatToolbarModule, MatTabsModule, MatListModule,MatMenuModule
+    NgIf,HttpClientModule, MatToolbarModule, MatTabsModule, MatListModule,MatMenuModule,MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

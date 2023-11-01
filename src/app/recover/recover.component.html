@@ -1,0 +1,26 @@
+<div class="login-container">
+    <mat-card class="login-card">
+      <h1>Recuperación de contraseña</h1>
+      <br>
+      <form *ngIf="form" (ngSubmit)="recover()" class="mat-card">
+        <mat-form-field appearance="fill" class="input-field">
+          <mat-label>Ingresa tu correo electronico</mat-label>
+          <input matInput  [formControl]="email" required>
+          <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <br>
+        <button id="btnRecover" mat-raised-button color="primary" type="submit" class="login-button"> Recuperar 
+            <i class="fa-solid fa-unlock-keyhole fa-beat"></i></button>
+        <br>
+      </form>
+      <br>
+      <div *ngIf="spinner" id="spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+      </div>
+      <div *ngIf="alertaOK" class="alert alert-primary" role="alert">
+        {{messageOK}}
+      </div>
+    </mat-card>
+  </div>
