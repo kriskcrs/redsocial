@@ -5,8 +5,8 @@
         text-align: center;
 }
 
-b{
-        font-size: 10px;
+mat-card-title{
+        font-size: 12px;
 }
 .header img {
         width: 150px;

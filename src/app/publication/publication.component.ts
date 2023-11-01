@@ -2,11 +2,8 @@ import { Component } from '@angular/core';
 import { ErrorStateMatcher } from '@angular/material/core';
 import {
   FormControl,
-  FormGroupDirective,
-  NgForm,
-  Validators,
-  FormsModule,
-  ReactiveFormsModule,
+  FormGroup,
+  Validators
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../app.component';
@@ -23,13 +20,17 @@ import { throwError } from 'rxjs';
   templateUrl: './publication.component.html',
   styleUrls: ['./publication.component.css']
 })
+
+
+
+
 export class PublicationComponent {
 
   modulos: any = []
   constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
-    //  this.validateSession(); habilitar a futuro
+    // this.validateSession(); habilitar a futuro
     //this.dataUserService()
     this.userService()
   }
@@ -41,6 +42,10 @@ export class PublicationComponent {
   publications: any = []
   users: any = []
   isFavorite = false;
+  comentario: string = ""
+  idP: number = 0
+
+
 
 
   //valida si la sesion esta vigente
@@ -58,6 +63,11 @@ export class PublicationComponent {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
   }
+
+  openSnackBarTime(message: string) {
+    this._snackBar.open(message, '', { duration: 1000 });
+  }
+
 
   //obtiene data del usuario
   dataUserService() {
@@ -111,13 +121,13 @@ export class PublicationComponent {
   }
 
 
-  //comentarios 
+  //retorna todos los comentarios
 
   commentService() {
     this.commentRequest().subscribe((response: any) => this.commentResult(response))
   }
   commentRequest() {
-    return this.http.get<any>(this.path + "/consult/comment").pipe(
+    return this.http.get<any>(this.path + "/consult/comment/" + this.idP).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
           // error para parametros invalidos 
@@ -131,12 +141,11 @@ export class PublicationComponent {
       ))
   }
   commentResult(response: any) {
-    console.log(response);
     this.comments = response
   }
 
 
-  //publicaciones 
+  //retorna todas las publicaciones 
 
   publicationsService() {
     this.publicationsRequest().subscribe((response: any) => this.publicationsResponse(response))
@@ -156,8 +165,8 @@ export class PublicationComponent {
       ))
   }
   publicationsResponse(response: any) {
-    console.log(response);
     this.publications = response
+    this.idP = this.publications[1].idPublication
     this.commentService()
   }
 
@@ -182,7 +191,7 @@ export class PublicationComponent {
       ))
   }
   userResponset(response: any) {
-    console.log(response);
+
     this.users = response
     this.publicationsService()
   }
@@ -190,7 +199,6 @@ export class PublicationComponent {
 
 
   //obtiene nombre de usuario
-
   getNameUser(id: any): string {
     for (const publication of this.publications) {
       if (publication.idPublication === id) {
@@ -201,17 +209,51 @@ export class PublicationComponent {
         }
       }
     }
-    return ''; 
+    return '';
   }
-  
 
   //icono de corazon
-
-
-
   toggleFavorite() {
     this.isFavorite = !this.isFavorite;
   }
+
+  //graba comentario
+  commentcreateService(c: any) {
+    if (c == null || c == "") {
+      console.log("vacio");
+      this.openSnackBar("Debes coloar un comentario", "Aceptar")
+    } else {
+      this.commentcreateRequest(c).subscribe((response: any) => this.commentcreateResponset(response))
+    }
+  }
+  commentcreateRequest(comment: any) {
+    let data = {
+      text: comment,
+      idPublication: this.idP
+    }
+    return this.http.post<any>(this.path + "/create/comment", data).pipe(
+      catchError((error: any) => {
+        if (error.status === 400) {
+          // error para parametros invalidos 
+          this.openSnackBar("valores invalidos", "Aceptar")
+        } else {
+          // error de conexion o un 500
+          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+        }
+        return throwError(error);
+      }
+      ))
+  }
+  commentcreateResponset(response: any) {
+    this.openSnackBarTime(response.message)
+    this.publicationsService()
+    this.comentario = ""
+  }
+
+
+
+
+
 
 
 }
