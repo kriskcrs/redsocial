@@ -27,8 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './profile/profile.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTabsModule} from '@angular/material/tabs';
-import { UserCComponent } from './user-c/user-c.component';
 import { PublicationComponent } from './publication/publication.component';
+import { CreateUserComponent } from './create-user/create-user.component';
 
 
 @NgModule({
@@ -37,8 +37,8 @@ import { PublicationComponent } from './publication/publication.component';
     LoginComponent,
     HomeComponent,
     ProfileComponent,
-    UserCComponent,
-    PublicationComponent
+    PublicationComponent,
+    CreateUserComponent
   ],
   imports: [
     BrowserModule,
