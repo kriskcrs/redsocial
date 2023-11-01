@@ -136,7 +136,7 @@ body {
   
   .menu-item:hover {
     background: white;
-    color: blue;
+    color: rgb(10, 10, 209);
   }
   .menu-item:nth-child(3) {
     -webkit-transition-duration: 180ms;
@@ -208,3 +208,4 @@ body {
     -webkit-transform: translate3d(440px, 0, 0);
             transform: translate3d(440px, 0, 0);
   }
+
