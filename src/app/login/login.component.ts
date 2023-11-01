@@ -141,4 +141,8 @@ export class LoginComponent {
   registryService(){
 
   }
+
+  recoverService(){
+    this.router.navigateByUrl("/recover")
+  }
 }
