@@ -29,6 +29,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTabsModule} from '@angular/material/tabs';
 import { PublicationComponent } from './publication/publication.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import {MatListModule} from '@angular/material/list';
 
 
 @NgModule({
@@ -47,7 +48,7 @@ import { CreateUserComponent } from './create-user/create-user.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule, MatGridListModule, MatButtonModule, MatDividerModule, MatSlideToggleModule, MatInputModule, MatFormFieldModule, MatIconModule, MatCardModule,
-    NgIf,HttpClientModule, MatToolbarModule, MatTabsModule
+    NgIf,HttpClientModule, MatToolbarModule, MatTabsModule, MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

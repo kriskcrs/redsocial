@@ -31,11 +31,13 @@ export class PublicationComponent {
   ngOnInit() {
   //  this.validateSession(); habilitar a futuro
   this.dataUserService()
+  this.commentService()
   }
 
   //vars
   dataUser: any = {}
   path = this.url.url
+  comments : any = []
 
 
   //valida si la sesion esta vigente
@@ -105,5 +107,34 @@ export class PublicationComponent {
       this.router.navigateByUrl("/")
     }
   }
+
+
+  //comentarios 
+
+  commentService(){
+    this.commentRequest().subscribe((response:any) => this.commentResult(response))
+  }
+  commentRequest(){
+    return this.http.get<any>(this.path + "/consult/comment" ).pipe(
+      catchError((error:any) => {
+        if (error.status === 400) {
+          // error para parametros invalidos 
+          this.openSnackBar("valores invalidos", "Aceptar")
+        } else {
+          // error de conexion o un 500
+          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+        }
+        return throwError(error);
+      }
+      ))
+  }
+  commentResult(response:any){
+
+    console.log(response);
+    this.comments = response
+
+  }
+
+
 
 }

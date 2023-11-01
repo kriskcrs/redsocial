@@ -36,7 +36,14 @@
         <button type="button" class="btn btn-warning">Comentar</button>
       </mat-card-content>
     </mat-card>
+    <mat-list *ngFor="let comment of comments">
+      <mat-list-item> {{ comment.text }}</mat-list-item>
+      <mat-divider></mat-divider>
+
+    </mat-list>
   </div>
+
+
 </body>
 
 </html>
