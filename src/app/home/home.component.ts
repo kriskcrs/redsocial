@@ -32,8 +32,8 @@ export class HomeComponent {
   constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
-   // this.validateSession(); habilitar a futuro
-    this.dataUser();
+   // this.validateSession(); 
+    this.dataUserService();
   }
 
   //vars
@@ -83,7 +83,6 @@ export class HomeComponent {
     } else {
       this.dataUser = response
       console.log(this.dataUser);
-      
     }
 
   }
