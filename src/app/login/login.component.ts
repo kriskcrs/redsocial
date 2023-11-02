@@ -1,19 +1,13 @@
 import { Component } from '@angular/core';
 import { ErrorStateMatcher } from '@angular/material/core';
-import {
-  FormControl,
-  FormGroupDirective,
-  NgForm,
-  Validators,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../app.component';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpResponse } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { throwError } from 'rxjs';
+
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -61,7 +55,6 @@ export class LoginComponent {
       this.login();
     }
   }
-  
 
 
   //message
@@ -80,30 +73,38 @@ export class LoginComponent {
     }
   }
   loginRequest(data: any) {
-    return this.http.post<any>(this.path + "/login", data).pipe(
+    return this.http.post<any>(this.path + "/login", data, { observe: 'response' }).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
-          // error para parametros invalidos 
+          // error para parámetros inválidos
           this.openSnackBar(error.error.message, "Aceptar");
         } else {
-          // error de conexion o un 500
+          // error de conexión o un 500
           this.openSnackBar("No existe conexión con el servidor", "Aceptar");
         }
-        return  throwError(error);
+        return throwError(error);
       })
     )
   }
+
   loginResponse(response: any) {
-    if (response == null) {
-      this.openSnackBar("Credenciales no validas", "Aceptar");
-
-
-    } else {
-      //login exitoso
-      localStorage.setItem("data", JSON.stringify(response))
-      this.router.navigateByUrl("/home")
+    if (response.status === 202) {
+      localStorage.setItem("data", JSON.stringify(response.body));
+      this.router.navigateByUrl("/set-password");
+    } else if (response.status === 200) {
+      localStorage.setItem("data", JSON.stringify(response.body));
+      this.router.navigateByUrl("/home");
     }
+    else if (response.status === 204) {
+      this.openSnackBar("Usuario o contraseña incorrecta", "Aceptar");
+    }
+    else {
+      console.log(`Recibí un código de estado inesperado: ${response.status}`);
+    }
+
   }
+
+
 
 
   //revoke
@@ -138,7 +139,12 @@ export class LoginComponent {
 
 
   //para registrar al usuario
-  registryService(){
+  registryService() {
 
+  }
+
+  //metodo diego
+  recoverService() {
+    this.router.navigateByUrl("/recover")
   }
 }

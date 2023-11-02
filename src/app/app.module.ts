@@ -33,8 +33,13 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatListModule} from '@angular/material/list';
 import {MatNativeDateModule} from "@angular/material/core";
+import { RecoverComponent } from './recover/recover.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { SetPasswordComponent } from './set-password/set-password.component';
 
 
+
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -43,7 +48,9 @@ import {MatNativeDateModule} from "@angular/material/core";
     HomeComponent,
     ProfileComponent,
     PublicationComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    RecoverComponent,
+    SetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +59,7 @@ import {MatNativeDateModule} from "@angular/material/core";
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule, MatGridListModule, MatButtonModule, MatDividerModule, MatSlideToggleModule, MatInputModule, MatFormFieldModule, MatIconModule, MatCardModule,
-    NgIf,HttpClientModule, MatToolbarModule, MatTabsModule,MatSelectModule,MatDatepickerModule,MatListModule,MatNativeDateModule
+    NgIf,HttpClientModule, MatToolbarModule, MatTabsModule,MatSelectModule,MatDatepickerModule,MatListModule,MatNativeDateModule,MatMenuModule,MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
