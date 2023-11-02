@@ -1,16 +1,58 @@
-<body> 
+<body>
+  <div class="header">
 
-<div class="profile-container">
-    <mat-card class="profile-card">
-      <img src="https://previews.123rf.com/images/aprillrain/aprillrain2212/aprillrain221200638/196354278-imagen-de-caricatura-de-un-astronauta-sentado-en-una-luna-ilustraci%C3%B3n-de-alta-calidad.jpg" alt="Foto de perfil" class="profile-picture">
-      <mat-card-title>el usuario</mat-card-title>
-      <mat-card-content>
-        <p>Descripción</p>
-        <p>Aca se supone que irian las publicaciones</p>
-        <p>los seguidores</p>
-        <p>a quien sigo</p>
-      </mat-card-content>
-    </mat-card>
+    <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
+    <div class="example-button-container">
+      <button mat-mini-fab color="primary"><i class="fa-solid fa-right-from-bracket"></i></button>
+    </div>
   </div>
+  <div class="profile-container" *ngIf="!modify">
+    <mat-card class="profile-card">
+      <img
+        src="https://previews.123rf.com/images/aprillrain/aprillrain2212/aprillrain221200638/196354278-imagen-de-caricatura-de-un-astronauta-sentado-en-una-luna-ilustraci%C3%B3n-de-alta-calidad.jpg"
+        alt="Foto de perfil" class="profile-picture">
+      <mat-card-title>Nombre: {{dataUser.name}} {{dataUser.lastName}}</mat-card-title>
+      <mat-card-content>
+        <p>Fecha de nacimiento: {{dataUser.dob |date: "0:yyyy-MM-dd"}}</p>
+      </mat-card-content>
+      <div class="edit">
+        <button mat-mini-fab color="primary"><i class="fa-solid fa-pen-to-square"
+            (click)="Modify(dataUser)"></i></button>
+        <button *ngIf="btnUpdate" class="btn btn-danger btn-sm" disabled>No Disponible</button>
+      </div>
+
+    </mat-card>
+
+  </div>
+
+  <div class="container text-left" *ngIf="modify">
+    <form (ngSubmit)="modForm()" id="modForm">
+      <h1>Modificación</h1>
+      <div class="input-name">
+        <span class="input-group-text"><i class="fa-solid fa-solid fa-user"></i>&nbsp; Nombre</span>
+        <input type="text" id="name" [(ngModel)]="perfilDataModify.name" name="name" class="form-control" required>
+      </div>
+      <br>
+
+      <div class="input-last">
+        <span class="input-group-text"><i class="fa-solid fa-solid fa-user"></i>&nbsp; Apellido</span>
+        <input type="text" id="last" [(ngModel)]="perfilDataModify.lastName " name="lastName" class="form-control"
+          required>
+      </div>
+      <br>
+
+      <div class="input-dob">
+        <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i>&nbsp; Fecha de nacimiento</span>
+        <input type="date" id="dob" placeholder="Motivo" [(ngModel)]="perfilDataModify.dob" name="dob"
+          class="form-control" required>
+      </div>
+      <br>
+      <p>ACA IRIA EL COMPONENTE DE LA FOTO</p>
+      <div>
+        <button type="submit" class="btn btn-secondary">Confirmar</button>&nbsp;
+      </div>
+    </form>
+  </div>
+
 
 </body>

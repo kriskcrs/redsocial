@@ -8,13 +8,12 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../app.component';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { throwError } from 'rxjs';
-import { LoginComponent } from '../login/login.component';
 
 interface Photo {
   urlPhoto: string;
@@ -36,7 +35,7 @@ export class HomeComponent {
   constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
-    this.validateSession();
+    this.validateSession(); 
   }
 
   //vars
@@ -70,6 +69,7 @@ export class HomeComponent {
     let session = this.dataUser.session
     return this.http.get<any>(this.path + "/dataUser/" + session).pipe(
       catchError((error: any) => {
+        console.log("hola");
         if (error.status === 400) {
           // error para parametros invalidos 
           this.openSnackBar("valores invalidos", "Aceptar")
@@ -83,7 +83,7 @@ export class HomeComponent {
   }
   dataUserResponse(response: any) {
     if (response == null) {
-      this.revokeService()
+     // this.revokeService()
     } else {
       this.dataUser = response
     }
