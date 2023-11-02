@@ -125,15 +125,21 @@ export class SetPasswordComponent {
     )
   }
   setPasswordResponse(response: any) {
-    this.messageOK = response.message
-    this.spinner = false
-    this.alertaOK = true
-  
-    setTimeout(()=>{
-      this.router.navigateByUrl("/login")  
-    }, 3000);
+    console.log("respondio ok");
+    console.log(response);
     
-    
+    if(response != null){
+      this.messageOK = response.message
+      this.spinner = false
+      this.alertaOK = true
+      setTimeout(()=>{
+        this.router.navigateByUrl("/login")  
+      }, 3000);
+    }else {
+      this.openSnackBar("Contraseña incorrecta", "Aceptar");
+      this.spinner = false
+      this.form = true
+    }
   }
 
   //revoke
