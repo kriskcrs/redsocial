@@ -29,7 +29,10 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTabsModule} from '@angular/material/tabs';
 import { PublicationComponent } from './publication/publication.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatListModule} from '@angular/material/list';
+import {MatNativeDateModule} from "@angular/material/core";
 import { RecoverComponent } from './recover/recover.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { SetPasswordComponent } from './set-password/set-password.component';
@@ -56,7 +59,7 @@ import {MatMenuModule} from '@angular/material/menu';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule, MatGridListModule, MatButtonModule, MatDividerModule, MatSlideToggleModule, MatInputModule, MatFormFieldModule, MatIconModule, MatCardModule,
-    NgIf,HttpClientModule, MatToolbarModule, MatTabsModule, MatListModule,MatMenuModule,MatProgressSpinnerModule
+    NgIf,HttpClientModule, MatToolbarModule, MatTabsModule,MatSelectModule,MatDatepickerModule,MatListModule,MatNativeDateModule,MatMenuModule,MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
