@@ -1,8 +1,27 @@
+.header {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.header img {
+  width: 150px;
+}
+  
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+  }
+
+
+
 .profile-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 79vh;
     background-color: #fafafa;
   }
   
@@ -56,3 +75,52 @@
     font-size: 20px;
     margin-bottom: 10px;
   }
+
+  /*para boton de logout*/
+section {
+  display: table;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.example-button-row {
+  display: table-cell;
+  max-width: 600px;
+}
+
+.example-button-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: right;
+  width: 1890px;
+}
+
+
+  /*boton ecitar*/
+  .edit {
+    display: flex;
+    justify-content: right;
+    width: 370px;
+  }
+
+
+
+   /*cosas modificacion*/
+.input-dob{
+  justify-content: center;
+}
+

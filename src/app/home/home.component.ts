@@ -15,7 +15,10 @@ import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { throwError } from 'rxjs';
 
-
+interface Photo {
+  urlPhoto: string;
+  alt: string;
+}
 
 @Component({
   selector: 'app-home',
@@ -37,8 +40,10 @@ export class HomeComponent {
   }
 
   //vars
+  
   dataUser: any = {}
   path = this.url.url
+  photos: any = {}
 
 
   //valida si la sesion esta vigente
@@ -52,7 +57,6 @@ export class HomeComponent {
 
     }
   }
-
   //message
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
@@ -66,6 +70,7 @@ export class HomeComponent {
     let session = this.dataUser.session
     return this.http.get<any>(this.path + "/dataUser/" + session).pipe(
       catchError((error: any) => {
+        console.log("hola");
         if (error.status === 400) {
           // error para parametros invalidos 
           this.openSnackBar("valores invalidos", "Aceptar")
@@ -87,8 +92,6 @@ export class HomeComponent {
 
   }
 
-
-
   //revoke
   revokeService() {
     this.RequestRevoke().subscribe(
@@ -108,6 +111,22 @@ export class HomeComponent {
       localStorage.clear()
       this.router.navigateByUrl("/")
     }
+  }
+
+  loadPhotos() {
+    this.fetchPhotos()
+      .subscribe(
+        (photos: Photo[]) => {
+          this.photos = photos;
+        },
+        (error) => {
+          console.error('Error al cargar las fotos:', error);
+        }
+      );
+  }
+
+  fetchPhotos() {
+    return this.http.get<Photo[]>(this.path);
   }
 
 
