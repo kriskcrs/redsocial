@@ -32,6 +32,7 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatListModule} from '@angular/material/list';
+import {MatNativeDateModule} from "@angular/material/core";
 
 
 
@@ -51,7 +52,7 @@ import {MatListModule} from '@angular/material/list';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule, MatGridListModule, MatButtonModule, MatDividerModule, MatSlideToggleModule, MatInputModule, MatFormFieldModule, MatIconModule, MatCardModule,
-    NgIf,HttpClientModule, MatToolbarModule, MatTabsModule,MatSelectModule,MatDatepickerModule,MatListModule
+    NgIf,HttpClientModule, MatToolbarModule, MatTabsModule,MatSelectModule,MatDatepickerModule,MatListModule,MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

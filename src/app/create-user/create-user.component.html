@@ -1,3 +1,6 @@
+<div class="header">
+  <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
+</div>
 <div class="user-container">
   <form class="example-form">
     <h1>Ingresa tus datos</h1>
@@ -14,12 +17,24 @@
       <input matInput placeholder="Caceres">
     </mat-form-field>
     <mat-form-field class="input-field">
+      <mat-label>Fecha de Nacimiento</mat-label>
+      <input matInput placeholder="YYYY/MM/DD" [matDatepicker]="picker">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="input-field">
       <mat-label>Ingresa tu contraseña</mat-label>
       <input matInput [type]="hide ? 'password' : 'text'">
       <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
+    <form class="saveImg">
+      <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileInput required>
+      <img *ngIf="imageSrc" [src]="imageSrc"  alt="Imagen Previa">
+      <br>
+      <button mat-raised-button (click)="selectImage()" id="selected">Seleccionar Imagen de perfil</button>
+    </form>
 
   </form>
 </div>

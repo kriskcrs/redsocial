@@ -1,14 +1,24 @@
 .example-form {
   justify-content: center;
-  height: 100vh;
+  height: 70vh;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding-left: 40%;
 }
-h1{
+img{
   text-align: center;
+  max-width: 16%;
 }
 .input-field {
   width: 36%;
+}
+.header {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+  text-align: center;
+}
+.header img {
+  width: 150px;
 }
