@@ -35,7 +35,9 @@ export class HomeComponent {
   constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
+
     this.validateSession(); 
+
   }
 
   //vars
@@ -86,6 +88,7 @@ export class HomeComponent {
      // this.revokeService()
     } else {
       this.dataUser = response
+      console.log(this.dataUser);
     }
 
   }

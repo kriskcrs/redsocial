@@ -5,16 +5,20 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PublicationComponent } from './publication/publication.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { RecoverComponent } from './recover/recover.component';
+import { SetPasswordComponent } from './set-password/set-password.component';
 
 
 const routes: Routes = [
-{ path:'login', component: LoginComponent},
-{ path:'home', component: HomeComponent},
-{ path:'profile', component: ProfileComponent},
-{ path:'publication', component: PublicationComponent},
-{ path: 'createUser', component: CreateUserComponent},
-{ path: '', redirectTo: "/login", pathMatch: "full"},
-{ path: '**', redirectTo: 'not-found'},
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'publication', component: PublicationComponent },
+  { path: 'createUser', component: CreateUserComponent },
+  { path: 'recover', component: RecoverComponent },
+  { path: 'set-password', component: SetPasswordComponent },
+  { path: '', redirectTo: "/login", pathMatch: "full" },
+  { path: '**', redirectTo: 'not-found' },
 
 
 ];
