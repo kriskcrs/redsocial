@@ -1,17 +1,10 @@
 import { Component } from '@angular/core';
-import { ErrorStateMatcher } from '@angular/material/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../app.component';
 import { HttpClient } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { throwError } from 'rxjs';
-
 
 
 
@@ -39,15 +32,21 @@ export class PublicationComponent {
   dataUser: any = {}
   path = this.url.url
   comments: any = []
+  publication:any = {}
   publications: any = []
   users: any = []
   isFavorite = false;
   comentario: string = ""
+  comentarioModificado:string =""
   idP: number = 0
   messageErroServer:string = "No existe conexion con el servidor"
   messageErrorParametros:string = "Parametros invalidos"
 
 
+
+  editingCommentIndex: number = -1;
+
+ 
 
   //valida si la sesion esta vigente
   validateSession() {
@@ -167,6 +166,8 @@ export class PublicationComponent {
   publicationsResponse(response: any) {
     this.publications = response
     this.idP = this.publications[1].idPublication
+    this.publication = this.publications[1]
+
     this.commentService()
   }
 
@@ -218,7 +219,6 @@ export class PublicationComponent {
   //graba comentario
   commentcreateService(c: any) {
     if (c == null || c == "") {
-      console.log("vacio");
       this.openSnackBarTime("Debes colocar un comentario")
     } else {
       this.commentcreateRequest(c).subscribe((response: any) => this.commentcreateResponset(response))
@@ -251,7 +251,80 @@ export class PublicationComponent {
 
 
 
+ 
 
+ //elimina comentarios
+  deleteComment(c:any){
+   console.log(c);
+   this.deleteCommentRequest(c).subscribe((response: any) => this.deleteCommentResponse(response))
+  }
+
+  deleteCommentRequest(comment: any) {
+    return this.http.delete<any>(this.path + "/delete/comment/"+comment.idComment).pipe(
+      catchError((error: any) => {
+        if (error.status === 400) {
+          // error para parametros invalidos 
+          this.openSnackBar(this.messageErrorParametros, "Aceptar")
+        } else {
+          // error de conexion o un 500
+          this.openSnackBar(this.messageErroServer, "Aceptar");
+        }
+        return throwError(error);
+      }
+      ))
+  }
+  deleteCommentResponse(response: any) {
+    this.openSnackBarTime(response.message)
+    this.publicationsService()
+    this.comentario = ""
+  }
+
+
+
+
+  //edita comentario
+
+  
+  editComment(index: number) {
+    this.editingCommentIndex = index;
+    this.comentarioModificado = this.comments[index].text;
+  }
+  
+
+
+
+  saveComment(commentM:any,comment:any) {
+    let comentarioModificado ={
+      idComment:comment.idComment,
+      idPublication:comment.idPublication,
+      text:commentM
+    }
+    this.editCommentRequest(comentarioModificado).subscribe((response: any) => {
+      this.editCommentResponse(response);
+
+    });
+  }
+  
+ 
+  editCommentRequest(comment: any) { 
+    return this.http.post<any>(this.path + "/update/comment", comment).pipe(
+      catchError((error: any) => {
+        if (error.status === 400) {
+          this.openSnackBar(this.messageErrorParametros, "Aceptar");
+        } else {
+          this.openSnackBar(this.messageErroServer, "Aceptar");
+        }
+        return throwError(error);
+      })
+    );
+  }
+  
+  editCommentResponse(response: any) {
+    this.openSnackBarTime(response.message);
+    this.publicationsService();
+    this.comentario = "";
+    this.editingCommentIndex = -1;
+  }
 
 
 }
