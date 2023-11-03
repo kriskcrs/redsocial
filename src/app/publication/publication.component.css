@@ -11,12 +11,7 @@ mat-card-title{
 .header img {
         width: 150px;
 }
-.container {
-        max-width: 400px;
-        margin: 20px auto;
-        background-color: #fff;
-        border: 1px solid #ddd;
-}
+
 .post-card {
         margin: 10px;
         max-width: 400px;
@@ -174,4 +169,8 @@ mat-card-title{
 }
 .favorite-icon.active {
         color: red; /* Color rojo cuando está activo (clic) */
+      }
+
+      .mat-mdc-card {
+        width: 500px !important;
       }

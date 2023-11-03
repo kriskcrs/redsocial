@@ -35,9 +35,8 @@ export class HomeComponent {
   constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
-
-    this.validateSession(); 
-
+   // this.validateSession(); 
+    this.dataUserService();
   }
 
   //vars
