@@ -52,7 +52,6 @@ export class ProfileComponent {
   pageUrl = "profile"
 
 
-
   //bandera de botones
   optionsValidate() {
     this.options = localStorage.getItem("options");
@@ -85,12 +84,15 @@ export class ProfileComponent {
     console.log("back")
     this.modify = false
     this.add = false
-    this.tab = true
     this.header = true
     this.perfilDataModify = {}
     this.ngOnInit()
   }
 
+
+  backWelcome() {
+    this.router.navigateByUrl("/home")
+  }
 
   //valida si la sesion esta vigente
   validateSession() {
@@ -106,6 +108,10 @@ export class ProfileComponent {
   //message
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
+  }
+
+  openSnackBarTime(message: string) {
+    this._snackBar.open(message, '', { duration: 3000 });
   }
 
   //obtiene data del usuario
@@ -175,8 +181,17 @@ export class ProfileComponent {
       })
     }
     return this.http.get<any>(this.url + "/consult/profile/" + this.perfilData.idProfile, httpOptions).pipe(
-      catchError(e => "1")
-    )
+      catchError((error: any) => {
+        if (error.status === 400) {
+          // error para parametros invalidos 
+          this.openSnackBar("valores invalidos", "Aceptar")
+        } else {
+          // error de conexion o un 500
+          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+        }
+        return throwError(error);
+      }
+      ))
   }
   responsePerfil(response: any) {
     this.perfilData = response
@@ -189,33 +204,30 @@ export class ProfileComponent {
     let formularioValido: any = document.getElementById("modForm");
     if (formularioValido.reportValidity()) {
       this.perfilDataModify.userModification = this.dataUser.user
-      this.perfilDataModify = this.perfilDataModify
+      console.log(this.perfilDataModify);
       this.requestProfileUpdate().subscribe(
         (response: any) => this.responseProfileUpdate(response)
       )
+      
     }
   }
-
   requestProfileUpdate() {
-
-    var httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
-    return this.http.put<any>(this.url + "/updateProfile/" + this.perfilDataModify.idUser, this.perfilDataModify, httpOptions).pipe(
-      catchError(e => "1")
-    )
+    return this.http.put<any>(this.path + "/updateProfile/" + this.perfilDataModify.idUser, this.perfilDataModify).pipe(
+      catchError((error: any) => {
+        if (error.status === 400) {
+          // error para parametros invalidos 
+          this.openSnackBar("valores invalidos", "Aceptar")
+        } else {
+          // error de conexion o un 500
+          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+        }
+        return throwError(error);
+      }
+      ))
   }
   responseProfileUpdate(response: any) {
-    if (response.code == 999) {
-      this.revokeService()
-    } else if (response.code == 0) {
-      alert(response.message)
-      this.back()
-    } else {
-      alert(response.message)
-    }
+    this.openSnackBarTime(response.message)
+    this.dataUserService()
+    this.modify = false;
   }
-
 }
