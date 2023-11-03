@@ -44,7 +44,8 @@ export class PublicationComponent {
   isFavorite = false;
   comentario: string = ""
   idP: number = 0
-
+  messageErroServer:string = "No existe conexion con el servidor"
+  messageErrorParametros:string = "Parametros invalidos"
 
 
 
@@ -79,10 +80,10 @@ export class PublicationComponent {
       catchError((error: any) => {
         if (error.status === 400) {
           // error para parametros invalidos 
-          this.openSnackBar("valores invalidos", "Aceptar")
+          this.openSnackBar(this.messageErrorParametros, "Aceptar")
         } else {
           // error de conexion o un 500
-          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+          this.openSnackBar(this.messageErroServer, "Aceptar")
         }
         return throwError(error);
       })
@@ -122,7 +123,6 @@ export class PublicationComponent {
 
 
   //retorna todos los comentarios
-
   commentService() {
     this.commentRequest().subscribe((response: any) => this.commentResult(response))
   }
@@ -131,10 +131,10 @@ export class PublicationComponent {
       catchError((error: any) => {
         if (error.status === 400) {
           // error para parametros invalidos 
-          this.openSnackBar("valores invalidos", "Aceptar")
+          this.openSnackBar(this.messageErrorParametros, "Aceptar")
         } else {
           // error de conexion o un 500
-          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+          this.openSnackBar(this.messageErroServer, "Aceptar")
         }
         return throwError(error);
       }
@@ -155,10 +155,10 @@ export class PublicationComponent {
       catchError((error: any) => {
         if (error.status === 400) {
           // error para parametros invalidos 
-          this.openSnackBar("valores invalidos", "Aceptar")
+          this.openSnackBar(this.messageErrorParametros, "Aceptar")
         } else {
           // error de conexion o un 500
-          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+          this.openSnackBar(this.messageErroServer, "Aceptar");
         }
         return throwError(error);
       }
@@ -172,7 +172,6 @@ export class PublicationComponent {
 
 
   //usuarios 
-
   userService() {
     this.userRequest().subscribe((response: any) => this.userResponset(response))
   }
@@ -181,17 +180,16 @@ export class PublicationComponent {
       catchError((error: any) => {
         if (error.status === 400) {
           // error para parametros invalidos 
-          this.openSnackBar("valores invalidos", "Aceptar")
+          this.openSnackBar(this.messageErrorParametros, "Aceptar")
         } else {
           // error de conexion o un 500
-          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+          this.openSnackBar(this.messageErroServer, "Aceptar");
         }
         return throwError(error);
       }
       ))
   }
   userResponset(response: any) {
-
     this.users = response
     this.publicationsService()
   }
@@ -221,7 +219,7 @@ export class PublicationComponent {
   commentcreateService(c: any) {
     if (c == null || c == "") {
       console.log("vacio");
-      this.openSnackBar("Debes coloar un comentario", "Aceptar")
+      this.openSnackBarTime("Debes colocar un comentario")
     } else {
       this.commentcreateRequest(c).subscribe((response: any) => this.commentcreateResponset(response))
     }
@@ -235,10 +233,10 @@ export class PublicationComponent {
       catchError((error: any) => {
         if (error.status === 400) {
           // error para parametros invalidos 
-          this.openSnackBar("valores invalidos", "Aceptar")
+          this.openSnackBar(this.messageErrorParametros, "Aceptar")
         } else {
           // error de conexion o un 500
-          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+          this.openSnackBar(this.messageErroServer, "Aceptar");
         }
         return throwError(error);
       }
