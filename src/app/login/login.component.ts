@@ -140,7 +140,7 @@ export class LoginComponent {
 
   //para registrar al usuario
   registryService() {
-
+    this.router.navigateByUrl("/createUser")
   }
 
   //metodo diego
