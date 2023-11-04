@@ -25,7 +25,7 @@
       <!--  Aqui va la foto de la publicacion y el comentario -->
       <mat-card class="post-card">
         <img post-image
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
+          src={{images}}
           alt="Post 1">
         <p>{{publication}}</p>
         <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavorite }"

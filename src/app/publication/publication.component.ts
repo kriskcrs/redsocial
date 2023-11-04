@@ -41,12 +41,13 @@ export class PublicationComponent {
   idP: number = 0
   messageErroServer:string = "No existe conexion con el servidor"
   messageErrorParametros:string = "Parametros invalidos"
+  images: any = "https://ichef.bbci.co.uk/news/640/cpsprodpb/1811E/production/_110909589_gettyimages-1032516536-1.jpg"
 
 
 
   editingCommentIndex: number = -1;
 
- 
+
 
   //valida si la sesion esta vigente
   validateSession() {
@@ -78,7 +79,7 @@ export class PublicationComponent {
     return this.http.get<any>(this.path + "/dataUser/" + session).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
-          // error para parametros invalidos 
+          // error para parametros invalidos
           this.openSnackBar(this.messageErrorParametros, "Aceptar")
         } else {
           // error de conexion o un 500
@@ -129,7 +130,7 @@ export class PublicationComponent {
     return this.http.get<any>(this.path + "/consult/comment/" + this.idP).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
-          // error para parametros invalidos 
+          // error para parametros invalidos
           this.openSnackBar(this.messageErrorParametros, "Aceptar")
         } else {
           // error de conexion o un 500
@@ -144,7 +145,7 @@ export class PublicationComponent {
   }
 
 
-  //retorna todas las publicaciones 
+  //retorna todas las publicaciones
 
   publicationsService() {
     this.publicationsRequest().subscribe((response: any) => this.publicationsResponse(response))
@@ -153,7 +154,7 @@ export class PublicationComponent {
     return this.http.get<any>(this.path + "/consult/publications").pipe(
       catchError((error: any) => {
         if (error.status === 400) {
-          // error para parametros invalidos 
+          // error para parametros invalidos
           this.openSnackBar(this.messageErrorParametros, "Aceptar")
         } else {
           // error de conexion o un 500
@@ -172,7 +173,7 @@ export class PublicationComponent {
   }
 
 
-  //usuarios 
+  //usuarios
   userService() {
     this.userRequest().subscribe((response: any) => this.userResponset(response))
   }
@@ -180,7 +181,7 @@ export class PublicationComponent {
     return this.http.get<any>(this.path + "/users").pipe(
       catchError((error: any) => {
         if (error.status === 400) {
-          // error para parametros invalidos 
+          // error para parametros invalidos
           this.openSnackBar(this.messageErrorParametros, "Aceptar")
         } else {
           // error de conexion o un 500
@@ -232,7 +233,7 @@ export class PublicationComponent {
     return this.http.post<any>(this.path + "/create/comment", data).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
-          // error para parametros invalidos 
+          // error para parametros invalidos
           this.openSnackBar(this.messageErrorParametros, "Aceptar")
         } else {
           // error de conexion o un 500
@@ -251,7 +252,7 @@ export class PublicationComponent {
 
 
 
- 
+
 
  //elimina comentarios
   deleteComment(c:any){
@@ -263,7 +264,7 @@ export class PublicationComponent {
     return this.http.delete<any>(this.path + "/delete/comment/"+comment.idComment).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
-          // error para parametros invalidos 
+          // error para parametros invalidos
           this.openSnackBar(this.messageErrorParametros, "Aceptar")
         } else {
           // error de conexion o un 500
@@ -284,12 +285,12 @@ export class PublicationComponent {
 
   //edita comentario
 
-  
+
   editComment(index: number) {
     this.editingCommentIndex = index;
     this.comentarioModificado = this.comments[index].text;
   }
-  
+
 
 
 
@@ -304,9 +305,9 @@ export class PublicationComponent {
 
     });
   }
-  
- 
-  editCommentRequest(comment: any) { 
+
+
+  editCommentRequest(comment: any) {
     return this.http.post<any>(this.path + "/update/comment", comment).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
@@ -318,7 +319,7 @@ export class PublicationComponent {
       })
     );
   }
-  
+
   editCommentResponse(response: any) {
     this.openSnackBarTime(response.message);
     this.publicationsService();
