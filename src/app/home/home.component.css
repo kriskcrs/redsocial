@@ -5,7 +5,7 @@
     text-align: center;
 }
 
-.header img {
+.header img  {
     width: 150px;
 }
     
@@ -21,6 +21,8 @@ img{
     padding: 5px;
     transition: transform 0.2s;
     cursor: pointer;
+    width: 200px;
+
 }
 
 .center{
