@@ -327,10 +327,11 @@ export class PublicationComponent {
       this.imagenRequest().subscribe((response: any) => this.imagenResponse(response))
     
   }
-
-
   imagenRequest() {
-  let dato = "Escanear 1.jpeg"
+  let dato =this.publications[3].photo.idPhoto
+  console.log(dato);
+  
+  
     return this.http.get<any>(this.path + "/fileDown/"+dato ).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
