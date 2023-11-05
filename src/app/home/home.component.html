@@ -10,7 +10,7 @@
 
 <body>
     <div class="header">
-        
+
         <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
         <div class="example-button-container">
             <button mat-mini-fab color="primary"><i class="fa-solid fa-right-from-bracket"></i></button>
@@ -20,32 +20,14 @@
     <div  class="row">
         <div class="col-2">
         </div>
-        <div class="col-8 center">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
-            alt="Imagen 1">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
-            alt="Imagen 2">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
-            alt="Imagen 3">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
-            alt="Imagen 4">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
-            alt="Imagen 5">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
-            alt="Imagen 6">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
-            alt="Imagen 7">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
-            alt="Imagen 8">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
-            alt="Imagen 9">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
-            alt="Imagen 10">
-            
+        <div class="col-8 center" *ngFor="let publication of publications">
+            <img src={{publication.photo.route}}>
+          <p>{{publication.photo.route}}</p>
+
         </div>
         <div class="col-2">
         </div>
-        
+
     </div>
 
     <script src="home.component.ts"></script>

@@ -38,7 +38,7 @@ export class PublicationComponent {
   isFavorite = false;
   comentario: string = ""
   comentarioModificado:string =""
-  idP: number = 0
+  idP: number = 1
   messageErroServer:string = "No existe conexion con el servidor"
   messageErrorParametros:string = "Parametros invalidos"
   images: any = "https://ichef.bbci.co.uk/news/640/cpsprodpb/1811E/production/_110909589_gettyimages-1032516536-1.jpg"
@@ -148,9 +148,11 @@ export class PublicationComponent {
   //retorna todas las publicaciones
 
   publicationsService() {
+    console.log("paso acua publi")
     this.publicationsRequest().subscribe((response: any) => this.publicationsResponse(response))
   }
   publicationsRequest() {
+    console.log("entraicion en el request")
     return this.http.get<any>(this.path + "/consult/publications").pipe(
       catchError((error: any) => {
         if (error.status === 400) {
@@ -165,9 +167,10 @@ export class PublicationComponent {
       ))
   }
   publicationsResponse(response: any) {
+    console.log(response)
     this.publications = response
-    this.idP = this.publications[1].idPublication
-    this.publication = this.publications[1]
+    this.idP = this.publications[0].idPublication
+    this.publication = this.publications[0]
 
     this.commentService()
   }

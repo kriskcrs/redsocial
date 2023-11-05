@@ -24,7 +24,7 @@ interface Photo {
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
-  
+
 })
 
 
@@ -35,15 +35,18 @@ export class HomeComponent {
   constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
-   // this.validateSession(); 
+   // this.validateSession();
     this.dataUserService();
   }
 
   //vars
-  
+
   dataUser: any = {}
   path = this.url.url
   photos: any = {}
+  messageErroServer:string = "No existe conexion con el servidor"
+  messageErrorParametros:string = "Parametros invalidos"
+  publications: any = []
 
 
   //valida si la sesion esta vigente
@@ -72,7 +75,7 @@ export class HomeComponent {
       catchError((error: any) => {
         console.log("hola");
         if (error.status === 400) {
-          // error para parametros invalidos 
+          // error para parametros invalidos
           this.openSnackBar("valores invalidos", "Aceptar")
         } else {
           // error de conexion o un 500
@@ -89,7 +92,7 @@ export class HomeComponent {
       this.dataUser = response
       console.log(this.dataUser);
     }
-
+  this.publication();
   }
 
   //revoke
@@ -127,6 +130,29 @@ export class HomeComponent {
 
   fetchPhotos() {
     return this.http.get<Photo[]>(this.path);
+  }
+
+  //retorna todos los comentarios
+  publication() {
+    this.commentRequest().subscribe((response: any) => this.commentResult(response))
+  }
+  commentRequest() {
+    return this.http.get<any>(this.path + "/consult/publications").pipe(
+      catchError((error: any) => {
+          if (error.status === 400) {
+            // error para parametros invalidos
+            this.openSnackBar(this.messageErrorParametros, "Aceptar")
+          } else {
+            // error de conexion o un 500
+            this.openSnackBar(this.messageErroServer, "Aceptar")
+          }
+          return throwError(error);
+        }
+      ))
+  }
+  commentResult(response: any) {
+    this.publications = response
+    console.log(this.publications)
   }
 
 
