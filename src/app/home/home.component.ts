@@ -47,6 +47,7 @@ export class HomeComponent {
   messageErroServer:string = "No existe conexion con el servidor"
   messageErrorParametros:string = "Parametros invalidos"
   publications: any = []
+  publicationId: any = {}
 
 
   //valida si la sesion esta vigente
@@ -152,8 +153,16 @@ export class HomeComponent {
   }
   commentResult(response: any) {
     this.publications = response
-    console.log(this.publications)
+    console.log(this.publications[0].publication.idPublication)
   }
+
+publicationSet(id:any){
+  console.log('ID de la imagen clickeada: ' + id);
+  localStorage.setItem("idPublication", JSON.stringify(id));
+  this.router.navigateByUrl("/publication");
+
+}
+
 
 
 }

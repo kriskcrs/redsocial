@@ -8,7 +8,7 @@
 .header img  {
     width: 150px;
 }
-    
+
     body {
         font-family: Arial, sans-serif;
         background-color: #f0f0f0;
@@ -28,38 +28,42 @@ img{
 .center{
     text-align: center;
 }
- 
+
 
 
 /*para boton de logout*/
 section {
     display: table;
   }
-  
+
   .example-label {
     display: table-cell;
     font-size: 14px;
     margin-left: 8px;
     min-width: 120px;
   }
-  
+
   .example-button-row {
     display: table-cell;
     max-width: 600px;
   }
-  
+
   .example-button-row .mat-mdc-button-base {
     margin: 8px 8px 8px 0;
   }
-  
+
   .example-flex-container {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
   }
-  
+
   .example-button-container {
     display: flex;
     justify-content: right;
     width: 1890px;
+  }
+
+  .crear{
+    text-align: left;
   }

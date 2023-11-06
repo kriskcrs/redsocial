@@ -41,6 +41,7 @@ import { SetPasswordComponent } from './set-password/set-password.component';
 
 import { MatMenuModule } from '@angular/material/menu';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CreatePublicationComponent } from './create-publication/create-publication.component';
 
 
 
@@ -53,7 +54,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     PublicationComponent,
     CreateUserComponent,
     RecoverComponent,
-    SetPasswordComponent
+    SetPasswordComponent,
+    CreatePublicationComponent
   ],
   imports: [
     BrowserModule,

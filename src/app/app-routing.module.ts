@@ -7,6 +7,8 @@ import { PublicationComponent } from './publication/publication.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { RecoverComponent } from './recover/recover.component';
 import { SetPasswordComponent } from './set-password/set-password.component';
+import { CreatePublicationComponent } from './create-publication/create-publication.component';
+
 
 
 const routes: Routes = [
@@ -16,6 +18,7 @@ const routes: Routes = [
   { path: 'publication', component: PublicationComponent },
   { path: 'createUser', component: CreateUserComponent },
   { path: 'recover', component: RecoverComponent },
+  { path: 'create-publication', component: CreatePublicationComponent },
   { path: 'set-password', component: SetPasswordComponent },
   { path: '', redirectTo: "/login", pathMatch: "full" },
   { path: '**', redirectTo: 'not-found' },

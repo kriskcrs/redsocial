@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<body>
+<div class="header">
+  <!--
+  Encabezado global
+  -->
+  <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
+</div>
+<div class="row">
+
+  <div class="col-2"></div>
+  <div class="col-4">
+    <!--  Aqui va la foto de la publicacion y el comentario -->
+    <mat-card class="post-card">
+      <img post-image
+           src="https://ichef.bbci.co.uk/news/640/cpsprodpb/1811E/production/_110909589_gettyimages-1032516536-1.jpg"
+           alt="Post 1">
+      <p>{{publication}}</p>
+      <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavorite }"
+              (click)="toggleFavorite()">
+        <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+      </button>
+      <mat-card-content>
+        <button mat-raised-button color="primary" (click)="commentcreateService(comentario)">Publicar</button>
+      </mat-card-content>
+    </mat-card>
+
+
+  </div>
+
+  <div class="col-4">
+    <!-- Comentarios de la publicacion -->
+    <div class="card" style="width: 23rem;">
+      <ul class="list-group list-group-flush" *ngFor="let comment of comments; let i = index">
+        <li class="list-group">&nbsp;&nbsp;{{ getNameUser(comment.idPublication) }}</li>
+        <li class="list-group-item">
+          &nbsp;{{ comment.text }}
+
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="editComment(i)"><i class="fa-solid fa-pen"></i>&nbsp;
+              <span>Editar</span>
+            </button>
+
+            <button mat-menu-item (click)="deleteComment(comment)"><i class="fa-solid fa-trash"></i> &nbsp;
+              <span>Eliminar</span>
+            </button>
+          </mat-menu>
+
+
+
+          <div class="input-group" *ngIf="editingCommentIndex === i">
+              <textarea class="form-control" aria-label="With textarea"
+                        [(ngModel)]="comentarioModificado">{{ comment.text }}</textarea>
+          </div>
+
+
+          <button mat-menu-item (click)="saveComment(comentarioModificado,comment)" *ngIf="editingCommentIndex === i">
+            <i class="fa-solid fa-floppy-disk"></i>&nbsp;
+            <span>guardar</span>
+          </button>
+
+        </li>
+      </ul>
+    </div>
+
+    <br><br>
+  </div>
+  <div class="col-2"></div>
+</div>
+</body>
+
+</html>
