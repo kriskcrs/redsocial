@@ -74,7 +74,6 @@ export class HomeComponent {
     let session = this.dataUser.session
     return this.http.get<any>(this.path + "/dataUser/" + session).pipe(
       catchError((error: any) => {
-        console.log("hola");
         if (error.status === 400) {
           // error para parametros invalidos
           this.openSnackBar("valores invalidos", "Aceptar")

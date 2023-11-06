@@ -42,7 +42,7 @@ export class PublicationComponent {
   messageErroServer:string = "No existe conexion con el servidor"
   messageErrorParametros:string = "Parametros invalidos"
   images: any = "https://ichef.bbci.co.uk/news/640/cpsprodpb/1811E/production/_110909589_gettyimages-1032516536-1.jpg"
-
+  imagenDataUrl: string =""
 
 
   editingCommentIndex: number = -1;
@@ -169,10 +169,11 @@ export class PublicationComponent {
   publicationsResponse(response: any) {
     console.log(response)
     this.publications = response
-    this.idP = this.publications[0].idPublication
+    this.idP = this.publications[0].publication.idPublication
     this.publication = this.publications[0]
 
     this.commentService()
+    this.imagenService()
   }
 
 
@@ -225,7 +226,7 @@ export class PublicationComponent {
     if (c == null || c == "") {
       this.openSnackBarTime("Debes colocar un comentario")
     } else {
-      this.commentcreateRequest(c).subscribe((response: any) => this.commentcreateResponset(response))
+      this.commentcreateRequest(c).subscribe((response: any) => this.commentcreateResponse(response))
     }
   }
   commentcreateRequest(comment: any) {
@@ -246,7 +247,7 @@ export class PublicationComponent {
       }
       ))
   }
-  commentcreateResponset(response: any) {
+  commentcreateResponse(response: any) {
     this.openSnackBarTime(response.message)
     this.publicationsService()
     this.comentario = ""
@@ -262,7 +263,6 @@ export class PublicationComponent {
    console.log(c);
    this.deleteCommentRequest(c).subscribe((response: any) => this.deleteCommentResponse(response))
   }
-
   deleteCommentRequest(comment: any) {
     return this.http.delete<any>(this.path + "/delete/comment/"+comment.idComment).pipe(
       catchError((error: any) => {
@@ -285,18 +285,11 @@ export class PublicationComponent {
 
 
 
-
   //edita comentario
-
-
   editComment(index: number) {
     this.editingCommentIndex = index;
     this.comentarioModificado = this.comments[index].text;
   }
-
-
-
-
   saveComment(commentM:any,comment:any) {
     let comentarioModificado ={
       idComment:comment.idComment,
@@ -308,8 +301,6 @@ export class PublicationComponent {
 
     });
   }
-
-
   editCommentRequest(comment: any) {
     return this.http.post<any>(this.path + "/update/comment", comment).pipe(
       catchError((error: any) => {
@@ -322,13 +313,43 @@ export class PublicationComponent {
       })
     );
   }
-
   editCommentResponse(response: any) {
     this.openSnackBarTime(response.message);
     this.publicationsService();
     this.comentario = "";
     this.editingCommentIndex = -1;
   }
+
+  //imagenes
+
+  imagenService() {
+ 
+      this.imagenRequest().subscribe((response: any) => this.imagenResponse(response))
+    
+  }
+  imagenRequest() {
+  let dato =this.publications[3].photo.idPhoto
+  console.log(dato);
+  
+  
+    return this.http.get<any>(this.path + "/fileDown/"+dato ).pipe(
+      catchError((error: any) => {
+        if (error.status === 400) {
+          // error para parametros invalidos
+          this.openSnackBar(this.messageErrorParametros, "Aceptar")
+        } else {
+          // error de conexion o un 500
+          this.openSnackBar(this.messageErroServer, "Aceptar");
+        }
+        return throwError(error);
+      }
+      ))
+  }
+  imagenResponse(response: any) {
+   console.log(response.ruta);
+   this.imagenDataUrl = response.ruta
+  }
+
 
 
 }
