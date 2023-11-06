@@ -134,9 +134,9 @@ export class HomeComponent {
 
   //retorna todos los comentarios
   publication() {
-    this.commentRequest().subscribe((response: any) => this.commentResult(response))
+    this.publicationRequest().subscribe((response: any) => this.publicationResult(response))
   }
-  commentRequest() {
+  publicationRequest() {
     return this.http.get<any>(this.path + "/consult/publications").pipe(
       catchError((error: any) => {
           if (error.status === 400) {
@@ -150,9 +150,9 @@ export class HomeComponent {
         }
       ))
   }
-  commentResult(response: any) {
+  publicationResult(response: any) {
     this.publications = response
-    console.log(this.publications[0].publication.idPublication)
+    console.log(this.publications)
   }
 
 publicationSet(id:any){

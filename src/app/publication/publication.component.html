@@ -15,8 +15,8 @@
       <span class="hamburger hamburger-2"></span>
       <span class="hamburger hamburger-3"></span>
     </label>
-    <a href="#" class="menu-item"> <i class="fa-solid fa-plus "></i> </a>
-    <a href="#" class="menu-item"> <i class="fa-solid fa-address-card "></i> </a>
+    <a href="#" class="menu-item"> <i class="fa-solid fa-pen-to-square"></i> </a>
+    <a href="#" class="menu-item"> <i class="fa-solid fa-trash"></i> </a>
   </nav>
   <div class="row">
 
@@ -28,10 +28,7 @@
           <p>imagen x</p>
           <img src="{{imagenDataUrl}}" alt="Imagen">
         </div>
-        <img post-image
-          src={{images}}
-          alt="Post 1">
-        <p>{{publication}}</p>
+        <p>{{publications.decription}}</p>
         <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavorite }"
           (click)="toggleFavorite()">
           <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>

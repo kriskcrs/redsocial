@@ -38,11 +38,12 @@ export class PublicationComponent {
   isFavorite = false;
   comentario: string = ""
   comentarioModificado:string =""
-  idP: number = 1
+  idP: any = localStorage.getItem("idPublication")
   messageErroServer:string = "No existe conexion con el servidor"
   messageErrorParametros:string = "Parametros invalidos"
   images: any = "https://ichef.bbci.co.uk/news/640/cpsprodpb/1811E/production/_110909589_gettyimages-1032516536-1.jpg"
   imagenDataUrl: string =""
+  photo: any={}
 
 
   editingCommentIndex: number = -1;
@@ -153,7 +154,7 @@ export class PublicationComponent {
   }
   publicationsRequest() {
     console.log("entraicion en el request")
-    return this.http.get<any>(this.path + "/consult/publications").pipe(
+    return this.http.get<any>(this.path + "/consult/publication/"+this.idP).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
           // error para parametros invalidos
@@ -167,10 +168,8 @@ export class PublicationComponent {
       ))
   }
   publicationsResponse(response: any) {
-    console.log(response)
     this.publications = response
-    this.idP = this.publications[0].publication.idPublication
-    this.publication = this.publications[0]
+    console.log(this.publications.photoIdPhoto)
 
     this.commentService()
     this.imagenService()
@@ -323,15 +322,15 @@ export class PublicationComponent {
   //imagenes
 
   imagenService() {
- 
+
       this.imagenRequest().subscribe((response: any) => this.imagenResponse(response))
-    
+
   }
   imagenRequest() {
-  let dato =this.publications[3].photo.idPhoto
-  console.log(dato);
-  
-  
+  let dato:any =this.publications.photoIdPhoto
+  console.log(this.publications.photoIdPhoto);
+
+
     return this.http.get<any>(this.path + "/fileDown/"+dato ).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
@@ -346,7 +345,8 @@ export class PublicationComponent {
       ))
   }
   imagenResponse(response: any) {
-   console.log(response.ruta);
+    console.log("aca rut ")
+   console.log(response);
    this.imagenDataUrl = response.ruta
   }
 
