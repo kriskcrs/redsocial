@@ -289,7 +289,8 @@ export class PublicationComponent {
     let comentarioModificado ={
       idComment:comment.idComment,
       idPublication:comment.idPublication,
-      text:commentM
+      text:commentM,
+      userIdUser: this.dataUser.idUser
     }
     this.editCommentRequest(comentarioModificado).subscribe((response: any) => {
       this.editCommentResponse(response);
