@@ -43,11 +43,19 @@ export class HomeComponent {
 
   dataUser: any = {}
   path = this.url.url
+
   photos: any = {}
   messageErroServer:string = "No existe conexion con el servidor"
   messageErrorParametros:string = "Parametros invalidos"
   publications: any = []
   publicationId: any = {}
+
+  imagen : string = "https://react-diboy-desaweb.s3.amazonaws.com/favicon.ico"
+
+  open(){
+    console.log("Open Imagen");
+    
+  }
 
 
   //valida si la sesion esta vigente

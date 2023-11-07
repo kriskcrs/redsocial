@@ -23,10 +23,10 @@
     <div class="col-2"></div>
     <div class="col-4">
       <!--  Aqui va la foto de la publicacion y el comentario -->
-      <mat-card class="post-card">
+      <mat-card class="post-card"  *ngFor="let publication of publications"> 
         <div class="header">
           <p>imagen x</p>
-          <img src="{{imagenDataUrl}}" alt="Imagen">
+          <img src="assets/{{publication.photo.idPhoto}}" alt="Imagen">
         </div>
         <p>{{publications.decription}}</p>
         <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavorite }"
@@ -49,7 +49,7 @@
       <!-- Comentarios de la publicacion -->
       <div class="card" style="width: 23rem;">
         <ul class="list-group list-group-flush" *ngFor="let comment of comments; let i = index">
-          <li class="list-group">&nbsp;&nbsp;{{ getNameUser(comment.idPublication) }}</li>
+          <li class="list-group">&nbsp;&nbsp;{{ comment.userIdUser }}</li>
           <li class="list-group-item">
             &nbsp;{{ comment.text }}
 
@@ -65,24 +65,17 @@
                 <span>Eliminar</span>
               </button>
             </mat-menu>
-
-
-
             <div class="input-group" *ngIf="editingCommentIndex === i">
               <textarea class="form-control" aria-label="With textarea"
                 [(ngModel)]="comentarioModificado">{{ comment.text }}</textarea>
             </div>
-
-
             <button mat-menu-item (click)="saveComment(comentarioModificado,comment)" *ngIf="editingCommentIndex === i">
               <i class="fa-solid fa-floppy-disk"></i>&nbsp;
               <span>guardar</span>
             </button>
-
           </li>
         </ul>
       </div>
-
       <br><br>
     </div>
     <div class="col-2"></div>
