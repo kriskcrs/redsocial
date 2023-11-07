@@ -1,10 +1,11 @@
-import {Component, ViewChild} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../app.component';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { throwError } from 'rxjs';
+
 @Component({
   selector: 'app-create-publication',
   templateUrl: './create-publication.component.html',
@@ -15,30 +16,33 @@ export class CreatePublicationComponent {
 
   ngOnInit() {
     this.validateSession();
-    this.userService()
+  
   }
 
   //vars
   dataUser: any = {}
   path = this.url.url
   comments: any = []
-  publication:any = {}
+  publication: any = {}
   publications: any = []
   users: any = []
   isFavorite = false;
   comentario: string = ""
-  comentarioModificado:string =""
+  comentarioModificado: string = ""
   idP: number = 1
-  messageErroServer:string = "No existe conexion con el servidor"
-  messageErrorParametros:string = "Parametros invalidos"
+  messageErroServer: string = "No existe conexion con el servidor"
+  messageErrorParametros: string = "Parametros invalidos"
   editingCommentIndex: number = -1;
   file: any
   imageSrc: string | ArrayBuffer | null = null;
   @ViewChild('fileInput') fileInput: any;
-  urlImages: any = "C:\\Users\\josue\\WebstormProjects\\redsocial\\src\\assets"
-  serve:any=10.10
+  urlImages: any = "/Users/cristiancaceres/WebstormProjects/redsocial/src/assets"
+  serve: any = 10.10
   hide = true;
-  dataCreate:any ={}
+  dataCreate: any = {}
+
+
+   formData = new FormData();
   //valida si la sesion esta vigente
   validateSession() {
     this.dataUser = localStorage.getItem("data")
@@ -116,70 +120,36 @@ export class CreatePublicationComponent {
 
   //crea la publicacion
 
-  publicationsService() {
-    let formularioValido: any = document.getElementById("add");
-    if(formularioValido.reportValidity()){
-      this.publicationsRequest().subscribe((response: any) => this.publicationsResponse(response))
-    }
-  }
-  publicationsRequest() {
-    return this.http.post<any>(this.path + "/createPublication",this.dataCreate, { observe: 'response' }).pipe(
-      catchError((error: any) => {
-          if (error.status === 400) {
-            // error para parametros invalidos
-            this.openSnackBar(this.messageErrorParametros, "Aceptar")
-          } else {
-            // error de conexion o un 500
-            this.openSnackBar(this.messageErroServer, "Aceptar");
-          }
-          return throwError(error);
-        }
-      ))
-  }
-  publicationsResponse(response: any) {
-  }
+   publicationsService() {
+     let formularioValido: any = document.getElementById("add");
+     if(formularioValido.reportValidity()){
+       this.publicationsRequest().subscribe((response: any) => this.publicationsResponse(response))
+     }
+   }
+   publicationsRequest() {
+    console.log(this.dataCreate);
+    
+     return this.http.post<any>(this.path + "/createPublication",this.dataCreate, { observe: 'response' }).pipe(
+       catchError((error: any) => {
+           if (error.status === 400) {
+             // error para parametros invalidos
+             this.openSnackBar(this.messageErrorParametros, "Aceptar")
+           } else {
+             // error de conexion o un 500
+             this.openSnackBar(this.messageErroServer, "Aceptar");
+           }
+           return throwError(error);
+         }
+       ))
+   }
+   publicationsResponse(response: any) {
+    console.log(response);
+    
+   }
+ 
 
 
-  //usuarios
-  userService() {
-    this.userRequest().subscribe((response: any) => this.userResponset(response))
-  }
-  userRequest() {
-    return this.http.get<any>(this.path + "/users").pipe(
-      catchError((error: any) => {
-          if (error.status === 400) {
-            // error para parametros invalidos
-            this.openSnackBar(this.messageErrorParametros, "Aceptar")
-          } else {
-            // error de conexion o un 500
-            this.openSnackBar(this.messageErroServer, "Aceptar");
-          }
-          return throwError(error);
-        }
-      ))
-  }
-  userResponset(response: any) {
-    this.users = response
-  }
-
-
-
-  //obtiene nombre de usuario
-  getNameUser(id: any): string {
-    for (const publication of this.publications) {
-      if (publication.idPublication === id) {
-        for (const user of this.users) {
-          if (user.idUser === publication.userIdUser) {
-            return user.name + " " + user.lastName;
-          }
-        }
-      }
-    }
-    return '';
-  }
-
-
-//imagenes
+  //imagenes
   onFileSelected(event: any) {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
@@ -198,29 +168,47 @@ export class CreatePublicationComponent {
   }
   imagenService() {
     this.imagenRequest(this.file, this.urlImages, this.dataUser.idUser, this.serve).subscribe((response: any) => this.imagenResponse(response))
-
   }
-  imagenRequest(file: File,path:any,user:any,server:any) {
-    const formData = {file,path,user,server};
-    console.log(formData)
+  imagenRequest(file: File, path: any, user: any, server: any) {
+
+
+   // const formData = { file, path, user, server };
+   const formData = new FormData()
+   formData.append('file', file)
+   formData.append('server', server)
+   formData.append('path', path)
+   formData.append('user', user)
+   
+   console.log(formData)
+   console.log(path);
+   console.log(user);
+   console.log(server);
+   
+   
+   
+
+console.log(this.path);
 
     return this.http.post<any>(this.path + "/fileUp", formData, { observe: 'response' }).pipe(
       catchError((error: any) => {
-          if (error.status === 400) {
-            // error para parametros invalidos
-            this.openSnackBar(this.messageErrorParametros, "Aceptar")
-          } else {
-            // error de conexion o un 500
-            this.openSnackBar(this.messageErroServer, "Aceptar");
-          }
-          return throwError(error);
+        if (error.status === 400) {
+          // error para parametros invalidos
+          this.openSnackBar(this.messageErrorParametros, "Aceptar")
+        } else {
+          // error de conexion o un 500
+          this.openSnackBar(this.messageErroServer, "Aceptar");
         }
+        return throwError(error);
+      }
       ))
   }
   imagenResponse(response: any) {
-    console.log("aca rut ")
-    console.log(response);
-    this.publicationsService()
+  
+   console.log("respondio el servicio de imagen ");
+   console.log(response);
+   
   }
+
+
 
 }
