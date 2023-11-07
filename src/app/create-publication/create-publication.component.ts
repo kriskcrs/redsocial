@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../app.component';
 import { HttpClient } from "@angular/common/http";
@@ -15,7 +15,7 @@ export class CreatePublicationComponent {
 
   ngOnInit() {
     // this.validateSession(); habilitar a futuro
-    //this.dataUserService()
+    this.userService()
   }
 
   //vars
@@ -32,6 +32,13 @@ export class CreatePublicationComponent {
   messageErroServer:string = "No existe conexion con el servidor"
   messageErrorParametros:string = "Parametros invalidos"
   editingCommentIndex: number = -1;
+  file: any
+  imageSrc: string | ArrayBuffer | null = null;
+  @ViewChild('fileInput') fileInput: any;
+  urlImages: any = "C:\\Users\\josue\\WebstormProjects\\redsocial\\src\\assets"
+  serve:any=10.10
+  hide = true;
+  dataCreate:any ={}
 
   //valida si la sesion esta vigente
   validateSession() {
@@ -106,28 +113,6 @@ export class CreatePublicationComponent {
   }
 
 
-  //retorna todos los comentarios
-  commentService() {
-    this.commentRequest().subscribe((response: any) => this.commentResult(response))
-  }
-  commentRequest() {
-    return this.http.get<any>(this.path + "/consult/comment/" + this.idP).pipe(
-      catchError((error: any) => {
-          if (error.status === 400) {
-            // error para parametros invalidos
-            this.openSnackBar(this.messageErrorParametros, "Aceptar")
-          } else {
-            // error de conexion o un 500
-            this.openSnackBar(this.messageErroServer, "Aceptar")
-          }
-          return throwError(error);
-        }
-      ))
-  }
-  commentResult(response: any) {
-    this.comments = response
-  }
-
 
   //retorna todas las publicaciones
 
@@ -155,8 +140,6 @@ export class CreatePublicationComponent {
     this.publications = response
     this.idP = this.publications[0].idPublication
     this.publication = this.publications[0]
-
-    this.commentService()
   }
 
 
@@ -199,25 +182,36 @@ export class CreatePublicationComponent {
     return '';
   }
 
-  //icono de corazon
-  toggleFavorite() {
-    this.isFavorite = !this.isFavorite;
+
+//imagenes
+  onFileSelected(event: any) {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imageSrc = reader.result;
+      };
+      reader.readAsDataURL(selectedFile);
+      this.file = selectedFile
+      console.log(this.file)
+    }
   }
 
-  //graba comentario
-  commentcreateService(c: any) {
-    if (c == null || c == "") {
-      this.openSnackBarTime("Debes colocar un comentario")
-    } else {
-      this.commentcreateRequest(c).subscribe((response: any) => this.commentcreateResponset(response))
-    }
+  selectImage() {
+    // Hacer clic en el input de tipo archivo para abrir el cuadro de diálogo de selección de archivo
+    this.fileInput.nativeElement.click();
   }
-  commentcreateRequest(comment: any) {
-    let data = {
-      text: comment,
-      idPublication: this.idP
-    }
-    return this.http.post<any>(this.path + "/create/comment", data).pipe(
+  imagenService() {
+
+    this.imagenRequest(this.file, this.urlImages, this.users, this.serve).subscribe((response: any) => this.imagenResponse(response))
+
+  }
+  imagenRequest(file: File,path:any,user:any,server:any) {
+    let dato:any =this.publications.photoIdPhoto
+    console.log(this.publications.photoIdPhoto);
+
+
+    return this.http.post<any>(this.path + "/fileUp", dato, { observe: 'response' }).pipe(
       catchError((error: any) => {
           if (error.status === 400) {
             // error para parametros invalidos
@@ -230,90 +224,9 @@ export class CreatePublicationComponent {
         }
       ))
   }
-  commentcreateResponset(response: any) {
-    this.openSnackBarTime(response.message)
-    this.publicationsService()
-    this.comentario = ""
+  imagenResponse(response: any) {
+    console.log("aca rut ")
+    console.log(response);
   }
-
-
-
-
-
-
-  //elimina comentarios
-  deleteComment(c:any){
-    console.log(c);
-    this.deleteCommentRequest(c).subscribe((response: any) => this.deleteCommentResponse(response))
-  }
-
-  deleteCommentRequest(comment: any) {
-    return this.http.delete<any>(this.path + "/delete/comment/"+comment.idComment).pipe(
-      catchError((error: any) => {
-          if (error.status === 400) {
-            // error para parametros invalidos
-            this.openSnackBar(this.messageErrorParametros, "Aceptar")
-          } else {
-            // error de conexion o un 500
-            this.openSnackBar(this.messageErroServer, "Aceptar");
-          }
-          return throwError(error);
-        }
-      ))
-  }
-  deleteCommentResponse(response: any) {
-    this.openSnackBarTime(response.message)
-    this.publicationsService()
-    this.comentario = ""
-  }
-
-
-
-
-  //edita comentario
-
-
-  editComment(index: number) {
-    this.editingCommentIndex = index;
-    this.comentarioModificado = this.comments[index].text;
-  }
-
-
-
-
-  saveComment(commentM:any,comment:any) {
-    let comentarioModificado ={
-      idComment:comment.idComment,
-      idPublication:comment.idPublication,
-      text:commentM
-    }
-    this.editCommentRequest(comentarioModificado).subscribe((response: any) => {
-      this.editCommentResponse(response);
-
-    });
-  }
-
-
-  editCommentRequest(comment: any) {
-    return this.http.post<any>(this.path + "/update/comment", comment).pipe(
-      catchError((error: any) => {
-        if (error.status === 400) {
-          this.openSnackBar(this.messageErrorParametros, "Aceptar");
-        } else {
-          this.openSnackBar(this.messageErroServer, "Aceptar");
-        }
-        return throwError(error);
-      })
-    );
-  }
-
-  editCommentResponse(response: any) {
-    this.openSnackBarTime(response.message);
-    this.publicationsService();
-    this.comentario = "";
-    this.editingCommentIndex = -1;
-  }
-
-
 
 }

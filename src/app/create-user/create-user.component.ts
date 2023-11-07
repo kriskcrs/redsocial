@@ -90,6 +90,7 @@ export class CreateUserComponent {
   userCreationResponse(response: any) {
 if (response.status === 200) {
   this.openSnackBar("Usuario creado correctamente", "Aceptar");
+  this.router.navigateByUrl("/")
     }
     else {
       console.log(`Recibí un código de estado inesperado: ${response.status}`);

@@ -162,6 +162,8 @@ publicationSet(id:any){
 
 }
 
-
+creacionpubli(){
+  this.router.navigateByUrl("/create-publication");
+}
 
 }
