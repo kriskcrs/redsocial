@@ -35,7 +35,7 @@ export class PublicationComponent {
   idP: any = localStorage.getItem("idPublication")
   messageErroServer: string = "No existe conexion con el servidor"
   messageErrorParametros: string = "Parametros invalidos"
-  images: any = "https://ichef.bbci.co.uk/news/640/cpsprodpb/1811E/production/_110909589_gettyimages-1032516536-1.jpg"
+
   imagenDataUrl: string = ""
   photo: any = {}
   userLogin: boolean = false;
@@ -164,11 +164,7 @@ export class PublicationComponent {
   }
   publicationsResponse(response: any) {
     this.publications = response
-
-
-
     this.commentService()
-    // this.imagenService()
   }
 
 

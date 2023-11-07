@@ -36,7 +36,8 @@ export class CreatePublicationComponent {
   file: any
   imageSrc: string | ArrayBuffer | null = null;
   @ViewChild('fileInput') fileInput: any;
-  urlImages: any = "C:\\Users\\josue\\WebstormProjects\\redsocial\\src\\assets"
+  //urlImages: any = "C:\\Users\\josue\\WebstormProjects\\redsocial\\src\\assets"
+  urlImages: any = "/Users/cristiancaceres/WebstormProjects/redsocial/src/assets"
   serve: any = 10.10
   hide = true;
   dataCreate: any = {}
@@ -196,8 +197,10 @@ export class CreatePublicationComponent {
       ))
   }
   imagenResponse(response: any) {
+    console.log(response);
+    
     const rutaOriginal = response.body.ruta_original;
-    const partes = rutaOriginal.split('original\\');
+    const partes = rutaOriginal.split('original');
     this.idPhot = partes[1];
     this.publicationsService()
 
