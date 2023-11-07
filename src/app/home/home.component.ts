@@ -39,6 +39,12 @@ export class HomeComponent {
   //vars
   dataUser: any = {}
   path = this.url.url
+  imagen : string = "https://react-diboy-desaweb.s3.amazonaws.com/favicon.ico"
+
+  open(){
+    console.log("Open Imagen");
+    
+  }
 
 
   //valida si la sesion esta vigente
