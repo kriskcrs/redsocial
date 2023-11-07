@@ -19,25 +19,25 @@ export class PublicationComponent {
   constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
-     this.validateSession()
+    this.validateSession()
   }
 
   //vars
   dataUser: any = {}
   path = this.url.url
   comments: any = []
-  publication:any = {}
+  publication: any = {}
   publications: any = []
   users: any = []
   isFavorite = false;
   comentario: string = ""
-  comentarioModificado:string =""
+  comentarioModificado: string = ""
   idP: any = localStorage.getItem("idPublication")
-  messageErroServer:string = "No existe conexion con el servidor"
-  messageErrorParametros:string = "Parametros invalidos"
+  messageErroServer: string = "No existe conexion con el servidor"
+  messageErrorParametros: string = "Parametros invalidos"
   images: any = "https://ichef.bbci.co.uk/news/640/cpsprodpb/1811E/production/_110909589_gettyimages-1032516536-1.jpg"
-  imagenDataUrl: string =""
-  photo: any={}
+  imagenDataUrl: string = ""
+  photo: any = {}
 
 
   editingCommentIndex: number = -1;
@@ -48,7 +48,7 @@ export class PublicationComponent {
     if (this.dataUser != null) {
       this.dataUser = JSON.parse(this.dataUser)
       this.dataUserService()
- 
+
     } else {
       this.router.navigateByUrl("/")
     }
@@ -69,7 +69,7 @@ export class PublicationComponent {
     this.dataUserRequest().subscribe((response: any) => this.dataUserResponse(response))
   }
   dataUserRequest() {
-    let session = this.dataUser.session    
+    let session = this.dataUser.session
     return this.http.get<any>(this.path + "/dataUser/" + session).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
@@ -88,7 +88,6 @@ export class PublicationComponent {
       // this.revokeService()
     } else {
       this.dataUser = response
-      console.log(this.dataUser);
       this.userService()
     }
 
@@ -137,19 +136,19 @@ export class PublicationComponent {
   }
   commentResult(response: any) {
     this.comments = response
-    console.log(this.comments);
-    
+
+
   }
 
 
   //retorna todas las publicaciones
 
   publicationsService() {
-    console.log("ingresa a publication service")
+
     this.publicationsRequest().subscribe((response: any) => this.publicationsResponse(response))
   }
   publicationsRequest() {
-    return this.http.get<any>(this.path + "/consult/publication/"+this.idP).pipe(
+    return this.http.get<any>(this.path + "/consult/publication/" + this.idP).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
           // error para parametros invalidos
@@ -164,11 +163,11 @@ export class PublicationComponent {
   }
   publicationsResponse(response: any) {
     this.publications = response
-    console.log(this.publications)
 
-    
+
+
     this.commentService()
-   // this.imagenService()
+    // this.imagenService()
   }
 
 
@@ -200,7 +199,7 @@ export class PublicationComponent {
   //obtiene nombre de usuario
   getNameUser(id: any): string {
 
-  
+
     for (const publication of this.publications) {
       if (publication.idPublication === id) {
         for (const user of this.users) {
@@ -254,12 +253,16 @@ export class PublicationComponent {
 
 
 
- //elimina comentarios
-  deleteComment(c:any){
-   this.deleteCommentRequest(c).subscribe((response: any) => this.deleteCommentResponse(response))
+  //elimina comentarios
+  deleteComment(c: any) {
+    if (c.userIdUser == this.dataUser.idUser) {
+      this.deleteCommentRequest(c).subscribe((response: any) => this.deleteCommentResponse(response))
+    } else {
+      this.openSnackBarTime("No puedes eliminar el comentario de otro usuario")
+    }
   }
   deleteCommentRequest(comment: any) {
-    return this.http.delete<any>(this.path + "/delete/comment/"+comment.idComment).pipe(
+    return this.http.delete<any>(this.path + "/delete/comment/" + comment.idComment).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
           // error para parametros invalidos
@@ -285,17 +288,24 @@ export class PublicationComponent {
     this.editingCommentIndex = index;
     this.comentarioModificado = this.comments[index].text;
   }
-  saveComment(commentM:any,comment:any) {
-    let comentarioModificado ={
-      idComment:comment.idComment,
-      idPublication:comment.idPublication,
-      text:commentM,
-      userIdUser: this.dataUser.idUser
-    }
-    this.editCommentRequest(comentarioModificado).subscribe((response: any) => {
-      this.editCommentResponse(response);
+  saveComment(commentM: any, comment: any) {
+    if (comment.userIdUser == this.dataUser.idUser) {
 
-    });
+      let comentarioModificado = {
+        idComment: comment.idComment,
+        idPublication: comment.idPublication,
+        text: commentM,
+        userIdUser: this.dataUser.idUser
+      }
+      this.editCommentRequest(comentarioModificado).subscribe((response: any) => {
+        this.editCommentResponse(response);
+      })
+    } else {
+      this.openSnackBarTime("No puedes modificar el comentario de otro usuario")
+    }
+
+
+
   }
   editCommentRequest(comment: any) {
     return this.http.post<any>(this.path + "/update/comment", comment).pipe(
