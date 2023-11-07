@@ -66,14 +66,18 @@ export class CreateUserComponent {
   }
 
   userCreation() {
-    let formularioValido: any = document.getElementById("add");
-    if (formularioValido.reportValidity()) {
-      this.userCreationRequest().subscribe(
-        (response: any) => this.userCreationResponse(response)
-      )
+    if(this.email.valid){
+      let formularioValido: any = document.getElementById("add");
+      if (formularioValido.reportValidity()) {
+        this.userCreationRequest().subscribe(
+            (response: any) => this.userCreationResponse(response)
+        )
 
-    }  }
+      }
+    }
+  }
   userCreationRequest() {
+    this.dataCreate.idUser=this.email.value
     return this.http.post<any>(this.path + "/createUser", this.dataCreate, { observe: 'response' }).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
@@ -81,7 +85,7 @@ export class CreateUserComponent {
           this.openSnackBar(error.error.message, "Aceptar");
         } else {
           // error de conexión o un 500
-          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+          this.openSnackBar("Datos invalidos", "Aceptar");
         }
         return throwError(error);
       })
