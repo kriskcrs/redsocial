@@ -24,9 +24,8 @@
     <div class="col-4">
       <!--  Aqui va la foto de la publicacion y el comentario -->
       <mat-card class="post-card"  *ngFor="let publication of publications"> 
-        <div class="header">
-          <p>imagen x</p>
-          <img src="assets/{{publication.photo.idPhoto}}" alt="Imagen">
+        <div>
+          <img src="assets/original/{{publication.photo.idPhoto}}" width="400px">
         </div>
         <p>{{publications.decription}}</p>
         <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavorite }"
