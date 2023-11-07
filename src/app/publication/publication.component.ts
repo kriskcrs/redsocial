@@ -7,15 +7,11 @@ import { Router } from "@angular/router";
 import { throwError } from 'rxjs';
 
 
-
 @Component({
   selector: 'app-publication',
   templateUrl: './publication.component.html',
   styleUrls: ['./publication.component.css']
 })
-
-
-
 
 export class PublicationComponent {
 
@@ -23,9 +19,7 @@ export class PublicationComponent {
   constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
-    // this.validateSession(); habilitar a futuro
-    //this.dataUserService()
-    this.userService()
+     this.validateSession()
   }
 
   //vars
@@ -48,14 +42,13 @@ export class PublicationComponent {
 
   editingCommentIndex: number = -1;
 
-
-
   //valida si la sesion esta vigente
   validateSession() {
     this.dataUser = localStorage.getItem("data")
     if (this.dataUser != null) {
       this.dataUser = JSON.parse(this.dataUser)
-      this.dataUserService();
+      this.dataUserService()
+ 
     } else {
       this.router.navigateByUrl("/")
     }
@@ -76,7 +69,7 @@ export class PublicationComponent {
     this.dataUserRequest().subscribe((response: any) => this.dataUserResponse(response))
   }
   dataUserRequest() {
-    let session = this.dataUser.session
+    let session = this.dataUser.session    
     return this.http.get<any>(this.path + "/dataUser/" + session).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
@@ -95,10 +88,11 @@ export class PublicationComponent {
       // this.revokeService()
     } else {
       this.dataUser = response
+      console.log(this.dataUser);
+      this.userService()
     }
 
   }
-
 
 
   //revoke
@@ -143,17 +137,18 @@ export class PublicationComponent {
   }
   commentResult(response: any) {
     this.comments = response
+    console.log(this.comments);
+    
   }
 
 
   //retorna todas las publicaciones
 
   publicationsService() {
-    console.log("paso acua publi")
+    console.log("ingresa a publication service")
     this.publicationsRequest().subscribe((response: any) => this.publicationsResponse(response))
   }
   publicationsRequest() {
-    console.log("entraicion en el request")
     return this.http.get<any>(this.path + "/consult/publication/"+this.idP).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
@@ -169,10 +164,11 @@ export class PublicationComponent {
   }
   publicationsResponse(response: any) {
     this.publications = response
-    console.log(this.publications.photoIdPhoto)
+    console.log(this.publications)
 
+    
     this.commentService()
-    this.imagenService()
+   // this.imagenService()
   }
 
 
@@ -203,6 +199,8 @@ export class PublicationComponent {
 
   //obtiene nombre de usuario
   getNameUser(id: any): string {
+
+  
     for (const publication of this.publications) {
       if (publication.idPublication === id) {
         for (const user of this.users) {
@@ -229,9 +227,11 @@ export class PublicationComponent {
     }
   }
   commentcreateRequest(comment: any) {
+
     let data = {
       text: comment,
-      idPublication: this.idP
+      idPublication: this.idP,
+      userIdUser: this.dataUser.idUser
     }
     return this.http.post<any>(this.path + "/create/comment", data).pipe(
       catchError((error: any) => {
@@ -254,12 +254,8 @@ export class PublicationComponent {
 
 
 
-
-
-
  //elimina comentarios
   deleteComment(c:any){
-   console.log(c);
    this.deleteCommentRequest(c).subscribe((response: any) => this.deleteCommentResponse(response))
   }
   deleteCommentRequest(comment: any) {
@@ -317,37 +313,6 @@ export class PublicationComponent {
     this.publicationsService();
     this.comentario = "";
     this.editingCommentIndex = -1;
-  }
-
-  //imagenes
-
-  imagenService() {
-
-      this.imagenRequest().subscribe((response: any) => this.imagenResponse(response))
-
-  }
-  imagenRequest() {
-  let dato:any =this.publications.photoIdPhoto
-  console.log(this.publications.photoIdPhoto);
-
-
-    return this.http.get<any>(this.path + "/fileDown/"+dato ).pipe(
-      catchError((error: any) => {
-        if (error.status === 400) {
-          // error para parametros invalidos
-          this.openSnackBar(this.messageErrorParametros, "Aceptar")
-        } else {
-          // error de conexion o un 500
-          this.openSnackBar(this.messageErroServer, "Aceptar");
-        }
-        return throwError(error);
-      }
-      ))
-  }
-  imagenResponse(response: any) {
-    console.log("aca rut ")
-   console.log(response);
-   this.imagenDataUrl = response.ruta
   }
 
 

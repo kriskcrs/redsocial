@@ -6,19 +6,19 @@
     <h1>Ingresa tus datos</h1>
     <mat-form-field class="input-field">
       <mat-label>Correo electronico</mat-label>
-      <input matInput placeholder="ejemplo@gmail.com" [(ngModel)]="dataCreate.idUser" [ngModelOptions]="{standalone: true}" >
+      <input matInput [(ngModel)]="dataCreate.idUser" [ngModelOptions]="{standalone: true}" >
     </mat-form-field>
     <mat-form-field class="input-field">
       <mat-label>Nombre</mat-label>
-      <input matInput placeholder="Cristian" [(ngModel)]="dataCreate.name" [ngModelOptions]="{standalone: true}">
+      <input matInput  [(ngModel)]="dataCreate.name" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
     <mat-form-field class="input-field">
       <mat-label>Apellido</mat-label>
-      <input matInput placeholder="Caceres" [(ngModel)]="dataCreate.lastName" [ngModelOptions]="{standalone: true}">
+      <input matInput  [(ngModel)]="dataCreate.lastName" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
     <mat-form-field class="input-field">
       <mat-label>Fecha de Nacimiento</mat-label>
-      <input matInput placeholder="YYYY/MM/DD" [matDatepicker]="picker" [(ngModel)]="dataCreate.dob" [ngModelOptions]="{standalone: true}">
+      <input matInput placeholder="DD/MM/AAAA" [matDatepicker]="picker" [(ngModel)]="dataCreate.dob" [ngModelOptions]="{standalone: true}">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
