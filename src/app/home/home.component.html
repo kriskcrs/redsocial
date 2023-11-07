@@ -1,32 +1,57 @@
-<h1>Bienvenido {{dataUser.name}} {{dataUser.lastName}}</h1>
-
-<html lang="en">
-<br>
-<img (click)="open()" src="{{imagen}}" alt="" srcset="">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <h1>Galería de Fotos</h1>
-</head>
-
 <body>
     <div class="header">
-        <div class="example-button-container">
-            <button mat-mini-fab color="primary"><i class="fa-solid fa-right-from-bracket"></i></button>
-        </div>
-      <button mat-raised-button color="primary" class="crear">Crear Publicacion</button>
-    </div>
-    <div class="row" *ngFor="let publication of publications">
-        <div class="col-2">
-        </div>
-        <div class="col-8 center img"  >
-          <img src="assets/{{publication.photo.idPhoto}}" alt="not found"  class="imagesPubli" [attr.data-id]="publication.publication.idPublication" (click)=publicationSet(this.publication.publication.idPublication)>
-          <p>{{publication.publication.decription}}</p>
-        </div>
-        <div class="col-2">
-        </div>
-    </div>
-</body>
 
-</html>
+        <div class="row">
+        
+          <div class="col-1">
+            <div class="message">
+                <mat-card-title>Bienvenido: {{dataUser.name}} {{dataUser.lastName}}</mat-card-title>
+            </div>
+          </div>
+    
+          <div class="col-10 center">
+            <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
+          </div>
+    
+          <div class="col-1">
+            <div class="logout">
+              <button mat-mini-fab color="primary"  (click)="revokeService()"><i class="fa-solid fa-right-from-bracket"></i></button>
+    
+            </div>
+          </div>
+    
+        </div>
+      </div>
+
+
+    <nav class="menu">
+        <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open" />
+        <label class="menu-open-button" for="menu-open">
+            <span class="hamburger hamburger-1"></span>
+            <span class="hamburger hamburger-2"></span>
+            <span class="hamburger hamburger-3"></span>
+        </label>
+        <a (click)="Cpublitation()" class="menu-item"> <i class="fa-solid fa-plus"></i> </a>
+        <a (click)="profile()" class="menu-item"> <i class="fa-solid fa-user"></i> </a>
+    </nav>
+
+    <div class="container">
+        <mat-card class="profile-card">
+            <div class="row" *ngFor="let publication of publications">
+                <div class="col-1">
+                </div>
+                <div class="col-10 center img">
+                    <img src="assets/{{publication.photo.idPhoto}}" alt="not found" class="imagesPubli"
+                        [attr.data-id]="publication.publication.idPublication"
+                        (click)=publicationSet(this.publication.publication.idPublication)>
+                    <p>{{publication.publication.decription}}</p>
+                </div>
+                <div class="col-1">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
+                        alt="Imagen 1">
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+</body>

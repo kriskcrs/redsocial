@@ -35,8 +35,8 @@ export class HomeComponent {
   constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
-   // this.validateSession();
-    this.dataUserService();
+ this.validateSession();
+  this.dataUserService();
   }
 
   //vars
@@ -170,6 +170,12 @@ publicationSet(id:any){
 
 }
 
+profile() {
+  this.router.navigateByUrl("/profile")
+}
 
+Cpublitation() {
+  this.router.navigateByUrl("/publication")
+}
 
 }
