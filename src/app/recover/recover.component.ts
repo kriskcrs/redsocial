@@ -1,15 +1,21 @@
 import { Component } from '@angular/core';
-import {
-  FormControl,
-  Validators
-} from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { AppComponent } from '../app.component';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { throwError } from 'rxjs';
 
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-recover',
@@ -55,10 +61,10 @@ export class RecoverComponent {
 
   //service recover
   recover() {
-    this.form = false
-    this.spinner = true
-
     if (this.email.valid) {
+      this.form = false
+      this.spinner = true
+      
       this.credenciales = {
         idUser: this.email.value,
       }
