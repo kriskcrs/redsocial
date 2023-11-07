@@ -60,17 +60,19 @@
   </div>
 
   <div class="containerus" *ngIf="modify">
-    <form (ngSubmit)="modForm()" id="modForm">
+    <form class="example-form" (ngSubmit)="modForm()" id="modForm">
       <h1>Modificación</h1>
       <br>
+      
+
       <mat-form-field class="input-field">
         <mat-label>Nombre</mat-label>
-        <input matInput [(ngModel)]="perfilDataModify.name" name="name" class="form-control">
+        <input matInput [(ngModel)]="perfilDataModify.name" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
       <br>
       <mat-form-field class="input-field">
         <mat-label>Apellido</mat-label>
-        <input matInput [(ngModel)]="perfilDataModify.lastName" name="lastName" class="form-control">
+        <input matInput [(ngModel)]="perfilDataModify.lastName" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
       <br>
       <mat-form-field class="input-field">
