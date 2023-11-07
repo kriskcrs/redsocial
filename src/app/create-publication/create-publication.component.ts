@@ -131,6 +131,7 @@ export class CreatePublicationComponent {
    publicationsRequest() {
     this.dataCreate.userIdUser=this.dataUser.idUser
      this.dataCreate.photoIdPhoto=this.idPhot
+     console.log(this.dataCreate)
      return this.http.post<any>(this.path + "/createPublication",this.dataCreate, { observe: 'response' }).pipe(
        catchError((error: any) => {
            if (error.status === 400) {
@@ -197,11 +198,7 @@ export class CreatePublicationComponent {
       ))
   }
   imagenResponse(response: any) {
-    console.log(response);
-    
-    const rutaOriginal = response.body.ruta_original;
-    const partes = rutaOriginal.split('original');
-    this.idPhot = partes[1];
+    this.idPhot = response.body.idImagen
     this.publicationsService()
 
   }
