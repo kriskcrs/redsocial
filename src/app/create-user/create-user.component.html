@@ -6,7 +6,8 @@
     <h1>Ingresa tus datos</h1>
     <mat-form-field class="input-field">
       <mat-label>Correo electronico</mat-label>
-      <input matInput [(ngModel)]="dataCreate.idUser" [ngModelOptions]="{standalone: true}" >
+      <input matInput [(ngModel)]="dataCreate.idUser" [ngModelOptions]="{standalone: true}" required>
+      <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
     <mat-form-field class="input-field">
       <mat-label>Nombre</mat-label>

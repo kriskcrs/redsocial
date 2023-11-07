@@ -14,7 +14,7 @@ export class CreatePublicationComponent {
   constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
-    // this.validateSession(); habilitar a futuro
+    this.validateSession();
     this.userService()
   }
 
@@ -39,7 +39,6 @@ export class CreatePublicationComponent {
   serve:any=10.10
   hide = true;
   dataCreate:any ={}
-
   //valida si la sesion esta vigente
   validateSession() {
     this.dataUser = localStorage.getItem("data")
@@ -85,6 +84,7 @@ export class CreatePublicationComponent {
       // this.revokeService()
     } else {
       this.dataUser = response
+      console.log(this.dataUser)
     }
 
   }
@@ -114,15 +114,16 @@ export class CreatePublicationComponent {
 
 
 
-  //retorna todas las publicaciones
+  //crea la publicacion
 
   publicationsService() {
-    console.log("paso acua publi")
-    this.publicationsRequest().subscribe((response: any) => this.publicationsResponse(response))
+    let formularioValido: any = document.getElementById("add");
+    if(formularioValido.reportValidity()){
+      this.publicationsRequest().subscribe((response: any) => this.publicationsResponse(response))
+    }
   }
   publicationsRequest() {
-    console.log("entraicion en el request")
-    return this.http.get<any>(this.path + "/consult/publications").pipe(
+    return this.http.post<any>(this.path + "/createPublication",this.dataCreate, { observe: 'response' }).pipe(
       catchError((error: any) => {
           if (error.status === 400) {
             // error para parametros invalidos
@@ -136,10 +137,6 @@ export class CreatePublicationComponent {
       ))
   }
   publicationsResponse(response: any) {
-    console.log(response)
-    this.publications = response
-    this.idP = this.publications[0].idPublication
-    this.publication = this.publications[0]
   }
 
 
@@ -163,7 +160,6 @@ export class CreatePublicationComponent {
   }
   userResponset(response: any) {
     this.users = response
-    this.publicationsService()
   }
 
 
@@ -193,7 +189,6 @@ export class CreatePublicationComponent {
       };
       reader.readAsDataURL(selectedFile);
       this.file = selectedFile
-      console.log(this.file)
     }
   }
 
@@ -202,16 +197,14 @@ export class CreatePublicationComponent {
     this.fileInput.nativeElement.click();
   }
   imagenService() {
-
-    this.imagenRequest(this.file, this.urlImages, this.users, this.serve).subscribe((response: any) => this.imagenResponse(response))
+    this.imagenRequest(this.file, this.urlImages, this.dataUser.idUser, this.serve).subscribe((response: any) => this.imagenResponse(response))
 
   }
   imagenRequest(file: File,path:any,user:any,server:any) {
-    let dato:any =this.publications.photoIdPhoto
-    console.log(this.publications.photoIdPhoto);
+    const formData = {file,path,user,server};
+    console.log(formData)
 
-
-    return this.http.post<any>(this.path + "/fileUp", dato, { observe: 'response' }).pipe(
+    return this.http.post<any>(this.path + "/fileUp", formData, { observe: 'response' }).pipe(
       catchError((error: any) => {
           if (error.status === 400) {
             // error para parametros invalidos
@@ -227,6 +220,7 @@ export class CreatePublicationComponent {
   imagenResponse(response: any) {
     console.log("aca rut ")
     console.log(response);
+    this.publicationsService()
   }
 
 }

@@ -39,6 +39,7 @@ export class CreateUserComponent {
   file: any
   imageSrc: string | ArrayBuffer | null = null;
   @ViewChild('fileInput') fileInput: any;
+  email = new FormControl('', [Validators.required, Validators.email]);
 
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
 
@@ -101,6 +102,11 @@ if (response.status === 200) {
   login(){
     this.router.navigateByUrl("/")
   }
-
+  getErrorMessage() {
+    if (this.email.hasError('required')) {
+      return 'Debes ingresar un valor';
+    }
+    return this.email.hasError('email') ? 'Tu correo electronico no es valido' : '';
+  }
 
 }
