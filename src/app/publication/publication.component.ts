@@ -38,6 +38,7 @@ export class PublicationComponent {
   images: any = "https://ichef.bbci.co.uk/news/640/cpsprodpb/1811E/production/_110909589_gettyimages-1032516536-1.jpg"
   imagenDataUrl: string = ""
   photo: any = {}
+  userLogin: boolean = false;
 
 
   editingCommentIndex: number = -1;
@@ -48,7 +49,7 @@ export class PublicationComponent {
     if (this.dataUser != null) {
       this.dataUser = JSON.parse(this.dataUser)
       this.dataUserService()
-
+      this.userLogin = true;
     } else {
       this.router.navigateByUrl("/")
     }
