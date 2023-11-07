@@ -39,6 +39,7 @@ export class CreateUserComponent {
   file: any
   imageSrc: string | ArrayBuffer | null = null;
   @ViewChild('fileInput') fileInput: any;
+  email = new FormControl('', [Validators.required, Validators.email]);
 
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
 
@@ -65,14 +66,18 @@ export class CreateUserComponent {
   }
 
   userCreation() {
-    let formularioValido: any = document.getElementById("add");
-    if (formularioValido.reportValidity()) {
-      this.userCreationRequest().subscribe(
-        (response: any) => this.userCreationResponse(response)
-      )
+    if(this.email.valid){
+      let formularioValido: any = document.getElementById("add");
+      if (formularioValido.reportValidity()) {
+        this.userCreationRequest().subscribe(
+            (response: any) => this.userCreationResponse(response)
+        )
 
-    }  }
+      }
+    }
+  }
   userCreationRequest() {
+    this.dataCreate.idUser=this.email.value
     return this.http.post<any>(this.path + "/createUser", this.dataCreate, { observe: 'response' }).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
@@ -80,7 +85,7 @@ export class CreateUserComponent {
           this.openSnackBar(error.error.message, "Aceptar");
         } else {
           // error de conexión o un 500
-          this.openSnackBar("No existe conexión con el servidor", "Aceptar");
+          this.openSnackBar("Datos invalidos", "Aceptar");
         }
         return throwError(error);
       })
@@ -90,6 +95,7 @@ export class CreateUserComponent {
   userCreationResponse(response: any) {
 if (response.status === 200) {
   this.openSnackBar("Usuario creado correctamente", "Aceptar");
+  this.router.navigateByUrl("/")
     }
     else {
       console.log(`Recibí un código de estado inesperado: ${response.status}`);
@@ -100,6 +106,11 @@ if (response.status === 200) {
   login(){
     this.router.navigateByUrl("/")
   }
-
+  getErrorMessage() {
+    if (this.email.hasError('required')) {
+      return 'Debes ingresar un valor';
+    }
+    return this.email.hasError('email') ? 'Tu correo electronico no es valido' : '';
+  }
 
 }

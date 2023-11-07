@@ -170,12 +170,14 @@ publicationSet(id:any){
 
 }
 
+
 profile() {
   this.router.navigateByUrl("/profile")
 }
 
-Cpublitation() {
-  this.router.navigateByUrl("/publication")
+
+creacionpubli(){
+  this.router.navigateByUrl("/create-publication")
 }
 
 }

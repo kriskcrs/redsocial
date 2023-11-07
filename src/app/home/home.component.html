@@ -1,5 +1,19 @@
 <body>
     <div class="header">
+        <div class="example-button-container">
+            <button mat-mini-fab color="primary"><i class="fa-solid fa-right-from-bracket"></i></button>
+        </div>
+    </div>
+    <div class="row" *ngFor="let publication of publications">
+        <div class="col-2">
+        </div>
+        <div class="col-8 center img"  >
+          <img src="assets/medium/{{publication.photo.idPhoto}}" alt="not found"  class="imagesPubli" [attr.data-id]="publication.publication.idPublication" (click)=publicationSet(this.publication.publication.idPublication)>
+          <p>{{publication.publication.decription}}</p>
+        </div>
+        <div class="col-2">
+        </div>
+    </div>
 
         <div class="row">
         
@@ -21,7 +35,7 @@
           </div>
     
         </div>
-      </div>
+
 
 
     <nav class="menu">
@@ -31,7 +45,7 @@
             <span class="hamburger hamburger-2"></span>
             <span class="hamburger hamburger-3"></span>
         </label>
-        <a (click)="Cpublitation()" class="menu-item"> <i class="fa-solid fa-plus"></i> </a>
+        <a (click)="creacionpubli()" class="menu-item"> <i class="fa-solid fa-plus"></i> </a>
         <a (click)="profile()" class="menu-item"> <i class="fa-solid fa-user"></i> </a>
     </nav>
 
