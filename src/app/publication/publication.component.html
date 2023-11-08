@@ -40,10 +40,7 @@
           <button mat-raised-button color="primary" (click)="commentcreateService(comentario)">Comentar</button>
         </mat-card-content>
       </mat-card>
-
-
     </div>
-
     <div class="col-4">
       <!-- Comentarios de la publicacion -->
       <div class="card" style="width: 23rem;">
@@ -51,26 +48,33 @@
           <li class="list-group">&nbsp;&nbsp;{{ comment.userIdUser }}</li>
           <li class="list-group-item">
             &nbsp;{{ comment.text }}
-
-            <button mat-icon-button [matMenuTriggerFor]="menu">
+      
+            <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="userLogin && comment.userIdUser === dataUser.idUser">
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="editComment(i)"><i class="fa-solid fa-pen"></i>&nbsp;
+              <!-- Mostrar el botón Editar solo si el usuario ha iniciado sesión y es el propietario del comentario -->
+              <button mat-menu-item (click)="editComment(i)" *ngIf="userLogin && comment.userIdUser === dataUser.idUser">
+                <i class="fa-solid fa-pen"></i>&nbsp;
                 <span>Editar</span>
               </button>
-
-              <button mat-menu-item (click)="deleteComment(comment)"><i class="fa-solid fa-trash"></i> &nbsp;
+      
+              <!-- Mostrar el botón Eliminar solo si el usuario ha iniciado sesión y es el propietario del comentario -->
+              <button mat-menu-item (click)="deleteComment(comment)" *ngIf="userLogin && comment.userIdUser === dataUser.idUser">
+                <i class="fa-solid fa-trash"></i> &nbsp;
                 <span>Eliminar</span>
               </button>
             </mat-menu>
+      
             <div class="input-group" *ngIf="editingCommentIndex === i">
               <textarea class="form-control" aria-label="With textarea"
                 [(ngModel)]="comentarioModificado">{{ comment.text }}</textarea>
             </div>
-            <button mat-menu-item (click)="saveComment(comentarioModificado,comment)" *ngIf="editingCommentIndex === i">
+      
+            <!-- Mostrar el botón Guardar solo si el usuario ha iniciado sesión y está editando un comentario -->
+            <button mat-menu-item (click)="saveComment(comentarioModificado, comment)" *ngIf="userLogin && editingCommentIndex === i">
               <i class="fa-solid fa-floppy-disk"></i>&nbsp;
-              <span>guardar</span>
+              <span>Guardar</span>
             </button>
           </li>
         </ul>

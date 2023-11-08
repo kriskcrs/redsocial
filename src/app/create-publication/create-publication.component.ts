@@ -16,7 +16,7 @@ export class CreatePublicationComponent {
 
   ngOnInit() {
     this.validateSession();
-  
+
   }
 
   //vars
@@ -36,10 +36,11 @@ export class CreatePublicationComponent {
   file: any
   imageSrc: string | ArrayBuffer | null = null;
   @ViewChild('fileInput') fileInput: any;
-  urlImages: any = "/Users/cristiancaceres/WebstormProjects/redsocial/src/assets"
+  urlImages: any = "C:\\Users\\ricar\\OneDrive\\Escritorio\\TAREAS\\Desarrollo\\redsocial\\src\\assets"
   serve: any = 10.10
   hide = true;
   dataCreate: any = {}
+  idPhot:any=""
 
 
    formData = new FormData();
@@ -127,8 +128,9 @@ export class CreatePublicationComponent {
      }
    }
    publicationsRequest() {
-    console.log(this.dataCreate);
-    
+    this.dataCreate.userIdUser=this.dataUser.idUser
+     this.dataCreate.photoIdPhoto=this.idPhot
+     console.log(this.dataCreate)
      return this.http.post<any>(this.path + "/createPublication",this.dataCreate, { observe: 'response' }).pipe(
        catchError((error: any) => {
            if (error.status === 400) {
@@ -144,9 +146,11 @@ export class CreatePublicationComponent {
    }
    publicationsResponse(response: any) {
     console.log(response);
-    
+     this.openSnackBar("Publicacion creada", "Aceptar");
+     this.router.navigateByUrl("/home")
+
    }
- 
+
 
 
   //imagenes
@@ -178,16 +182,6 @@ export class CreatePublicationComponent {
    formData.append('server', server)
    formData.append('path', path)
    formData.append('user', user)
-   
-   console.log(formData)
-   console.log(path);
-   console.log(user);
-   console.log(server);
-   
-   
-   
-
-console.log(this.path);
 
     return this.http.post<any>(this.path + "/fileUp", formData, { observe: 'response' }).pipe(
       catchError((error: any) => {
@@ -203,12 +197,13 @@ console.log(this.path);
       ))
   }
   imagenResponse(response: any) {
-  
-   console.log("respondio el servicio de imagen ");
-   console.log(response);
-   
+    this.idPhot = response.body.idImagen
+    this.publicationsService()
+
   }
 
-
+home(){
+  this.router.navigateByUrl("/home")
+}
 
 }
