@@ -15,21 +15,21 @@
       <span class="hamburger hamburger-2"></span>
       <span class="hamburger hamburger-3"></span>
     </label>
-    <a class="menu-item" (click)="Modify(publications)"> <i class="fa-solid fa-pen-to-square"></i> </a>
-    <a class="menu-item" (click)="deletePublication(publications)"> <i class="fa-solid fa-trash"></i> </a>
+    <a class="menu-item" (click)="Modify(publicationData)"> <i class="fa-solid fa-pen-to-square"></i> </a>
+    <a class="menu-item" (click)="deletePublication(publicationData)"> <i class="fa-solid fa-trash"></i> </a>
   </nav>
   <div class="row" *ngIf="add">
 
     <div class="col-2"></div>
     <div class="col-4">
       <!--  Aqui va la foto de la publicacion y el comentario -->
-      <mat-card class="post-card"  *ngFor="let publication of publications">
+      <mat-card class="post-card" >
         <div>
-          <img src="assets/original/{{publication.photo.idPhoto}}" width="400px">
+          <img src="assets/original/{{publicationData.photo.idPhoto}}" width="400px">
         </div>
-        <p>{{publication.publication.decription}}</p>
-        <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavorite }" [disabled]="true">
-          <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+        <p>{{publicationData.publication.decription}}</p>
+        <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavoriteEdit }" (click)="toggleFavoriteEdit()">
+          <mat-icon>{{ isFavoriteEdit ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
         <mat-card-content>
           <mat-form-field class="comment-field">
@@ -89,6 +89,11 @@
     <form class="formAdd" id="add">
       <mat-card class="post-card">
         <div class="col-2">
+          <mat-card class="post-card">
+            <div>
+              <img src="assets/original/{{publicationData.photo.idPhoto}}" width="400px">
+            </div>
+          </mat-card>
           <form class="Img" enctype="multipart/form-data">
             <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileInput required>
             <img *ngIf="imageSrc" [src]="imageSrc" style="max-width: 300px;" alt="Imagen Previa">
@@ -96,12 +101,9 @@
             <button class="btn btn-secondary" (click)="selectImage()" id="selected">Seleccionar Imagen</button>
           </form>
         </div>
-        <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavoriteEdit }" (click)="toggleFavoriteEdit()">
-          <mat-icon>{{ isFavoriteEdit ? 'favorite' : 'favorite_border' }}</mat-icon>
-        </button>
         <mat-form-field class="input-field">
           <mat-label>Descripcion</mat-label>
-          <input type="text" matInput [(ngModel)]="dataCreate.decription" [ngModelOptions]="{standalone: true}" placeholder="{{publications[0].publication.decription}}">
+          <input type="text" matInput [(ngModel)]="dataCreate.decription" [ngModelOptions]="{standalone: true}" >
         </mat-form-field>
         <mat-card-content>
           <button mat-raised-button color="primary" (click)="imagenService()" class="boton">Publicar</button>

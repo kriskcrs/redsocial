@@ -28,7 +28,7 @@ export class PublicationComponent {
   dataUser: any = {}
   path = this.url.url
   comments: any = []
-  publication: any = {}
+  publicationData: any = {}
   publications: any = []
   users: any = []
   isFavorite = false;
@@ -191,9 +191,8 @@ export class PublicationComponent {
       ))
   }
   publicationsResponse(response: any) {
-    console.log(response)
-    this.publications = response
-    console.log(this.publications)
+    this.publicationData = response[0]
+    console.log(this.publicationData.photo.idPhoto)
     this.toggleFavorite()
     this.commentService()
   }
@@ -242,10 +241,10 @@ export class PublicationComponent {
 
   //icono de corazon
   toggleFavorite() {
-    if(this.publications[0].publication.emoji==0){
+    if(this.publicationData.publication.emoji==0){
       this.isFavorite = false
       this.isFavoriteEdit=this.isFavorite
-    }else if(this.publications[0].publication.emoji==1){
+    }else if(this.publicationData.publication.emoji==1){
       this.isFavorite = true
       this.isFavoriteEdit=this.isFavorite
 
@@ -423,7 +422,7 @@ export class PublicationComponent {
   //elimina comentarios
   deletePublication(c: any) {
     console.log(c)
-    if (c[0].publication.userIdUser == this.dataUser.idUser) {
+    if (c.publication.userIdUser == this.dataUser.idUser) {
       this.deletePublicationtRequest(c).subscribe((response: any) => this.deletePublicationResponse(response))
     } else {
       this.openSnackBarTime("No puedes eliminar la publicacion de otro usuario")
