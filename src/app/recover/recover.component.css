@@ -42,3 +42,7 @@
   #spinner{
     text-align: center;
   }
+
+  #pNoContent{
+    color: red;
+  }
