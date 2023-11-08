@@ -29,6 +29,9 @@ export class PublicationComponent {
   path = this.url.url
   comments: any = []
   publicationData: any = {}
+  photo:any = {}
+  publication:any = {}
+
   publications: any = []
   users: any = []
   isFavorite = false;
@@ -40,7 +43,7 @@ export class PublicationComponent {
   messageErrorParametros: string = "Parametros invalidos"
 
   imagenDataUrl: string = ""
-  photo: any = {}
+
   userLogin: boolean = false;
   file: any
   imageSrc: string | ArrayBuffer | null = null;
@@ -192,7 +195,11 @@ export class PublicationComponent {
   }
   publicationsResponse(response: any) {
     this.publicationData = response[0]
-    console.log(this.publicationData.photo.idPhoto)
+    console.log(this.publicationData)
+    
+    this.photo = this.publicationData.photo
+    this.publication = this.publicationData.publication
+
     this.toggleFavorite()
     this.commentService()
   }
