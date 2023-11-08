@@ -115,6 +115,9 @@ export class SetPasswordComponent {
       catchError((error: any) => {
         if (error.status === 400) {
           // error para parametros invalidos 
+          console.log(error.error.message);
+          this.spinner = false
+          this.form = true          
           this.openSnackBar(error.error.message, "Aceptar");
         } else {
           // error de conexion o un 500
