@@ -24,10 +24,9 @@
     <div class="col-4">
       <!--  Aqui va la foto de la publicacion y el comentario -->
       <mat-card class="post-card" >
-        <div>
-          <img src="assets/original/{{publicationData.photo.idPhoto}}" width="400px">
-        </div>
-        <p>{{publicationData.publication.decription}}</p>
+         <img src="assets/original/{{photo.idPhoto}}">
+        <p>{{publication.decription}}</p>
+       
         <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavoriteEdit }" (click)="toggleFavoriteEdit()">
           <mat-icon>{{ isFavoriteEdit ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
@@ -90,9 +89,7 @@
       <mat-card class="post-card">
         <div class="col-2">
           <mat-card class="post-card">
-            <div>
-              <img src="assets/original/{{publicationData.photo.idPhoto}}" width="400px">
-            </div>
+            <img src="assets/original/{{photo.idPhoto}}">
           </mat-card>
           <form class="Img" enctype="multipart/form-data">
             <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileInput required>
