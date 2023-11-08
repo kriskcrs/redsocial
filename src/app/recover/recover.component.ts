@@ -37,6 +37,7 @@ export class RecoverComponent {
   alertaOK:boolean = false
   spinner:boolean = false
   form:boolean = true
+  noContent:boolean = false
 
   //userValidation
   getErrorMessage() {
@@ -61,6 +62,7 @@ export class RecoverComponent {
 
   //service recover
   recover() {
+    this.noContent = false
     if (this.email.valid) {
       this.form = false
       this.spinner = true
@@ -86,15 +88,18 @@ export class RecoverComponent {
     )
   }
   recoverResponse(response: any) {
-    this.messageOK = response.message
-    this.spinner = false
-    this.alertaOK = true
-  
-    setTimeout(()=>{
-      this.router.navigateByUrl("/login")  
-    }, 3000);
+    if(response != null){
+      this.messageOK = response.message
+      this.spinner = false
+      this.alertaOK = true
     
-    
+      setTimeout(()=>{
+        this.router.navigateByUrl("/login")  
+      }, 3000);
+    }else{
+      this.spinner = false
+      this.form = true
+      this.noContent = true
+    }
   }
-
 }

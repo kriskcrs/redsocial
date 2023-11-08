@@ -8,12 +8,12 @@
           <input matInput  [formControl]="email" required>
           <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
         </mat-form-field>
-        <br>
+        <div *ngIf="noContent">
+          <p id="pNoContent">El usuario ingresado no existe</p>
+        </div>
         <button id="btnRecover" mat-raised-button color="primary" type="submit" class="login-button"> Recuperar 
             <i class="fa-solid fa-unlock-keyhole fa-beat"></i></button>
-        <br>
       </form>
-      <br>
       <div *ngIf="spinner" id="spinner">
         <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
