@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../app.component';
 import { HttpClient } from "@angular/common/http";
@@ -23,6 +23,8 @@ export class PublicationComponent {
   }
 
   //vars
+  modify: boolean = false
+  add: boolean = true
   dataUser: any = {}
   path = this.url.url
   comments: any = []
@@ -39,9 +41,34 @@ export class PublicationComponent {
   imagenDataUrl: string = ""
   photo: any = {}
   userLogin: boolean = false;
+  file: any
+  imageSrc: string | ArrayBuffer | null = null;
+  @ViewChild('fileInput') fileInput: any;
+  urlImages: any = "C:\\Users\\josue\\WebstormProjects\\redsocial\\src\\assets"
+  serve: any = 10.10
+  hide = true;
+  dataCreate: any = {}
+  idPhot:any=""
 
 
   editingCommentIndex: number = -1;
+
+  Modify(response: any) {
+    this.publications = response
+    this.add = false
+    this.modify = true
+  }
+
+  Add() {
+    this.modify = false
+    this.add = true
+  }
+
+  back() {
+    this.modify = false
+    this.add = true
+  }
+
 
   //valida si la sesion esta vigente
   validateSession() {
@@ -323,6 +350,57 @@ export class PublicationComponent {
     this.editingCommentIndex = -1;
   }
 
+  //imagenes
+  onFileSelected(event: any) {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imageSrc = reader.result;
+      };
+      reader.readAsDataURL(selectedFile);
+      this.file = selectedFile
+    }
+  }
 
+  selectImage() {
+    // Hacer clic en el input de tipo archivo para abrir el cuadro de diálogo de selección de archivo
+    this.fileInput.nativeElement.click();
+  }
+  imagenService() {
+    this.imagenRequest(this.file, this.urlImages, this.dataUser.idUser, this.serve).subscribe((response: any) => this.imagenResponse(response))
+  }
+  imagenRequest(file: File, path: any, user: any, server: any) {
+
+
+    // const formData = { file, path, user, server };
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('server', server)
+    formData.append('path', path)
+    formData.append('user', user)
+
+    return this.http.post<any>(this.path + "/fileUp", formData, { observe: 'response' }).pipe(
+      catchError((error: any) => {
+          if (error.status === 400) {
+            // error para parametros invalidos
+            this.openSnackBar(this.messageErrorParametros, "Aceptar")
+          } else {
+            // error de conexion o un 500
+            this.openSnackBar(this.messageErroServer, "Aceptar");
+          }
+          return throwError(error);
+        }
+      ))
+  }
+  imagenResponse(response: any) {
+    this.idPhot = response.body.idImagen
+    this.publicationsService()
+
+  }
+
+  home(){
+    this.router.navigateByUrl("/home")
+  }
 
 }

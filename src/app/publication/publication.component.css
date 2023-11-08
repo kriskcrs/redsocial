@@ -174,3 +174,7 @@ mat-card-title{
       .mat-mdc-card {
         width: 500px !important;
       }
+
+.boton{
+  margin-left: 1%;
+}
