@@ -5,8 +5,7 @@
     
       <div class="col-1">
         <div class="regresarProfile">
-          <button mat-mini-fab color="primary" *ngIf="!modify" (click)="backWelcome()"><i
-              class="fa-solid fa-backward"></i></button>
+          <button mat-mini-fab color="primary" *ngIf="!modify" (click)="backWelcome()"><mat-icon>arrow_back</mat-icon></button>
         </div>
       </div>
 
@@ -16,7 +15,7 @@
 
       <div class="col-1">
         <div class="logout">
-          <button mat-mini-fab color="primary" *ngIf="!modify" (click)="revokeService()"><i class="fa-solid fa-right-from-bracket"></i></button>
+          <button mat-mini-fab color="primary" *ngIf="!modify" (click)="revokeService()"><mat-icon>close</mat-icon></button>
 
         </div>
       </div>
@@ -24,7 +23,7 @@
     </div>
     
     <div class="regresar">
-      <button mat-mini-fab color="primary" *ngIf="modify" (click)="back()"><i class="fa-solid fa-backward"></i></button>
+      <button mat-mini-fab color="primary" *ngIf="modify" (click)="back()"><mat-icon>arrow_back</mat-icon></button>
     </div>
   </div>
 
@@ -39,8 +38,7 @@
         <p>Fecha de nacimiento: {{dataUser.dob |date: "dd-MM-yyyy"}}</p>
       </mat-card-content>
       <div class="edit">
-        <button mat-mini-fab color="primary"><i class="fa-solid fa-pen-to-square"
-            (click)="Modify(dataUser)"></i></button>
+        <button mat-mini-fab color="primary" (click)="Modify(dataUser)" ><mat-icon>edit</mat-icon></button>
       </div>
 
     </mat-card>
@@ -63,8 +61,6 @@
     <form class="example-form" (ngSubmit)="modForm()" id="modForm">
       <h1>Modificación</h1>
       <br>
-      
-
       <mat-form-field class="input-field">
         <mat-label>Nombre</mat-label>
         <input matInput [(ngModel)]="perfilDataModify.name" [ngModelOptions]="{standalone: true}">
@@ -83,6 +79,20 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <br>
+      <mat-form-field appearance="fill" class="input-field">
+        <mat-label>Ingresa tu Contraseña Nueva</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="passwordNew" required (keydown)="onPasswordKeydown($event)">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="input-field">
+        <mat-label>Confirma tu Contraseña</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="passwordConfirm" required (keydown)="onPasswordKeydown($event)">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
       <p>ACA IRIA EL COMPONENTE DE LA FOTO</p>
       <div>
         <button type="submit" class="btn btn-secondary">Confirmar</button>

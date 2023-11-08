@@ -16,13 +16,7 @@ body {
   height: auto;
 }
 
-.container {
-  max-width: 1000px;
-  margin: 10px auto;
-  background-color: #fff;
-  border: 2px solid #ddd;
-  height: auto;
-}
+
 
 
 img {
@@ -37,7 +31,9 @@ img {
   text-align: center;
 }
 
-
+p{
+  text-align: center;
+}
 
 /*para boton de logout*/
 section {
@@ -89,12 +85,23 @@ section {
 }
 
 
-.profile-card {
-  max-width: 1000px;
-  width: 100%;
-  text-align: center;
-  padding: auto;
+.container {
+  max-width: 80%;
+  margin: 10px auto;
+  background-color: #fff;
+  border: 2px solid #ddd;
+  height: auto;
+  display: flex; 
+  justify-content: center;
+  align-items: center; 
 }
+
+.imagesPubli {
+  display: flex;
+  margin: 0 auto;
+}
+
+
 
 
 .menu {

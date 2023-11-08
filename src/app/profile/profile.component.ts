@@ -40,7 +40,10 @@ export class ProfileComponent {
 
   //vars
   path = this.url.url
-
+  password = new FormControl('', [Validators.required]);
+  passwordNew = new FormControl('', [Validators.required]);
+  passwordConfirm = new FormControl('', [Validators.required]);
+  hide = true;
 
   //objetos
   perfilData: any = []
@@ -94,6 +97,16 @@ export class ProfileComponent {
   backWelcome() {
     this.router.navigateByUrl("/home")
   }
+
+
+  // Evitar el envío del formulario al presionar "Enter" en el campo de contraseña
+  onPasswordKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      //this.login();
+    }
+  }
+
 
   //valida si la sesion esta vigente
   validateSession() {
