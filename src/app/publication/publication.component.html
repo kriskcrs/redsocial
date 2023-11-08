@@ -16,7 +16,7 @@
       <span class="hamburger hamburger-3"></span>
     </label>
     <a class="menu-item" (click)="Modify(publications)"> <i class="fa-solid fa-pen-to-square"></i> </a>
-    <a class="menu-item"> <i class="fa-solid fa-trash"></i> </a>
+    <a class="menu-item" (click)="deletePublication(publications)"> <i class="fa-solid fa-trash"></i> </a>
   </nav>
   <div class="row" *ngIf="add">
 

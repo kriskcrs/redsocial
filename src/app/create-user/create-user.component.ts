@@ -32,18 +32,24 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class CreateUserComponent {
   constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
-
+  messageErroServer: string = "No existe conexion con el servidor"
+  messageErrorParametros: string = "Parametros invalidos"
   path = this.url.url
   dataCreate: any={}
   hide = true;
   file: any
   imageSrc: string | ArrayBuffer | null = null;
   @ViewChild('fileInput') fileInput: any;
+  urlImages: any = "C:\\Users\\josue\\WebstormProjects\\redsocial\\src\\assets"
+  serve: any = 10.10
   email = new FormControl('', [Validators.required, Validators.email]);
+  idPhot:any=""
+
 
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
 
   matcher = new MyErrorStateMatcher();
+  file1: any ='assets/perfil.png'
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
@@ -64,7 +70,43 @@ export class CreateUserComponent {
     // Hacer clic en el input de tipo archivo para abrir el cuadro de diálogo de selección de archivo
     this.fileInput.nativeElement.click();
   }
+  validationImagen(){
+    if(this.file==""){
+      this.file=this.file1
+    }else{
+      this.imagenService()
+    }
+  }
+  imagenService() {
+    this.imagenRequest(this.file, this.urlImages, this.dataCreate.idUser, this.serve).subscribe((response: any) => this.imagenResponse(response))
+  }
+  imagenRequest(file: File, path: any, user: any, server: any) {
 
+
+    // const formData = { file, path, user, server };
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('server', server)
+    formData.append('path', path)
+    formData.append('user', user)
+
+    return this.http.post<any>(this.path + "/fileUp", formData, { observe: 'response' }).pipe(
+      catchError((error: any) => {
+          if (error.status === 400) {
+            // error para parametros invalidos
+            this.openSnackBar(this.messageErrorParametros, "Aceptar")
+          } else {
+            // error de conexion o un 500
+            this.openSnackBar(this.messageErroServer, "Aceptar");
+          }
+          return throwError(error);
+        }
+      ))
+  }
+  imagenResponse(response: any) {
+    this.idPhot = response.body.idImagen
+
+  }
   userCreation() {
     if(this.email.valid){
       let formularioValido: any = document.getElementById("add");

@@ -16,7 +16,6 @@ export class CreatePublicationComponent {
 
   ngOnInit() {
     this.validateSession();
-
   }
 
   //vars
@@ -41,6 +40,7 @@ export class CreatePublicationComponent {
   hide = true;
   dataCreate: any = {}
   idPhot:any=""
+
 
 
    formData = new FormData();
@@ -154,6 +154,11 @@ export class CreatePublicationComponent {
 
 
   //imagenes
+  validateImages(){
+    if(this.file==""){
+      this.file =""
+    }
+  }
   onFileSelected(event: any) {
     const selectedFile = event.target.files[0];
     if (selectedFile) {

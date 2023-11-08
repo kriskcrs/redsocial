@@ -407,4 +407,34 @@ export class PublicationComponent {
     this.router.navigateByUrl("/home")
   }
 
+  //elimina comentarios
+  deletePublication(c: any) {
+    if (c.userIdUser == this.dataUser.idUser) {
+      this.deletePublicationtRequest(c).subscribe((response: any) => this.deletePublicationResponse(response))
+    } else {
+      this.openSnackBarTime("No puedes eliminar la publicacion de otro usuario")
+    }
+  }
+  deletePublicationtRequest(comment: any) {
+    return this.http.delete<any>(this.path + "/delete/publication/" + this.idP).pipe(
+      catchError((error: any) => {
+          if (error.status === 400) {
+            // error para parametros invalidos
+            this.openSnackBar(this.messageErrorParametros, "Aceptar")
+          } else {
+            // error de conexion o un 500
+            this.openSnackBar(this.messageErroServer, "Aceptar");
+          }
+          return throwError(error);
+        }
+      ))
+  }
+  deletePublicationResponse(response: any) {
+    this.openSnackBarTime(response.message)
+    this.publicationsService()
+    this.publications = ""
+  }
+
+
+
 }
