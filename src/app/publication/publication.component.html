@@ -27,9 +27,8 @@
         <div>
           <img src="assets/original/{{publication.photo.idPhoto}}" width="400px">
         </div>
-        <p>{{publications.decription}}</p>
-        <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavorite }"
-          (click)="toggleFavorite()">
+        <p>{{publication.publication.decription}}</p>
+        <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavorite }" [disabled]="true">
           <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
         <mat-card-content>
@@ -97,9 +96,12 @@
             <button class="btn btn-secondary" (click)="selectImage()" id="selected">Seleccionar Imagen</button>
           </form>
         </div>
+        <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavoriteEdit }" (click)="toggleFavoriteEdit()">
+          <mat-icon>{{ isFavoriteEdit ? 'favorite' : 'favorite_border' }}</mat-icon>
+        </button>
         <mat-form-field class="input-field">
           <mat-label>Descripcion</mat-label>
-          <input matInput [(ngModel)]="dataCreate.decription" [ngModelOptions]="{standalone: true}">
+          <input type="text" matInput [(ngModel)]="dataCreate.decription" [ngModelOptions]="{standalone: true}" placeholder="{{publications[0].publication.decription}}">
         </mat-form-field>
         <mat-card-content>
           <button mat-raised-button color="primary" (click)="imagenService()" class="boton">Publicar</button>

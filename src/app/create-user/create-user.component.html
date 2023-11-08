@@ -2,7 +2,7 @@
   <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
 </div>
 <div class="user-container">
-  <form class="example-form" (ngSubmit)="userCreation()" id="add">
+  <form class="example-form" id="add">
     <h1>Ingresa tus datos</h1>
     <mat-form-field class="input-field">
       <mat-label>Correo electronico</mat-label>
@@ -38,7 +38,7 @@
     </form>
     <div class="buttons">
       <br>
-      <button mat-raised-button color="primary" type="submit" class="create-button"> Crear </button>
+      <button mat-raised-button color="primary" (click)="imagenService()" class="create-button"> Crear </button>
       <br>
     </div>
   </form>

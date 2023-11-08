@@ -105,6 +105,7 @@ export class CreateUserComponent {
   }
   imagenResponse(response: any) {
     this.idPhot = response.body.idImagen
+    this.userCreation()
 
   }
   userCreation() {
@@ -120,6 +121,8 @@ export class CreateUserComponent {
   }
   userCreationRequest() {
     this.dataCreate.idUser=this.email.value
+    this.dataCreate.fotoIdFoto=this.idPhot
+    console.log(this.dataCreate)
     return this.http.post<any>(this.path + "/createUser", this.dataCreate, { observe: 'response' }).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
