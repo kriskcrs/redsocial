@@ -44,6 +44,8 @@ export class CreateUserComponent {
   serve: any = 10.10
   email = new FormControl('', [Validators.required, Validators.email]);
   idPhot:any=""
+  passwordConfirm = new FormControl('', [Validators.required]);
+
 
 
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
@@ -123,6 +125,7 @@ export class CreateUserComponent {
     this.dataCreate.idUser=this.email.value
     this.dataCreate.fotoIdFoto=this.idPhot
     console.log(this.dataCreate)
+    if(this.dataCreate.password==this.passwordConfirm){}
     return this.http.post<any>(this.path + "/createUser", this.dataCreate, { observe: 'response' }).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
