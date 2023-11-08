@@ -5,8 +5,7 @@
     
       <div class="col-1">
         <div class="regresarProfile">
-          <button mat-mini-fab color="primary" *ngIf="!modify" (click)="backWelcome()"><i
-              class="fa-solid fa-backward"></i></button>
+          <button mat-mini-fab color="primary" *ngIf="!modify" (click)="backWelcome()"><mat-icon>arrow_back</mat-icon></button>
         </div>
       </div>
 
@@ -16,7 +15,7 @@
 
       <div class="col-1">
         <div class="logout">
-          <button mat-mini-fab color="primary" *ngIf="!modify" (click)="revokeService()"><i class="fa-solid fa-right-from-bracket"></i></button>
+          <button mat-mini-fab color="primary" *ngIf="!modify" (click)="revokeService()"><mat-icon>close</mat-icon></button>
 
         </div>
       </div>
@@ -24,7 +23,7 @@
     </div>
     
     <div class="regresar">
-      <button mat-mini-fab color="primary" *ngIf="modify" (click)="back()"><i class="fa-solid fa-backward"></i></button>
+      <button mat-mini-fab color="primary" *ngIf="modify" (click)="back()"><mat-icon>arrow_back</mat-icon></button>
     </div>
   </div>
 
@@ -39,8 +38,7 @@
         <p>Fecha de nacimiento: {{dataUser.dob |date: "dd-MM-yyyy"}}</p>
       </mat-card-content>
       <div class="edit">
-        <button mat-mini-fab color="primary"><i class="fa-solid fa-pen-to-square"
-            (click)="Modify(dataUser)"></i></button>
+        <button mat-mini-fab color="primary" (click)="Modify(dataUser)" ><mat-icon>edit</mat-icon></button>
       </div>
 
     </mat-card>
@@ -70,7 +68,7 @@
       <br>
       <mat-form-field class="input-field">
         <mat-label>Apellido</mat-label>
-        <input matInput [(ngModel)]="perfilDataModify.lastName" name="lastName" class="form-control">
+        <input matInput [(ngModel)]="perfilDataModify.lastName"  name="lastName" class="form-control" >
       </mat-form-field>
       <br>
       <mat-form-field class="input-field">
