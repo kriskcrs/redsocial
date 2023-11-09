@@ -137,7 +137,7 @@ export class ProfileComponent {
           // error de conexion o un 500
           this.openSnackBar("No existe conexión con el servidor", "Aceptar");
         }
-        return throwError(error);
+        return throwError("error");
       })
     )
   }
@@ -195,7 +195,7 @@ export class ProfileComponent {
           // error de conexion o un 500
           this.openSnackBar("No existe conexión con el servidor", "Aceptar");
         }
-        return throwError(error);
+        return throwError("error");
       }
       ))
   }
@@ -229,9 +229,7 @@ export class ProfileComponent {
   requestProfileUpdate(photo:any) {
 
     this.perfilDataModify.fotoIdFoto = photo
-    console.log("valor que va para el servicio");
-    
-    console.log(this.perfilDataModify);
+
     return this.http.put<any>(this.path + "/updateProfile/" + this.perfilDataModify.idUser, this.perfilDataModify).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
@@ -241,7 +239,7 @@ export class ProfileComponent {
           // error de conexion o un 500
           this.openSnackBar("No existe conexión con el servidor", "Aceptar");
         }
-        return throwError(error);
+        return throwError("error");
       }
       ))
   }
@@ -273,7 +271,6 @@ export class ProfileComponent {
     this.fileInput.nativeElement.click();
   }
   validationImagen() {
-    console.log("valida imagen");
     if (this.imageSrc == null) {
       this.idPhoto = this.file1
       this.ProfileUpdateService()
@@ -295,22 +292,21 @@ export class ProfileComponent {
 
     return this.http.post<any>(this.path + "/fileUp", formData, { observe: 'response' }).pipe(
       catchError((error: any) => {
-        if (error.status === 400) {
+        if(error.status == 0){
+          this.openSnackBar("Tamaño supera limite esperado", "Aceptar")
+        }
+        else if (error.status === 400) {
           // error para parametros invalidos
           this.SnackBar(this.messageErrorParametros, "Aceptar")
         } else {
           // error de conexion o un 500
           this.SnackBar(this.messageErroServer, "Aceptar");
         }
-        return throwError(error);
+        return throwError("error");
       }
       ))
   }
   imagenResponse(response: any) {
-    console.log("valor de la imagen subida"+response.body.idImagen);
-
-    console.log("ira a grabar actualizacion");
-
     this.requestProfileUpdate(response.body.idImagen).subscribe(
       (response: any) => this.responseProfileUpdate(response)
     )
@@ -348,7 +344,7 @@ export class ProfileComponent {
           // error de conexion o un 500
           this.openSnackBar(this.messageErroServer, "Aceptar")
         }
-        return throwError(error);
+        return throwError("error");
       }
       ))
   }

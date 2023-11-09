@@ -79,7 +79,7 @@ export class CreatePublicationComponent {
           // error de conexion o un 500
           this.openSnackBar(this.messageErroServer, "Aceptar")
         }
-        return throwError(error);
+        return throwError("error");
       })
     )
   }
@@ -139,7 +139,7 @@ export class CreatePublicationComponent {
              // error de conexion o un 500
              this.openSnackBar(this.messageErroServer, "Aceptar");
            }
-           return throwError(error);
+           return throwError("error");
          }
        ))
    }
@@ -154,11 +154,8 @@ export class CreatePublicationComponent {
   //imagenes
   validarImages(){
     if(this.imageSrc == null){
-   
    this.openSnackBarTime("Debes ingresar una imagen")
     }else {
-      console.log(this.imageSrc);
-      
       this.imagenService()
     }
   }
@@ -181,37 +178,31 @@ export class CreatePublicationComponent {
     this.imagenRequest(this.file, this.urlImages,  this.serve).subscribe((response: any) => this.imagenResponse(response))
   }
   imagenRequest(file: File, path: any, server: any) {
-
-
    // const formData = { file, path, user, server };
    const formData = new FormData()
    formData.append('file', file)
    formData.append('server', server)
    formData.append('path', path)
-
-
-   
-   console.log(this.path);
    
     return this.http.post<any>(this.path + "/fileUp", formData, { observe: 'response' }).pipe(
       catchError((error: any) => {
-        if (error.status === 400) {
+
+        if(error.status == 0){
+          this.openSnackBar("Tamaño supera limite esperado", "Aceptar")
+        }
+        else if (error.status === 400) {
           // error para parametros invalidos
           this.openSnackBar(this.messageErrorParametros, "Aceptar")
         } else {
           // error de conexion o un 500
           this.openSnackBar(this.messageErroServer, "Aceptar");
         }
-        return throwError(error);
+        return throwError("fallo el servicio");
       }
       ))
   }
   imagenResponse(response: any) {
-
     this.idPhot = response.body.idImagen
-    console.log("se envia a publicar al servicio");
-    console.log(this.idPhot);
-    
     this.publicationsService(this.idPhot)
 
   }

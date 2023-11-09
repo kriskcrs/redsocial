@@ -122,7 +122,7 @@ export class PublicationComponent {
           // error de conexion o un 500
           this.openSnackBar(this.messageErroServer, "Aceptar")
         }
-        return throwError(error);
+        return throwError("error");
       })
     )
   }
@@ -173,7 +173,7 @@ export class PublicationComponent {
           // error de conexion o un 500
           this.openSnackBar(this.messageErroServer, "Aceptar")
         }
-        return throwError(error);
+        return throwError("error");
       }
       ))
   }
@@ -200,7 +200,7 @@ export class PublicationComponent {
           // error de conexion o un 500
           this.openSnackBar(this.messageErroServer, "Aceptar");
         }
-        return throwError(error);
+        return throwError("error");
       }
       ))
   }
@@ -235,7 +235,7 @@ export class PublicationComponent {
             // error de conexion o un 500
             this.openSnackBar(this.messageErroServer, "Aceptar");
           }
-          return throwError(error);
+          return throwError("error");
         }
       ))
   }
@@ -263,7 +263,7 @@ export class PublicationComponent {
             // error de conexion o un 500
             this.openSnackBar(this.messageErroServer, "Aceptar");
           }
-          return throwError(error);
+          return throwError("error");
         }
       ))
   }
@@ -285,7 +285,7 @@ export class PublicationComponent {
           // error de conexion o un 500
           this.openSnackBar(this.messageErroServer, "Aceptar");
         }
-        return throwError(error);
+        return throwError("error");
       }
       ))
   }
@@ -361,7 +361,7 @@ export class PublicationComponent {
           // error de conexion o un 500
           this.openSnackBar(this.messageErroServer, "Aceptar");
         }
-        return throwError(error);
+        return throwError("error");
       }
       ))
   }
@@ -391,7 +391,7 @@ export class PublicationComponent {
           // error de conexion o un 500
           this.openSnackBar(this.messageErroServer, "Aceptar");
         }
-        return throwError(error);
+        return throwError("error");
       }
       ))
   }
@@ -435,7 +435,7 @@ export class PublicationComponent {
         } else {
           this.openSnackBar(this.messageErroServer, "Aceptar");
         }
-        return throwError(error);
+        return throwError("error");
       })
     );
   }
@@ -489,14 +489,17 @@ export class PublicationComponent {
 
     return this.http.post<any>(this.path + "/fileUp", formData, { observe: 'response' }).pipe(
       catchError((error: any) => {
-          if (error.status === 400) {
+        if(error.status == 0){
+          this.openSnackBar("Tamaño supera limite esperado", "Aceptar")
+        }
+        else if (error.status === 400) {
             // error para parametros invalidos
             this.openSnackBar(this.messageErrorParametros, "Aceptar")
           } else {
             // error de conexion o un 500
             this.openSnackBar(this.messageErroServer, "Aceptar");
           }
-          return throwError(error);
+          return throwError("error");
         }
       ))
   }
@@ -528,7 +531,7 @@ export class PublicationComponent {
             // error de conexion o un 500
             this.openSnackBar(this.messageErroServer, "Aceptar");
           }
-          return throwError(error);
+          return throwError("error");
         }
       ))
   }

@@ -22,7 +22,7 @@
 
   <div class="container" *ngIf="!modify">
     <mat-card class="profile-card">
-      <img src="assets/thumbnail/{{dataUser.fotoIdFoto}}" alt="Foto Perfil" class="profile-picture">
+      <img src="assets/original/{{dataUser.fotoIdFoto}}" alt="Foto Perfil" class="profile-picture">
       <mat-card-title>Nombre del usuario: {{dataUser.name}} {{dataUser.lastName}}</mat-card-title>
       <mat-card-title>
         <p>Fecha de nacimiento: {{dataUser.dob |date: "dd-MM-yyyy"}}</p>
@@ -96,7 +96,7 @@
       </form>
       <br>
       <div>
-        <button type="submit" class="btn btn-secondary">Confirmar</button>
+        <button type="submit"  mat-raised-button color="primary">Confirmar</button>
       </div>
     </form>
   </div>

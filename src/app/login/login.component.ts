@@ -82,7 +82,7 @@ export class LoginComponent {
           // error de conexión o un 500
           this.openSnackBar("No existe conexión con el servidor", "Aceptar");
         }
-        return throwError(error);
+        return throwError("error");
       })
     )
   }
