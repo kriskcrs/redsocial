@@ -36,7 +36,7 @@ export class HomeComponent {
 
   ngOnInit() {
  this.validateSession();
-  this.dataUserService();
+ 
   }
 
   //vars
@@ -50,12 +50,7 @@ export class HomeComponent {
   publications: any = []
   publicationId: any = {}
 
-  imagen : string = "https://react-diboy-desaweb.s3.amazonaws.com/favicon.ico"
 
-  open(){
-    console.log("Open Imagen");
-    
-  }
 
 
   //valida si la sesion esta vigente
@@ -94,11 +89,12 @@ export class HomeComponent {
     )
   }
   dataUserResponse(response: any) {
+    console.log(response);
+    
     if (response == null) {
      // this.revokeService()
     } else {
       this.dataUser = response
-      console.log(this.dataUser);
     }
   this.publication();
   }
@@ -160,11 +156,9 @@ export class HomeComponent {
   }
   publicationResult(response: any) {
     this.publications = response
-    console.log(this.publications)
   }
 
 publicationSet(id:any){
-  console.log('ID de la imagen clickeada: ' + id);
   localStorage.setItem("idPublication", JSON.stringify(id));
   this.router.navigateByUrl("/publication");
 

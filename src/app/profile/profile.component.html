@@ -1,44 +1,32 @@
 <body>
   <div class="header">
-
     <div class="row">
-
       <div class="col-1">
-        <div class="regresarProfile">
-          <button mat-mini-fab color="primary" *ngIf="!modify"
-            (click)="backWelcome()"><mat-icon>arrow_back</mat-icon></button>
-        </div>
-      </div>
+        <button mat-mini-fab color="primary" *ngIf="btnback"
+          (click)="backWelcome()"> <mat-icon>arrow_back</mat-icon></button>
 
+        <button mat-mini-fab color="primary" *ngIf="btnbackW"
+          (click)="back()"><mat-icon>arrow_back</mat-icon></button>
+      </div>
       <div class="col-10 center">
         <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
       </div>
-
       <div class="col-1">
-        <div class="logout">
-          <button mat-mini-fab color="primary" *ngIf="!modify"
-            (click)="revokeService()"><mat-icon>close</mat-icon></button>
-
-        </div>
+        <button mat-mini-fab color="primary" (click)="revokeService()"><mat-icon>close</mat-icon></button>
       </div>
-
     </div>
 
-    <div class="regresar">
-      <button mat-mini-fab color="primary" *ngIf="modify" (click)="back()"><mat-icon>arrow_back</mat-icon></button>
-    </div>
+
   </div>
 
 
   <div class="container" *ngIf="!modify">
     <mat-card class="profile-card">
-      <img
-        src=""
-        alt="Foto de perfil" class="profile-picture">
-      <mat-card-title>Nombre: {{dataUser.name}} {{dataUser.lastName}}</mat-card-title>
-      <mat-card-content>
+      <img src="assets/original/{{dataUser.fotoIdFoto}}" alt="Foto Perfil" class="profile-picture">
+      <mat-card-title>Nombre del usuario: {{dataUser.name}} {{dataUser.lastName}}</mat-card-title>
+      <mat-card-title>
         <p>Fecha de nacimiento: {{dataUser.dob |date: "dd-MM-yyyy"}}</p>
-      </mat-card-content>
+      </mat-card-title>
       <div class="edit">
         <button mat-mini-fab color="primary" (click)="Modify(dataUser)"><mat-icon>edit</mat-icon></button>
       </div>
@@ -48,17 +36,18 @@
       <ng-container *ngFor="let publication of publications; let i = index">
         <div class="col-4">
           <img src="assets/medium/{{publication.photoIdPhoto}}" alt="not found" class="imagesPubli"
-            [attr.data-id]="publication.idPublication"
-            (click)="publicationSet(publication.idPublication)">
+            [attr.data-id]="publication.idPublication" (click)="publicationSet(publication.idPublication)">
           <p>{{publication.decription}}</p>
         </div>
       </ng-container>
     </div>
   </div>
 
+  <h1 *ngIf="modify">Modificación</h1>
   <div class="containerus" *ngIf="modify">
+    
     <form class="example-form" (ngSubmit)="modForm()" id="modForm">
-      <h1>Modificación</h1>
+     
       <br>
       <mat-form-field class="input-field">
         <mat-label>Nombre</mat-label>
@@ -92,7 +81,8 @@
       <br>
       <mat-form-field class="input-field">
         <mat-label>Confirmar Contraseña</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="perfilDataModify.passwordConfirm" [ngModelOptions]="{standalone: true}">
+        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="perfilDataModify.passwordConfirm"
+          [ngModelOptions]="{standalone: true}">
         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>

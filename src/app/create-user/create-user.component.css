@@ -1,39 +1,163 @@
-.example-form {
+.header {
+  background-color: #fff;
+  border-bottom: 1px solid #de0000;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.header img {
+  width: 150px;
+  display: left;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  margin: 0;
+  height: 100%;
+}
+
+
+.input-field {
+  width: 36%;
+}
+
+
+
+.container {
+  max-width: 1000px;
+  margin: 10px auto;
+  background-color: #fff;
+  border: 2px solid #ddd;
+  height: auto;
+  justify-content: center;
+  align-items: center; 
+}
+.profile-card {
+  max-width: 1000px;
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+}
+
+.profile-picture {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+}
+
+
+.video-component {
+  width: 100%;
+  height: 50vh;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+}
+
+.controls {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 40px;
+  background-color: #ccc;
+}
+
+.controls button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background-color: #bbb;
+}
+
+.title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+
+/*boton ecitar*/
+.edit {
+  display: flex;
+  justify-content: right;
+  width: 940px;
+}
+
+
+
+/*cosas modificacion*/
+.input-dob {
+  justify-content: center;
+}
+
+.regresar {
+  display: flex;
+  justify-content: right;
+  width: 52px;
+}
+
+.regresarProfile {
+  display: flex;
+  justify-content: left;
+  width: 100px;
+}
+
+
+
+.logout {
+  display: flex;
+  justify-content: flex-end;
+  width: -0.5px;
+}
+
+
+
+
+.input-field {
+  width: 70%;
+}
+
+
+.containerus {
   justify-content: center;
   height: 70vh;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-left: 40%;
-}
-img{
-  text-align: center;
-  max-width: 16%;
-}
-.input-field {
-  width: 36%;
-}
-.header {
-  background-color: #fff;
-  border-bottom: 1px solid #ddd;
-  padding: 10px 0;
-  text-align: center;
-}
-.header img {
-  width: 150px;
+  padding-left: 25%;
 }
 
-.buttons{
+h1{
+  text-align: center;
+
+}
+
+
+.imagesPubli {
+  padding: 10%;
+  width: 100%; /* Establece el ancho al 100% del contenedor */
+  height: auto; /* Ajusta automáticamente la altura para mantener la proporción original */
+  max-width: 100%; /* Establece un ancho máximo para evitar que las imágenes se agranden demasiado */
+  display: block; /* Asegura que las imágenes se muestren como bloques */
+}
+
+/* Define un diseño de cuadrícula */
+.row {
   display: flex;
+  flex-wrap: wrap;
+  margin: -8px; /* Añade un margen negativo para evitar espacios en blanco entre las columnas */
 }
 
-.create-button{
-  margin: 10%;
-}
-
-.return-button{
-  margin-left: 40%;
-  margin-outside: 10%;
-  justify-content: center;
-  padding-left: 1%;
+.col-4 {
+  flex: 0 0 33.333%; /* Establece el ancho de la columna en un tercio del contenedor */
+  padding: 8px; /* Añade un margen interior para separar las columnas */
 }

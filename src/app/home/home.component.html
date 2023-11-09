@@ -1,24 +1,18 @@
 <body>
     <div class="header">
         <div class="row">
-        
-          <div class="col-1">
-            <div class="message">
-                <mat-card-title>Bienvenido: {{dataUser.name}} {{dataUser.lastName}}</mat-card-title>
-            </div>
+          <div class="col-2">
+                <mat-card-title>Usuario: {{dataUser.name}} {{dataUser.lastName}}</mat-card-title>
+                <img src="assets/thumbnail/{{dataUser.fotoIdFoto}}" alt="Foto Perfil" class="profile-picture">
           </div>
-    
-          <div class="col-10 center">
+          <div class="col-9 center">
             <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
           </div>
-    
           <div class="col-1">
             <div class="logout">
               <button mat-mini-fab color="primary"  (click)="revokeService()"><mat-icon>close</mat-icon></button>
-    
             </div>
           </div>
-    
         </div>
 
 
@@ -41,6 +35,7 @@
             <img src="assets/medium/{{publication.photo.idPhoto}}" alt="not found" class="imagesPubli" [attr.data-id]="publication.publication.idPublication" (click)="publicationSet(publication.publication.idPublication)">
             <p>{{publication.publication.decription}}</p>
           </div>
+          
         </ng-container>
       </div>
     </div>

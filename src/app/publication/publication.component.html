@@ -97,12 +97,7 @@
           <mat-card class="post-card" *ngIf="imgModify1">
             <img src="assets/original/{{photo.idPhoto}}">
           </mat-card>
-          <form class="Img" enctype="multipart/form-data">
-            <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileInput required>
-            <img *ngIf="imageSrc" [src]="imageSrc" style="max-width: 300px;" alt="Imagen Previa">
-            <br>
-            <button class="btn btn-secondary" (click)="selectImage()" id="selected">Seleccionar Imagen</button>
-          </form>
+        
         </div>
         <mat-form-field class="input-field">
           <mat-label>Descripcion</mat-label>

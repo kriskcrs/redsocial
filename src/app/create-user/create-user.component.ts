@@ -45,7 +45,7 @@ export class CreateUserComponent {
   urlImages: any = this.urlImage.urlImages
   serve: any = 10.10
   email = new FormControl('', [Validators.required, Validators.email]);
-  idPhot:any=""
+  idPhoto:any=""
   passwordConfirm = new FormControl('', [Validators.required]);
 
 
@@ -58,6 +58,8 @@ export class CreateUserComponent {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
   }
+
+  
   onFileSelected(event: any) {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
@@ -76,7 +78,7 @@ export class CreateUserComponent {
   }
   validationImagen(){
     if(this.imageSrc==null){
-      this.idPhot=this.file1
+      this.idPhoto=this.file1
       this.userCreation()
     }else{
       this.imagenService()
@@ -116,7 +118,7 @@ export class CreateUserComponent {
       ))
   }
   imagenResponse(response: any) {
-    this.idPhot = response.body.idImagen
+    this.idPhoto = response.body.idImagen
     this.userCreation()
 
   }
@@ -131,8 +133,8 @@ export class CreateUserComponent {
   }
   userCreationRequest() {
     this.dataCreate.idUser=this.email.value
-    this.dataCreate.fotoIdFoto=this.idPhot
-    console.log(this.dataCreate)
+    this.dataCreate.fotoIdFoto=this.idPhoto
+
     return this.http.post<any>(this.path + "/createUser", this.dataCreate, { observe: 'response' }).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
@@ -158,7 +160,7 @@ if (response.status === 200) {
 
   }
 
-  login(){
+  back(){
     this.router.navigateByUrl("/")
   }
   getErrorMessage() {

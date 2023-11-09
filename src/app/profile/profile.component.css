@@ -22,7 +22,9 @@ body {
   width: 36%;
 }
 
-
+p{
+  text-align: center;
+}
 
 .container {
   max-width: 1000px;
@@ -123,7 +125,7 @@ body {
 
 
 .input-field {
-  width: 150%;
+  width: 400%;
 }
 
 
@@ -133,12 +135,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-left: 35%;
+  padding-left: 25%;
 }
 
 h1{
   text-align: center;
-  padding-left: 35%;
 }
 
 

@@ -1,4 +1,4 @@
-import { Component , ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroupDirective,
@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../app.component';
-import {ErrorStateMatcher} from '@angular/material/core';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
@@ -34,7 +34,7 @@ interface Photo {
 })
 export class ProfileComponent {
   modulos: any = []
-  constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
+  constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient, private urlImage: AppComponent) { }
 
   ngOnInit() {
     this.validateSession();
@@ -43,10 +43,10 @@ export class ProfileComponent {
   //boolean
   modify: boolean = false
   view: boolean = false
-  btnAdd: boolean = false
-  btnUpdate: boolean = false
+
   add: boolean = false
-  tab: boolean = true
+  btnback: boolean = true
+  btnbackW: boolean = false
   header: boolean = true
 
   //vars
@@ -57,7 +57,7 @@ export class ProfileComponent {
   serve: any = 10.10
   messageErrorParametros: string = "Parametros invalidos"
   messageErroServer: string = "No existe conexion con el servidor"
-  
+
   //objetos
   perfilData: any = []
   perfilDataModify: any = []
@@ -65,55 +65,35 @@ export class ProfileComponent {
   photos: any = {}
   options: any = {}
   file: any
-  idPhoto:any=""
+  idPhoto: any = ""
   imageSrc: string | ArrayBuffer | null = null;
   @ViewChild('fileInput') fileInput: any;
   publications: any = []
   publicationId: any = {}
   //url
   pageUrl = "profile"
-  urlImages: any = "C:\\Users\\ricar\\OneDrive\\Escritorio\\TAREAS\\Desarrollo\\redsocial\\src\\assets"
-
-  //bandera de botones
-  optionsValidate() {
-    this.options = localStorage.getItem("options");
-    this.options = JSON.parse(this.options)
-
-    let permisos: any = {}
-    this.options.forEach((item: any) => {
-      if (item.page === this.pageUrl) {
-        permisos = item.permisos
-      }
-    })
-    permisos.forEach((item: any) => {
-      this.btnAdd = item.up == 1 ? true : false
-      this.btnUpdate = item.update == 1 ? true : false
-    })
-  }
+  urlImages: any = this.urlImage.urlImages
+  file1: any = 'perfil.png'
 
   //banderas
   Modify(id: any) {
-    console.log("modifica")
     this.perfilDataModify = id
-    this.add = false
-    this.tab = false
+    this.btnback = false
+    this.btnbackW = true
     this.modify = true
-    this.header = false
-
   }
 
-  back() {
-    console.log("back")
-    this.modify = false
-    this.add = false
-    this.header = true
-    this.perfilDataModify = {}
-    this.ngOnInit()
-  }
+
 
 
   backWelcome() {
     this.router.navigateByUrl("/home")
+  }
+
+  back() {
+    this.modify = false
+    this.btnback = true
+    this.btnbackW = false
   }
 
 
@@ -121,7 +101,6 @@ export class ProfileComponent {
   onPasswordKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       event.preventDefault();
-      //this.login();
     }
   }
 
@@ -132,6 +111,8 @@ export class ProfileComponent {
     if (this.dataUser != null) {
       this.dataUser = JSON.parse(this.dataUser)
       this.dataUserService();
+      console.log(this.btnback + " back");
+      console.log(this.btnbackW + " welcom");
     } else {
       this.router.navigateByUrl("/")
 
@@ -167,10 +148,10 @@ export class ProfileComponent {
   }
   dataUserResponse(response: any) {
     if (response == null) {
-     // this.revokeService()
+      // this.revokeService()
     } else {
       this.dataUser = response
-      
+
     }
     this.publication();
   }
@@ -227,32 +208,34 @@ export class ProfileComponent {
   }
   responsePerfil(response: any) {
     this.perfilData = response
-    
+
   }
 
-   //modificacion de perfil
+  //modificacion de perfil
 
-   modForm() {
+  modForm() {
     let formularioValido: any = document.getElementById("modForm");
     if (formularioValido.reportValidity()) {
       this.perfilDataModify.userModification = this.dataUser.user
-      console.log(this.perfilDataModify);
-      if( this.perfilDataModify.password == this.perfilDataModify.passwordConfirm ){
-        this.imagenService()
+      if (this.perfilDataModify.password == this.perfilDataModify.passwordConfirm) {
         this.perfilDataModify.fotoIdFoto = this.idPhoto
         this.perfilDataModify.route = this.urlImages
-        console.log(this.perfilDataModify)
-        this.requestProfileUpdate().subscribe(
-       (response: any) => this.responseProfileUpdate(response)
-        )
-      }else{
-        this.openSnackBarTime ("Contraseñas nos coinciden")
+        this.validationImagen()
+      } else {
+        this.openSnackBarTime("Contraseñas nos coinciden")
       }
-      
-      
     }
   }
+  ProfileUpdateService() {
+    this.perfilDataModify.fotoIdFoto = this.idPhoto
+    this.requestProfileUpdate().subscribe(
+      (response: any) => this.responseProfileUpdate(response)
+    )
+  }
+
   requestProfileUpdate() {
+    console.log(this.idPhoto);
+    
     return this.http.put<any>(this.path + "/updateProfile/" + this.perfilDataModify.idUser, this.perfilDataModify).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
@@ -273,7 +256,6 @@ export class ProfileComponent {
   }
 
   matcher = new MyErrorStateMatcher();
-  file1: any ='assets/perfil.png'
 
   SnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
@@ -294,10 +276,11 @@ export class ProfileComponent {
     // Hacer clic en el input de tipo archivo para abrir el cuadro de diálogo de selección de archivo
     this.fileInput.nativeElement.click();
   }
-  validationImagen(){
-    if(this.file==""){
-      this.file=this.file1
-    }else{
+  validationImagen() {
+    if (this.imageSrc == null) {
+      this.idPhoto = this.file1
+      this.ProfileUpdateService()
+    } else {
       this.imagenService()
     }
   }
@@ -316,24 +299,27 @@ export class ProfileComponent {
 
     return this.http.post<any>(this.path + "/fileUp", formData, { observe: 'response' }).pipe(
       catchError((error: any) => {
-          if (error.status === 400) {
-            // error para parametros invalidos
-            this.SnackBar(this.messageErrorParametros, "Aceptar")
-          } else {
-            // error de conexion o un 500
-            this.SnackBar(this.messageErroServer, "Aceptar");
-          }
-          return throwError(error);
+        if (error.status === 400) {
+          // error para parametros invalidos
+          this.SnackBar(this.messageErrorParametros, "Aceptar")
+        } else {
+          // error de conexion o un 500
+          this.SnackBar(this.messageErroServer, "Aceptar");
         }
+        return throwError(error);
+      }
       ))
   }
   imagenResponse(response: any) {
     this.idPhoto = response.body.idImagen
+    console.log(response);
 
+    console.log("ira a grabar actualizacion");
+
+    this.requestProfileUpdate().subscribe(
+      (response: any) => this.responseProfileUpdate(response)
+    )
   }
-
-
-
 
 
   loadPhotos() {
@@ -357,30 +343,29 @@ export class ProfileComponent {
     this.publicationRequest().subscribe((response: any) => this.publicationResult(response))
   }
   publicationRequest() {
-    console.log(this.dataUser)
+
     return this.http.get<any>(this.path + "/consult/publicationUser/" + this.dataUser.idUser).pipe(
       catchError((error: any) => {
-          if (error.status === 400) {
-            // error para parametros invalidos
-            this.openSnackBar(this.messageErrorParametros, "Aceptar")
-          } else {
-            // error de conexion o un 500
-            this.openSnackBar(this.messageErroServer, "Aceptar")
-          }
-          return throwError(error);
+        if (error.status === 400) {
+          // error para parametros invalidos
+          this.openSnackBar(this.messageErrorParametros, "Aceptar")
+        } else {
+          // error de conexion o un 500
+          this.openSnackBar(this.messageErroServer, "Aceptar")
         }
+        return throwError(error);
+      }
       ))
   }
   publicationResult(response: any) {
     this.publications = response
-    console.log(this.publications)
   }
 
-publicationSet(id:any){
-  console.log('ID de la imagen clickeada: ' + id);
-  localStorage.setItem("idPublication", JSON.stringify(id));
-  this.router.navigateByUrl("/publication");
+  publicationSet(id: any) {
 
-}
+    localStorage.setItem("idPublication", JSON.stringify(id));
+    this.router.navigateByUrl("/publication");
+
+  }
 
 }
