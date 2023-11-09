@@ -45,7 +45,7 @@ export class PublicationComponent {
   file: any
   imageSrc: string | ArrayBuffer | null = null;
   @ViewChild('fileInput') fileInput: any;
-  urlImages: any = "C:\\Users\\josue\\WebstormProjects\\redsocial\\src\\assets"
+  urlImages: any = "C:\\Users\\ricar\\OneDrive\\Escritorio\\TAREAS\\Desarrollo\\redsocial\\src\\assets"
   serve: any = 10.10
   hide = true;
   dataCreate: any = {}
