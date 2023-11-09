@@ -37,6 +37,10 @@ img {
   text-align: center;
 }
 
+.desc{
+  text-align: center !important;
+}
+
 p{
   text-align: center;
 }
