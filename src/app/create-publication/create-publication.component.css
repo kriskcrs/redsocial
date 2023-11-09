@@ -14,7 +14,6 @@ mat-card-title{
 
 .post-card {
   margin: 10px;
-  max-width: 400px;
   text-align: center;
 }
 .comment-field {
@@ -171,10 +170,11 @@ mat-card-title{
   color: red; /* Color rojo cuando está activo (clic) */
 }
 
-.mat-mdc-card {
-  width: 500px !important;
+.boton{
+  margin-right: 3%;
 }
 
-.boton{
-  margin: 1%;
+#add{
+  text-align: center !important;
+  width: 100% !important;
 }

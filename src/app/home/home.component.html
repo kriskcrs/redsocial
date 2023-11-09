@@ -2,8 +2,8 @@
     <div class="header">
         <div class="row">
           <div class="col-2">
-                <mat-card-title>Usuario: {{dataUser.name}} {{dataUser.lastName}}</mat-card-title>
-                <img src="assets/thumbnail/{{dataUser.fotoIdFoto}}" alt="Foto Perfil" class="profile-picture">
+              <img src="assets/thumbnail/{{dataUser.fotoIdFoto}}" alt="Foto Perfil" class="profile-picture">
+              <mat-card-title>{{dataUser.name}} </mat-card-title>
           </div>
           <div class="col-9 center">
             <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
@@ -33,7 +33,7 @@
         <ng-container *ngFor="let publication of publications; let i = index">
           <div class="col-4">
             <img src="assets/medium/{{publication.photo.idPhoto}}" alt="not found" class="imagesPubli" [attr.data-id]="publication.publication.idPublication" (click)="publicationSet(publication.publication.idPublication)">
-            <p>{{publication.publication.decription}}</p>
+            <p class="desc">{{publication.publication.decription}}</p>
           </div>
           
         </ng-container>
