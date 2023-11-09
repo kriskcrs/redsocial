@@ -3,12 +3,19 @@
 
 <body>
   <div class="header">
-    <!--
-    Encabezado global
-    -->
+    <div class="col-1" *ngIf="add">
+      <div class="regresarProfile">
+        <button mat-mini-fab color="primary" (click)="home()"><mat-icon>arrow_back</mat-icon></button>
+      </div>
+    </div>
+      <div class="col-1" *ngIf="modify">
+        <div class="regresarProfile">
+          <button mat-mini-fab color="primary" (click)="back()"><mat-icon>arrow_back</mat-icon></button>
+        </div>
+      </div>
     <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
   </div>
-  <nav class="menu">
+  <nav class="menu" *ngIf="botones">
     <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open" />
     <label class="menu-open-button" for="menu-open">
       <span class="hamburger hamburger-1"></span>
@@ -24,10 +31,9 @@
     <div class="col-4">
       <!--  Aqui va la foto de la publicacion y el comentario -->
       <mat-card class="post-card" >
-        <div>
-          <img src="assets/original/{{publicationData.photo.idPhoto}}" width="400px">
-        </div>
-        <p>{{publicationData.publication.decription}}</p>
+         <img src="assets/original/{{photo.idPhoto}}">
+        <p>{{publication.decription}}</p>
+
         <button mat-icon-button class="example-icon favorite-icon" [ngClass]="{ 'active': isFavoriteEdit }" (click)="toggleFavoriteEdit()">
           <mat-icon>{{ isFavoriteEdit ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
@@ -37,7 +43,6 @@
             <textarea matInput [(ngModel)]="comentario"></textarea>
           </mat-form-field>
           <button mat-raised-button color="primary" (click)="commentcreateService(comentario)">Comentar</button>
-          <button mat-raised-button color="primary" (click)="home()" class="boton">Regresar</button>
         </mat-card-content>
       </mat-card>
     </div>
@@ -86,13 +91,11 @@
 
   <div class="col-4" *ngIf="modify">
     <!--  Aqui va la foto de la publicacion y el comentario -->
-    <form class="formAdd" id="add">
+    <form class="formAdd" id="modify">
       <mat-card class="post-card">
         <div class="col-2">
-          <mat-card class="post-card">
-            <div>
-              <img src="assets/original/{{publicationData.photo.idPhoto}}" width="400px">
-            </div>
+          <mat-card class="post-card" *ngIf="imgModify1">
+            <img src="assets/original/{{photo.idPhoto}}">
           </mat-card>
           <form class="Img" enctype="multipart/form-data">
             <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileInput required>
@@ -103,11 +106,10 @@
         </div>
         <mat-form-field class="input-field">
           <mat-label>Descripcion</mat-label>
-          <input type="text" matInput [(ngModel)]="dataCreate.decription" [ngModelOptions]="{standalone: true}" >
+          <input type="text" matInput [(ngModel)]="dataModify.decription" [ngModelOptions]="{standalone: true}" >
         </mat-form-field>
         <mat-card-content>
-          <button mat-raised-button color="primary" (click)="imagenService()" class="boton">Publicar</button>
-          <button mat-raised-button color="primary" (click)="back()" class="boton">Regresar</button>
+          <button mat-raised-button color="primary" (click)="validarImages()" class="boton">Editar</button>
         </mat-card-content>
       </mat-card>
     </form>

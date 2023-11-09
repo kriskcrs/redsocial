@@ -25,10 +25,16 @@ export class PublicationComponent {
   //vars
   modify: boolean = false
   add: boolean = true
+  imgModify1:boolean = true
   dataUser: any = {}
   path = this.url.url
   comments: any = []
   publicationData: any = {}
+  photo:any = {}
+  publication:any = {}
+  dataModify:any={}
+  botones:boolean=true;
+  moji:any=0
   publications: any = []
   users: any = []
   isFavorite = false;
@@ -40,7 +46,7 @@ export class PublicationComponent {
   messageErrorParametros: string = "Parametros invalidos"
 
   imagenDataUrl: string = ""
-  photo: any = {}
+
   userLogin: boolean = false;
   file: any
   imageSrc: string | ArrayBuffer | null = null;
@@ -51,11 +57,20 @@ export class PublicationComponent {
   dataCreate: any = {}
   idPhot:any=""
 
+  validarBotones(){
+
+
+    if(this.publicationData.publication.userIdUser == this.dataUser.idUser){
+      this.botones=true
+    }else {
+      this.botones=false
+    }
+  }
 
   editingCommentIndex: number = -1;
 
   Modify(response: any) {
-    this.publications = response
+    this.dataModify.decription = response.publication.decription
     this.add = false
     this.modify = true
   }
@@ -192,9 +207,68 @@ export class PublicationComponent {
   }
   publicationsResponse(response: any) {
     this.publicationData = response[0]
-    console.log(this.publicationData.photo.idPhoto)
+
+    this.photo = this.publicationData.photo
+    this.publication = this.publicationData.publication
+    this.validarBotones()
     this.toggleFavorite()
     this.commentService()
+  }
+
+
+  //editar la publicaciones
+
+  publicationEditService() {
+    let formularioValido: any = document.getElementById("modify");
+    if(formularioValido.reportValidity()){
+      this.publicationEditRequest().subscribe((response: any) => this.publicationEditResponse(response))
+
+    }
+  }
+  publicationEditRequest() {
+    this.dataModify.photoIdPhoto=this.idPhot
+    return this.http.put<any>(this.path + "/modifyPublication/"+this.idP, this.dataModify,{ observe: 'response' }).pipe(
+      catchError((error: any) => {
+          if (error.status === 400) {
+            // error para parametros invalidos
+            this.openSnackBar(this.messageErrorParametros, "Aceptar")
+          } else {
+            // error de conexion o un 500
+            this.openSnackBar(this.messageErroServer, "Aceptar");
+          }
+          return throwError(error);
+        }
+      ))
+  }
+  publicationEditResponse(response: any) {
+    if(response.status==200){
+      this.openSnackBarTime("Publicacion modificada")
+      this.home()
+    }else{
+      this.openSnackBarTime("No se pudo modificar")
+    }
+  }
+
+  //editar el emoji
+
+  publicationEmoji() {
+      this.publicationEmojiRequest().subscribe((response: any) => this.publicationEmojiResponse(response))
+  }
+  publicationEmojiRequest() {
+    return this.http.put<any>(this.path + "/modifyPublication/emoji/"+this.idP+"/"+this.moji,{ observe: 'response' }).pipe(
+      catchError((error: any) => {
+          if (error.status === 400) {
+            // error para parametros invalidos
+            this.openSnackBar(this.messageErrorParametros, "Aceptar")
+          } else {
+            // error de conexion o un 500
+            this.openSnackBar(this.messageErroServer, "Aceptar");
+          }
+          return throwError(error);
+        }
+      ))
+  }
+  publicationEmojiResponse(response: any) {
   }
 
 
@@ -254,6 +328,13 @@ export class PublicationComponent {
 
   toggleFavoriteEdit() {
   this.isFavoriteEdit=!this.isFavoriteEdit
+    if(this.isFavoriteEdit){
+      this.moji=1
+      this.publicationEmoji()
+    }else{
+      this.moji=0
+      this.publicationEmoji()
+    }
 
   }
 
@@ -368,6 +449,7 @@ export class PublicationComponent {
 
   //imagenes
   onFileSelected(event: any) {
+    this.imgModify1=false;
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       const reader = new FileReader();
@@ -383,6 +465,16 @@ export class PublicationComponent {
     // Hacer clic en el input de tipo archivo para abrir el cuadro de diálogo de selección de archivo
     this.fileInput.nativeElement.click();
   }
+
+  validarImages(){
+    if(this.imgModify1){
+      this.dataModify.photoIdPhoto=this.photo.idPhoto
+      this.publicationEditService()
+    }else {
+      this.imagenService()
+    }
+  }
+
   imagenService() {
     this.imagenRequest(this.file, this.urlImages, this.dataUser.idUser, this.serve).subscribe((response: any) => this.imagenResponse(response))
   }
@@ -411,7 +503,7 @@ export class PublicationComponent {
   }
   imagenResponse(response: any) {
     this.idPhot = response.body.idImagen
-    this.publicationsService()
+    this.publicationEditService()
 
   }
 
@@ -421,7 +513,6 @@ export class PublicationComponent {
 
   //elimina comentarios
   deletePublication(c: any) {
-    console.log(c)
     if (c.publication.userIdUser == this.dataUser.idUser) {
       this.deletePublicationtRequest(c).subscribe((response: any) => this.deletePublicationResponse(response))
     } else {
