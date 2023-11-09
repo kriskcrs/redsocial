@@ -77,6 +77,8 @@ export class LoginComponent {
     
     return this.http.post<any>(this.path + "/login", data, { observe: 'response' }).pipe(
       catchError((error: any) => {
+        console.log(error);
+        
         if (error.status === 400) {
           // error para parámetros inválidos          
           this.openSnackBar(error.error.message, "Aceptar");
@@ -84,7 +86,7 @@ export class LoginComponent {
           // error de conexión o un 500
           this.openSnackBar("No existe conexión con el servidor", "Aceptar");
         }
-        return throwError("error");
+        return throwError(error);
       })
     )
   }
