@@ -83,9 +83,6 @@ export class ProfileComponent {
     this.modify = true
   }
 
-
-
-
   backWelcome() {
     this.router.navigateByUrl("/home")
   }
@@ -104,15 +101,13 @@ export class ProfileComponent {
     }
   }
 
-
   //valida si la sesion esta vigente
   validateSession() {
     this.dataUser = localStorage.getItem("data")
     if (this.dataUser != null) {
       this.dataUser = JSON.parse(this.dataUser)
       this.dataUserService();
-      console.log(this.btnback + " back");
-      console.log(this.btnbackW + " welcom");
+   
     } else {
       this.router.navigateByUrl("/")
 
@@ -178,8 +173,6 @@ export class ProfileComponent {
   }
 
 
-
-
   //obtener datos del perfil
   perfil() {
     this.requestPerfil().subscribe(
@@ -218,8 +211,8 @@ export class ProfileComponent {
     if (formularioValido.reportValidity()) {
       this.perfilDataModify.userModification = this.dataUser.user
       if (this.perfilDataModify.password == this.perfilDataModify.passwordConfirm) {
-        this.perfilDataModify.fotoIdFoto = this.idPhoto
-        this.perfilDataModify.route = this.urlImages
+       // this.perfilDataModify.fotoIdFoto = this.idPhoto
+      //  this.perfilDataModify.route = this.urlImages
         this.validationImagen()
       } else {
         this.openSnackBarTime("Contraseñas nos coinciden")
@@ -228,14 +221,17 @@ export class ProfileComponent {
   }
   ProfileUpdateService() {
     this.perfilDataModify.fotoIdFoto = this.idPhoto
-    this.requestProfileUpdate().subscribe(
+    this.requestProfileUpdate(this.idPhoto).subscribe(
       (response: any) => this.responseProfileUpdate(response)
     )
   }
 
-  requestProfileUpdate() {
-    console.log(this.idPhoto);
+  requestProfileUpdate(photo:any) {
+
+    this.perfilDataModify.fotoIdFoto = photo
+    console.log("valor que va para el servicio");
     
+    console.log(this.perfilDataModify);
     return this.http.put<any>(this.path + "/updateProfile/" + this.perfilDataModify.idUser, this.perfilDataModify).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
@@ -277,6 +273,7 @@ export class ProfileComponent {
     this.fileInput.nativeElement.click();
   }
   validationImagen() {
+    console.log("valida imagen");
     if (this.imageSrc == null) {
       this.idPhoto = this.file1
       this.ProfileUpdateService()
@@ -295,7 +292,6 @@ export class ProfileComponent {
     formData.append('file', file)
     formData.append('server', server)
     formData.append('path', path)
-    formData.append('user', user)
 
     return this.http.post<any>(this.path + "/fileUp", formData, { observe: 'response' }).pipe(
       catchError((error: any) => {
@@ -311,12 +307,11 @@ export class ProfileComponent {
       ))
   }
   imagenResponse(response: any) {
-    this.idPhoto = response.body.idImagen
-    console.log(response);
+    console.log("valor de la imagen subida"+response.body.idImagen);
 
     console.log("ira a grabar actualizacion");
 
-    this.requestProfileUpdate().subscribe(
+    this.requestProfileUpdate(response.body.idImagen).subscribe(
       (response: any) => this.responseProfileUpdate(response)
     )
   }
