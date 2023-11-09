@@ -217,15 +217,15 @@ export class PublicationComponent {
 
   //editar la publicaciones
 
-  publicationEditService() {
+  publicationEditService(foto:any) {
     let formularioValido: any = document.getElementById("modify");
     if(formularioValido.reportValidity()){
-      this.publicationEditRequest().subscribe((response: any) => this.publicationEditResponse(response))
+      this.publicationEditRequest(foto).subscribe((response: any) => this.publicationEditResponse(response))
 
     }
   }
-  publicationEditRequest() {
-    this.dataModify.photoIdPhoto=this.idPhot
+  publicationEditRequest(foto:any) {
+    this.dataModify.photoIdPhoto= foto
     return this.http.put<any>(this.path + "/modifyPublication/"+this.idP, this.dataModify,{ observe: 'response' }).pipe(
       catchError((error: any) => {
           if (error.status === 400) {
@@ -467,8 +467,8 @@ export class PublicationComponent {
 
   validarImages(){
     if(this.imgModify1){
-      this.dataModify.photoIdPhoto=this.photo.idPhoto
-      this.publicationEditService()
+   
+      this.publicationEditService(this.dataModify.photoIdPhoto)
     }else {
       this.imagenService()
     }
@@ -502,7 +502,7 @@ export class PublicationComponent {
   }
   imagenResponse(response: any) {
     this.idPhot = response.body.idImagen
-    this.publicationEditService()
+    this.publicationEditService(this.idPhot)
 
   }
 

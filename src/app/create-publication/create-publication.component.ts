@@ -37,12 +37,12 @@ export class CreatePublicationComponent {
   hide = true;
   dataCreate: any = {}
   idPhot:any=""
-
+  formData = new FormData();
 
   toggleFavorite() {
     this.isFavorite = !this.isFavorite;
   }
-   formData = new FormData();
+  
   //valida si la sesion esta vigente
   validateSession() {
     this.dataUser = localStorage.getItem("data")
@@ -88,7 +88,6 @@ export class CreatePublicationComponent {
       // this.revokeService()
     } else {
       this.dataUser = response
-      console.log(this.dataUser)
     }
 
   }
@@ -120,16 +119,16 @@ export class CreatePublicationComponent {
 
   //crea la publicacion
 
-   publicationsService() {
+   publicationsService(foto:any) {
      let formularioValido: any = document.getElementById("add");
      if(formularioValido.reportValidity()){
-       this.publicationsRequest().subscribe((response: any) => this.publicationsResponse(response))
+       this.publicationsRequest(foto).subscribe((response: any) => this.publicationsResponse(response))
      }
    }
-   publicationsRequest() {
+   publicationsRequest(foto:any) {
     this.dataCreate.userIdUser=this.dataUser.idUser
-     this.dataCreate.photoIdPhoto=this.idPhot
-     console.log(this.dataCreate)
+     this.dataCreate.photoIdPhoto=foto
+   
      return this.http.post<any>(this.path + "/createPublication",this.dataCreate).pipe(
        catchError((error: any) => {
            if (error.status === 400) {
@@ -152,9 +151,14 @@ export class CreatePublicationComponent {
 
 
   //imagenes
-  validateImages(){
-    if(this.file==""){
-      this.file =""
+  validarImages(){
+    if(this.imageSrc == null){
+   
+   this.openSnackBarTime("Debes ingresar una imagen")
+    }else {
+      console.log(this.imageSrc);
+      
+      this.imagenService()
     }
   }
   onFileSelected(event: any) {
@@ -168,15 +172,14 @@ export class CreatePublicationComponent {
       this.file = selectedFile
     }
   }
-
   selectImage() {
     // Hacer clic en el input de tipo archivo para abrir el cuadro de diálogo de selección de archivo
     this.fileInput.nativeElement.click();
   }
   imagenService() {
-    this.imagenRequest(this.file, this.urlImages, this.dataUser.idUser, this.serve).subscribe((response: any) => this.imagenResponse(response))
+    this.imagenRequest(this.file, this.urlImages,  this.serve).subscribe((response: any) => this.imagenResponse(response))
   }
-  imagenRequest(file: File, path: any, user: any, server: any) {
+  imagenRequest(file: File, path: any, server: any) {
 
 
    // const formData = { file, path, user, server };
@@ -184,8 +187,12 @@ export class CreatePublicationComponent {
    formData.append('file', file)
    formData.append('server', server)
    formData.append('path', path)
-   formData.append('user', user)
 
+   console.log("data que se envia");
+   console.log(formData);
+   
+   console.log(this.path);
+   
     return this.http.post<any>(this.path + "/fileUp", formData, { observe: 'response' }).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
@@ -201,7 +208,10 @@ export class CreatePublicationComponent {
   }
   imagenResponse(response: any) {
     this.idPhot = response.body.idImagen
-    this.publicationsService()
+    console.log("se envia a publicar al servicio");
+    console.log(this.idPhot);
+    
+    this.publicationsService(this.idPhot)
 
   }
 

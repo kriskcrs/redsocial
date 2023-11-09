@@ -89,8 +89,7 @@ export class HomeComponent {
     )
   }
   dataUserResponse(response: any) {
-    console.log(response);
-    
+
     if (response == null) {
      // this.revokeService()
     } else {
