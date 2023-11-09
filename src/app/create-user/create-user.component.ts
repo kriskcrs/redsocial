@@ -40,7 +40,8 @@ export class CreateUserComponent {
   file: any
   imageSrc: string | ArrayBuffer | null = null;
   @ViewChild('fileInput') fileInput: any;
-  urlImages: any = "C:\\Users\\josue\\WebstormProjects\\redsocial\\src\\assets"
+  //urlImages: any = "C:\\Users\\josue\\WebstormProjects\\redsocial\\src\\assets"
+  urlImages: any = "/Users/cristiancaceres/WebstormProjects/redsocial/src/assets"
   serve: any = 10.10
   email = new FormControl('', [Validators.required, Validators.email]);
   idPhot:any=""
