@@ -14,5 +14,5 @@ export class AppComponent {
   // urlImages: any = "/Users/diboy/Documents/UMG/8vo Semestre/WD/redsocial/src/assets"
   // urlImages: any = "C:\\Users\\ricar\\OneDrive\\Escritorio\\TAREAS\\Desarrollo\\redsocial\\src\\assets"
 
-  urlImages: any = "/home/ubuntu/"
+  urlImages: any = "/home/ubuntu/redsocial/src/assets"
 }
