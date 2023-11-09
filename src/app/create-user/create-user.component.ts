@@ -51,7 +51,7 @@ export class CreateUserComponent {
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
 
   matcher = new MyErrorStateMatcher();
-  file1: any ='assets/perfil.png'
+  file1: any ='perfil.png'
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
@@ -73,14 +73,22 @@ export class CreateUserComponent {
     this.fileInput.nativeElement.click();
   }
   validationImagen(){
-    if(this.file==""){
-      this.file=this.file1
+    if(this.imageSrc==null){
+      this.idPhot=this.file1
+      this.userCreation()
     }else{
       this.imagenService()
     }
   }
   imagenService() {
-    this.imagenRequest(this.file, this.urlImages, this.dataCreate.idUser, this.serve).subscribe((response: any) => this.imagenResponse(response))
+    if(this.dataCreate.password==this.passwordConfirm.value) {
+      if (this.email.valid) {
+        this.imagenRequest(this.file, this.urlImages, this.dataCreate.idUser, this.serve).subscribe((response: any) => this.imagenResponse(response))
+      }
+    }else{
+      this.openSnackBar("Contraseñas no coiciden", "Aceptar");
+
+    }
   }
   imagenRequest(file: File, path: any, user: any, server: any) {
 
@@ -111,21 +119,18 @@ export class CreateUserComponent {
 
   }
   userCreation() {
-    if(this.email.valid){
-      let formularioValido: any = document.getElementById("add");
-      if (formularioValido.reportValidity()) {
-        this.userCreationRequest().subscribe(
+        let formularioValido: any = document.getElementById("add");
+        if (formularioValido.reportValidity()) {
+          this.userCreationRequest().subscribe(
             (response: any) => this.userCreationResponse(response)
-        )
+          )
 
-      }
-    }
+        }
   }
   userCreationRequest() {
     this.dataCreate.idUser=this.email.value
     this.dataCreate.fotoIdFoto=this.idPhot
     console.log(this.dataCreate)
-    if(this.dataCreate.password==this.passwordConfirm){}
     return this.http.post<any>(this.path + "/createUser", this.dataCreate, { observe: 'response' }).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
