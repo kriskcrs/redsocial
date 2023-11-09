@@ -73,6 +73,8 @@ export class LoginComponent {
     }
   }
   loginRequest(data: any) {
+    console.log("se loguea a -> " +this.path);
+    
     return this.http.post<any>(this.path + "/login", data, { observe: 'response' }).pipe(
       catchError((error: any) => {
         if (error.status === 400) {
