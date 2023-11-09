@@ -90,6 +90,8 @@ export class LoginComponent {
   }
 
   loginResponse(response: any) {
+    console.log(response);
+    
     if (response.status === 202) {
       localStorage.setItem("data", JSON.stringify(response.body));
       this.router.navigateByUrl("/set-password");
