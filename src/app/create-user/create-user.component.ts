@@ -31,7 +31,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./create-user.component.css'],
 })
 export class CreateUserComponent {
-  constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient) { }
+  constructor(private _snackBar: MatSnackBar, private url: AppComponent, private router: Router, private http: HttpClient,private urlImage:AppComponent) { }
+ 
+ 
   messageErroServer: string = "No existe conexion con el servidor"
   messageErrorParametros: string = "Parametros invalidos"
   path = this.url.url
@@ -40,7 +42,7 @@ export class CreateUserComponent {
   file: any
   imageSrc: string | ArrayBuffer | null = null;
   @ViewChild('fileInput') fileInput: any;
-  urlImages: any = "C:\\Users\\josue\\WebstormProjects\\redsocial\\src\\assets"
+  urlImages: any = this.urlImage.urlImages
   serve: any = 10.10
   email = new FormControl('', [Validators.required, Validators.email]);
   idPhot:any=""

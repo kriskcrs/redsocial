@@ -8,4 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'redsocial';
   url = "http://localhost:4042/v1"
+   //urlImages: any = "C:\\Users\\josue\\WebstormProjects\\redsocial\\src\\assets"
+   urlImages: any = "/Users/cristiancaceres/WebstormProjects/redsocial/src/assets"
+   // urlImages: any = "C:\\Users\\ricar\\OneDrive\\Escritorio\\TAREAS\\Desarrollo\\redsocial\\src\\assets"
 }

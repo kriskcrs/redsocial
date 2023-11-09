@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component , ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroupDirective,
@@ -9,12 +9,23 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../app.component';
+import {ErrorStateMatcher} from '@angular/material/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { throwError } from 'rxjs';
 
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
+interface Photo {
+  urlPhoto: string;
+  alt: string;
+}
 
 @Component({
   selector: 'app-profile',
@@ -41,20 +52,27 @@ export class ProfileComponent {
   //vars
   path = this.url.url
   password = new FormControl('', [Validators.required]);
-  passwordNew = new FormControl('', [Validators.required]);
   passwordConfirm = new FormControl('', [Validators.required]);
   hide = true;
-
+  serve: any = 10.10
+  messageErrorParametros: string = "Parametros invalidos"
+  messageErroServer: string = "No existe conexion con el servidor"
+  
   //objetos
   perfilData: any = []
   perfilDataModify: any = []
   dataUser: any = {}
   photos: any = {}
   options: any = {}
-
+  file: any
+  idPhoto:any=""
+  imageSrc: string | ArrayBuffer | null = null;
+  @ViewChild('fileInput') fileInput: any;
+  publications: any = []
+  publicationId: any = {}
   //url
   pageUrl = "profile"
-
+  urlImages: any = "C:\\Users\\ricar\\OneDrive\\Escritorio\\TAREAS\\Desarrollo\\redsocial\\src\\assets"
 
   //bandera de botones
   optionsValidate() {
@@ -154,7 +172,7 @@ export class ProfileComponent {
       this.dataUser = response
       
     }
-
+    this.publication();
   }
 
   //revoke
@@ -219,9 +237,18 @@ export class ProfileComponent {
     if (formularioValido.reportValidity()) {
       this.perfilDataModify.userModification = this.dataUser.user
       console.log(this.perfilDataModify);
-      this.requestProfileUpdate().subscribe(
-        (response: any) => this.responseProfileUpdate(response)
-      )
+      if( this.perfilDataModify.password == this.perfilDataModify.passwordConfirm ){
+        this.imagenService()
+        this.perfilDataModify.fotoIdFoto = this.idPhoto
+        this.perfilDataModify.route = this.urlImages
+        console.log(this.perfilDataModify)
+        this.requestProfileUpdate().subscribe(
+       (response: any) => this.responseProfileUpdate(response)
+        )
+      }else{
+        this.openSnackBarTime ("Contraseñas nos coinciden")
+      }
+      
       
     }
   }
@@ -244,4 +271,116 @@ export class ProfileComponent {
     this.dataUserService()
     this.modify = false;
   }
+
+  matcher = new MyErrorStateMatcher();
+  file1: any ='assets/perfil.png'
+
+  SnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+  }
+  onFileSelected(event: any) {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imageSrc = reader.result;
+      };
+      reader.readAsDataURL(selectedFile);
+      this.file = selectedFile
+    }
+  }
+
+  selectImage() {
+    // Hacer clic en el input de tipo archivo para abrir el cuadro de diálogo de selección de archivo
+    this.fileInput.nativeElement.click();
+  }
+  validationImagen(){
+    if(this.file==""){
+      this.file=this.file1
+    }else{
+      this.imagenService()
+    }
+  }
+  imagenService() {
+    this.imagenRequest(this.file, this.urlImages, this.perfilDataModify.idUser, this.serve).subscribe((response: any) => this.imagenResponse(response))
+  }
+  imagenRequest(file: File, path: any, user: any, server: any) {
+
+
+    // const formData = { file, path, user, server };
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('server', server)
+    formData.append('path', path)
+    formData.append('user', user)
+
+    return this.http.post<any>(this.path + "/fileUp", formData, { observe: 'response' }).pipe(
+      catchError((error: any) => {
+          if (error.status === 400) {
+            // error para parametros invalidos
+            this.SnackBar(this.messageErrorParametros, "Aceptar")
+          } else {
+            // error de conexion o un 500
+            this.SnackBar(this.messageErroServer, "Aceptar");
+          }
+          return throwError(error);
+        }
+      ))
+  }
+  imagenResponse(response: any) {
+    this.idPhoto = response.body.idImagen
+
+  }
+
+
+
+
+
+  loadPhotos() {
+    this.fetchPhotos()
+      .subscribe(
+        (photos: Photo[]) => {
+          this.photos = photos;
+        },
+        (error) => {
+          console.error('Error al cargar las fotos:', error);
+        }
+      );
+  }
+
+  fetchPhotos() {
+    return this.http.get<Photo[]>(this.path);
+  }
+
+  //retorna todos los comentarios
+  publication() {
+    this.publicationRequest().subscribe((response: any) => this.publicationResult(response))
+  }
+  publicationRequest() {
+    console.log(this.dataUser)
+    return this.http.get<any>(this.path + "/consult/publicationUser/" + this.dataUser.idUser).pipe(
+      catchError((error: any) => {
+          if (error.status === 400) {
+            // error para parametros invalidos
+            this.openSnackBar(this.messageErrorParametros, "Aceptar")
+          } else {
+            // error de conexion o un 500
+            this.openSnackBar(this.messageErroServer, "Aceptar")
+          }
+          return throwError(error);
+        }
+      ))
+  }
+  publicationResult(response: any) {
+    this.publications = response
+    console.log(this.publications)
+  }
+
+publicationSet(id:any){
+  console.log('ID de la imagen clickeada: ' + id);
+  localStorage.setItem("idPublication", JSON.stringify(id));
+  this.router.navigateByUrl("/publication");
+
+}
+
 }
