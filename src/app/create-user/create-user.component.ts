@@ -156,7 +156,7 @@ export class CreateUserComponent {
   }
   userCreationResponse(response: any) {
 if (response.status === 200) {
-  this.openSnackBarTime("No puedes modificar el comentario de otro usuario")
+  this.openSnackBarTime("Se creo el usuario exitosamente")
   this.router.navigateByUrl("/")
     }
     else {
