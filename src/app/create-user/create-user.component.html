@@ -19,7 +19,7 @@
     </mat-form-field>
     <mat-form-field class="input-field">
       <mat-label>Fecha de Nacimiento</mat-label>
-      <input matInput placeholder="DD/MM/AAAA" [matDatepicker]="picker" [(ngModel)]="dataCreate.dob" [ngModelOptions]="{standalone: true}">
+      <input matInput placeholder="MM/DD/AAAA" [matDatepicker]="picker" [(ngModel)]="dataCreate.dob" [ngModelOptions]="{standalone: true}">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>

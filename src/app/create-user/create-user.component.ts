@@ -144,10 +144,12 @@ export class CreateUserComponent {
       })
     )
   }
-
+  openSnackBarTime(message: string) {
+    this._snackBar.open(message, '', { duration: 1000 });
+  }
   userCreationResponse(response: any) {
 if (response.status === 200) {
-  this.openSnackBar("Usuario creado correctamente", "Aceptar");
+  this.openSnackBarTime("No puedes modificar el comentario de otro usuario")
   this.router.navigateByUrl("/")
     }
     else {
