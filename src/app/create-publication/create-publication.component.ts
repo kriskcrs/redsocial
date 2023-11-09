@@ -119,6 +119,7 @@ export class CreatePublicationComponent {
 
   //crea la publicacion
 
+
    publicationsService(foto:any) {
      let formularioValido: any = document.getElementById("add");
      if(formularioValido.reportValidity()){
@@ -188,8 +189,7 @@ export class CreatePublicationComponent {
    formData.append('server', server)
    formData.append('path', path)
 
-   console.log("data que se envia");
-   console.log(formData);
+
    
    console.log(this.path);
    
@@ -207,6 +207,7 @@ export class CreatePublicationComponent {
       ))
   }
   imagenResponse(response: any) {
+
     this.idPhot = response.body.idImagen
     console.log("se envia a publicar al servicio");
     console.log(this.idPhot);
