@@ -2,10 +2,11 @@
   <div class="header">
 
     <div class="row">
-    
+
       <div class="col-1">
         <div class="regresarProfile">
-          <button mat-mini-fab color="primary" *ngIf="!modify" (click)="backWelcome()"><mat-icon>arrow_back</mat-icon></button>
+          <button mat-mini-fab color="primary" *ngIf="!modify"
+            (click)="backWelcome()"><mat-icon>arrow_back</mat-icon></button>
         </div>
       </div>
 
@@ -15,13 +16,14 @@
 
       <div class="col-1">
         <div class="logout">
-          <button mat-mini-fab color="primary" *ngIf="!modify" (click)="revokeService()"><mat-icon>close</mat-icon></button>
+          <button mat-mini-fab color="primary" *ngIf="!modify"
+            (click)="revokeService()"><mat-icon>close</mat-icon></button>
 
         </div>
       </div>
 
     </div>
-    
+
     <div class="regresar">
       <button mat-mini-fab color="primary" *ngIf="modify" (click)="back()"><mat-icon>arrow_back</mat-icon></button>
     </div>
@@ -31,29 +33,26 @@
   <div class="container" *ngIf="!modify">
     <mat-card class="profile-card">
       <img
-        src="https://previews.123rf.com/images/aprillrain/aprillrain2212/aprillrain221200638/196354278-imagen-de-caricatura-de-un-astronauta-sentado-en-una-luna-ilustraci%C3%B3n-de-alta-calidad.jpg"
+        src=""
         alt="Foto de perfil" class="profile-picture">
       <mat-card-title>Nombre: {{dataUser.name}} {{dataUser.lastName}}</mat-card-title>
       <mat-card-content>
         <p>Fecha de nacimiento: {{dataUser.dob |date: "dd-MM-yyyy"}}</p>
       </mat-card-content>
       <div class="edit">
-        <button mat-mini-fab color="primary" (click)="Modify(dataUser)" ><mat-icon>edit</mat-icon></button>
+        <button mat-mini-fab color="primary" (click)="Modify(dataUser)"><mat-icon>edit</mat-icon></button>
       </div>
-
     </mat-card>
-    
+
     <div class="row">
-      <div class="col-1">
-      </div>
-      <div class="col-10 center">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
-          alt="Imagen 1">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5rL7XmirFrLWyDGVEGSw3UGvADiXR3gIgqg&usqp=CAU"
-          alt="Imagen 2">
-      </div>
-      <div class="col-1">
-      </div>
+      <ng-container *ngFor="let publication of publications; let i = index">
+        <div class="col-4">
+          <img src="assets/medium/{{publication.photoIdPhoto}}" alt="not found" class="imagesPubli"
+            [attr.data-id]="publication.idPublication"
+            (click)="publicationSet(publication.idPublication)">
+          <p>{{publication.decription}}</p>
+        </div>
+      </ng-container>
     </div>
   </div>
 
@@ -79,21 +78,33 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <br>
-      <mat-form-field appearance="fill" class="input-field">
-        <mat-label>Ingresa tu Contraseña Nueva</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="passwordNew" required (keydown)="onPasswordKeydown($event)">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+
+
+      <mat-form-field class="input-field">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="perfilDataModify.password"
+          [ngModelOptions]="{standalone: true}">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
       </mat-form-field>
-      <mat-form-field appearance="fill" class="input-field">
-        <mat-label>Confirma tu Contraseña</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="passwordConfirm" required (keydown)="onPasswordKeydown($event)">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <br>
+      <mat-form-field class="input-field">
+        <mat-label>Confirmar Contraseña</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="perfilDataModify.passwordConfirm" [ngModelOptions]="{standalone: true}">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
       </mat-form-field>
-      <p>ACA IRIA EL COMPONENTE DE LA FOTO</p>
+      <form class="saveImg">
+        <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileInput required>
+        <img *ngIf="imageSrc" [src]="imageSrc" style="max-width: 100px;" alt="Imagen Previa">
+        <br>
+        <button mat-raised-button (click)="selectImage()" id="selected">Seleccionar Imagen de perfil</button>
+      </form>
+      <br>
       <div>
         <button type="submit" class="btn btn-secondary">Confirmar</button>
       </div>

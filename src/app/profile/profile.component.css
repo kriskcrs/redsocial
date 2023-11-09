@@ -22,12 +22,16 @@ body {
   width: 36%;
 }
 
+
+
 .container {
   max-width: 1000px;
   margin: 10px auto;
   background-color: #fff;
   border: 2px solid #ddd;
-  height: 100%;
+  height: auto;
+  justify-content: center;
+  align-items: center; 
 }
 .profile-card {
   max-width: 1000px;
@@ -135,4 +139,25 @@ body {
 h1{
   text-align: center;
   padding-left: 35%;
+}
+
+
+.imagesPubli {
+  padding: 10%;
+  width: 100%; /* Establece el ancho al 100% del contenedor */
+  height: auto; /* Ajusta automáticamente la altura para mantener la proporción original */
+  max-width: 100%; /* Establece un ancho máximo para evitar que las imágenes se agranden demasiado */
+  display: block; /* Asegura que las imágenes se muestren como bloques */
+}
+
+/* Define un diseño de cuadrícula */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -8px; /* Añade un margen negativo para evitar espacios en blanco entre las columnas */
+}
+
+.col-4 {
+  flex: 0 0 33.333%; /* Establece el ancho de la columna en un tercio del contenedor */
+  padding: 8px; /* Añade un margen interior para separar las columnas */
 }
