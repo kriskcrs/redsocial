@@ -2,23 +2,20 @@
   <div class="header">
     <div class="row">
       <div class="col-1">
-        <button mat-mini-fab color="primary" *ngIf="btnback"
-          (click)="backWelcome()"> <mat-icon>arrow_back</mat-icon></button>
-
-        <button mat-mini-fab color="primary" *ngIf="btnbackW"
-          (click)="back()"><mat-icon>arrow_back</mat-icon></button>
+        <button type="button" class="btn btn-primary" *ngIf="btnback" (click)="backWelcome()"> <i
+            class="fa-solid fa-arrow-left-long"></i></button>
+        <button type="button" class="btn btn-primary" *ngIf="btnbackW" (click)="back()"><i
+            class="fa-solid fa-arrow-left-long"></i></button>
       </div>
       <div class="col-10 center">
         <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
       </div>
       <div class="col-1">
-        <button mat-mini-fab color="primary" (click)="revokeService()"><mat-icon>close</mat-icon></button>
+        <button type="button" class="btn btn-danger" (click)="revokeService()"><i
+            class="fa-solid fa-xmark"></i></button>
       </div>
     </div>
-
-
   </div>
-
 
   <div class="container" *ngIf="!modify">
     <mat-card class="profile-card">
@@ -28,7 +25,8 @@
         <p>Fecha de nacimiento: {{dataUser.dob |date: "dd-MM-yyyy"}}</p>
       </mat-card-title>
       <div class="edit">
-        <button mat-mini-fab color="primary" (click)="Modify(dataUser)"><mat-icon>edit</mat-icon></button>
+        <button type="button" class="btn btn-primary" (click)="Modify(dataUser)"><i
+            class="fa-solid fa-pen-to-square"></i></button>
       </div>
     </mat-card>
 
@@ -45,9 +43,7 @@
 
   <h1 *ngIf="modify">Modificación</h1>
   <div class="containerus" *ngIf="modify">
-    
     <form class="example-form" (ngSubmit)="modForm()" id="modForm">
-     
       <br>
       <mat-form-field class="input-field">
         <mat-label>Nombre</mat-label>
@@ -96,7 +92,7 @@
       </form>
       <br>
       <div>
-        <button type="submit"  mat-raised-button color="primary">Confirmar</button>
+        <button type="submit" class="btn btn-primary">Confirmar</button>
       </div>
     </form>
   </div>

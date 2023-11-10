@@ -2,41 +2,40 @@
 <html lang="en">
 
 <body>
-<div class="header">
-  <!--
-  Encabezado global
-  -->
-  <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
-</div>
-<div class="row">
+  <div class="header">
+    <div class="col-1">
+      <button type="button" class="btn btn-primary" (click)="home()"><i
+          class="fa-solid fa-arrow-left-long"></i></button>
+    </div>
+    <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
+  </div>
+  <div class="row">
 
-  <div class="col-2"></div>
-  <div class="col-8">
-    <!--  Aqui va la foto de la publicacion y el comentario -->
-    <form class="formAdd" id="add">
-      <mat-card class="post-card">
+    <div class="col-2"></div>
+    <div class="col-8">
+      <form class="formAdd" id="add">
+        <mat-card class="post-card">
           <form class="Img" enctype="multipart/form-data">
             <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileInput required>
             <img *ngIf="imageSrc" [src]="imageSrc" style="max-width: 300px;" alt="Imagen Previa">
             <br>
             <br>
-            <button class="btn btn-secondary" (click)="selectImage()" id="selected">Seleccionar Imagen</button>
+            <button mat-raised-button  (click)="selectImage()" id="selected">Seleccionar Imagen</button>
           </form>
           <br>
-        <mat-form-field class="input-field">
-          <mat-label>Descripcion</mat-label>
-          <input matInput [(ngModel)]="dataCreate.decription" [ngModelOptions]="{standalone: true}">
-        </mat-form-field>
-        <mat-card-content>
-          <button mat-raised-button color="primary" (click)="validarImages()" class="boton">Publicar</button>
-          <button mat-raised-button color="primary" (click)="home()" class="boton">Regresar</button>
-        </mat-card-content>
-      </mat-card>
-    </form>
-  </div>
-  <div class="col-2"></div>
+          <mat-form-field class="input-field">
+            <mat-label>Descripcion</mat-label>
+            <input matInput [(ngModel)]="dataCreate.decription" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-card-content>
+            <button type="button" class="btn btn-primary" (click)="validarImages()">Publicar</button>
+          </mat-card-content>
+        </mat-card>
+      </form>
+    </div>
+    <div class="col-2"></div>
 
-</div>
+  </div>
 </body>
 
 </html>

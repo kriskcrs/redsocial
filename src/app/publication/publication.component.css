@@ -27,7 +27,7 @@ mat-card-title{
 }
 .menu-item,
 .menu-open-button {
-        background: rgb(6, 6, 6);
+        background: #0d6efd;
         border-radius: 100%;
         width: 80px;
         height: 80px;
@@ -43,14 +43,14 @@ mat-card-title{
         transition: -webkit-transform ease-out 200ms;
         transition: transform ease-out 200ms;
         transition: transform ease-out 200ms, -webkit-transform ease-out 200ms;
-}
+      }
 .menu-open {
         display: none;
 }
 .hamburger {
         width: 25px;
         height: 3px;
-        background: rgb(244, 244, 244);
+        background: #fafafa;
         display: block;
         position: absolute;
         top: 50%;
@@ -98,9 +98,9 @@ mat-card-title{
         font-size: 20px;
 }
 .menu-item:hover {
-        background: rgb(159, 159, 161);
-        color: rgb(0, 0, 2);
-}
+        background:#669ef0;
+        color:#fafafa;
+      }
 .menu-item:nth-child(3) {
         -webkit-transition-duration: 180ms;
         transition-duration: 180ms;

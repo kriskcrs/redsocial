@@ -5,12 +5,12 @@
   <div class="header">
     <div class="col-1" *ngIf="add">
       <div class="regresarProfile">
-        <button mat-mini-fab color="primary" (click)="home()"><mat-icon>arrow_back</mat-icon></button>
+        <button type="button" class="btn btn-primary"(click)="home()"><mat-icon>arrow_back</mat-icon></button>
       </div>
     </div>
       <div class="col-1" *ngIf="modify">
         <div class="regresarProfile">
-          <button mat-mini-fab color="primary" (click)="back()"><mat-icon>arrow_back</mat-icon></button>
+          <button type="button" class="btn btn-primary" (click)="back()"><mat-icon>arrow_back</mat-icon></button>
         </div>
       </div>
     <img src="https://i.pinimg.com/originals/34/22/90/3422900cb9e9bd4ce803847129eb6c9f.jpg" alt="imagen">
@@ -42,7 +42,7 @@
             <mat-label>Comentario</mat-label>
             <textarea matInput [(ngModel)]="comentario"></textarea>
           </mat-form-field>
-          <button mat-raised-button color="primary" (click)="commentcreateService(comentario)">Comentar</button>
+          <button type="button" class="btn btn-primary" (click)="commentcreateService(comentario)">Comentar</button>
         </mat-card-content>
       </mat-card>
     </div>
@@ -86,32 +86,39 @@
       </div>
       <br><br>
     </div>
+    <div class="col-2" ></div>
+  </div>
+
+
+  <div class="row"  *ngIf="modify">
     <div class="col-2"></div>
+
+    <div class="col-4">
+      <!--  Aqui va la foto de la publicacion y el comentario -->
+      <form class="formAdd" id="modify" class="container center">
+        <mat-card class="post-card">
+          <div >
+            <mat-card class="post-card" *ngIf="imgModify1">
+              <img src="assets/original/{{photo.idPhoto}}">
+            </mat-card>
+          
+          </div>
+          <mat-form-field class="input-field">
+            <mat-label>Descripcion</mat-label>
+            <input type="text" matInput [(ngModel)]="dataModify.decription" [ngModelOptions]="{standalone: true}" >
+          </mat-form-field>
+          <mat-card-content>
+            <button type="button" class="btn btn-primary" (click)="validarImages()" >Editar</button>
+          </mat-card-content>
+        </mat-card>
+      </form>
+  
+  
+    </div>
+    <div class="col-2" ></div>
+  
   </div>
-
-  <div class="col-4" *ngIf="modify">
-    <!--  Aqui va la foto de la publicacion y el comentario -->
-    <form class="formAdd" id="modify">
-      <mat-card class="post-card">
-        <div class="col-2">
-          <mat-card class="post-card" *ngIf="imgModify1">
-            <img src="assets/original/{{photo.idPhoto}}">
-          </mat-card>
-        
-        </div>
-        <mat-form-field class="input-field">
-          <mat-label>Descripcion</mat-label>
-          <input type="text" matInput [(ngModel)]="dataModify.decription" [ngModelOptions]="{standalone: true}" >
-        </mat-form-field>
-        <mat-card-content>
-          <button mat-raised-button color="primary" (click)="validarImages()" class="boton">Editar</button>
-        </mat-card-content>
-      </mat-card>
-    </form>
-
-
-  </div>
-
+ 
 
 </body>
 
