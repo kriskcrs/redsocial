@@ -9,7 +9,7 @@ export class AppComponent {
   title = 'redsocial';
   // url = "http://localhost:4042/v1"
   //url = "http://3.84.225.189:4042/v1"
-  url = "http://100.26.111.79:4042/v1"
+  url = "http://72.44.44.121:4042/v1"
   //urlImages: any = "C:\\Users\\josue\\WebstormProjects\\redsocial\\src\\assets"
   // urlImages: any = "/Users/cristiancaceres/WebstormProjects/redsocial/src/assets"
   // urlImages: any = "/Users/diboy/Documents/UMG/8vo Semestre/WD/redsocial/src/assets"
